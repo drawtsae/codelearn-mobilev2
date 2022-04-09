@@ -24,13 +24,16 @@ abstract class _FormStore with Store {
     _disposers = [
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
-      reaction((_) => confirmPassword, validateConfirmPassword)
+      reaction((_) => confirmPassword, validateConfirmPassword),
+      reaction((_) => userName, validateUserName)
     ];
   }
 
   // store variables:-----------------------------------------------------------
   @observable
   String userEmail = '';
+  @observable
+  String userName = '';
 
   @observable
   String password = '';
@@ -46,7 +49,9 @@ abstract class _FormStore with Store {
 
   @computed
   bool get canLogin =>
-      !formErrorStore.hasErrorsInLogin && userEmail.isNotEmpty && password.isNotEmpty;
+      !formErrorStore.hasErrorsInLogin &&
+      userName.isNotEmpty &&
+      password.isNotEmpty;
 
   @computed
   bool get canRegister =>
@@ -61,8 +66,13 @@ abstract class _FormStore with Store {
 
   // actions:-------------------------------------------------------------------
   @action
-  void setUserId(String value) {
+  void setEmailId(String value) {
     userEmail = value;
+  }
+
+  @action
+  void setUserId(String value) {
+    userName = value;
   }
 
   @action
@@ -83,6 +93,17 @@ abstract class _FormStore with Store {
       formErrorStore.userEmail = 'Please enter a valid email address';
     } else {
       formErrorStore.userEmail = null;
+    }
+  }
+
+  @action
+  void validateUserName(String value) {
+    if (value.isEmpty) {
+      formErrorStore.userName = "Username can't be empty";
+    } else if (value.length < 6) {
+      formErrorStore.userName = 'Username must be at-least 6 characters long';
+    } else {
+      formErrorStore.userName = null;
     }
   }
 
@@ -163,10 +184,13 @@ abstract class _FormErrorStore with Store {
   String? password;
 
   @observable
+  String? userName;
+
+  @observable
   String? confirmPassword;
 
   @computed
-  bool get hasErrorsInLogin => userEmail != null || password != null;
+  bool get hasErrorsInLogin => userName != null || password != null;
 
   @computed
   bool get hasErrorsInRegister =>

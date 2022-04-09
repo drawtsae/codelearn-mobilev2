@@ -1,4 +1,5 @@
-import 'package:boilerplate/data/repository.dart';
+import 'package:boilerplate/data/common_repository.dart';
+import 'package:boilerplate/data/identity_repository.dart';
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -11,7 +12,7 @@ abstract class _ThemeStore with Store {
   final String TAG = "_ThemeStore";
 
   // repository instance
-  final Repository _repository;
+  final CommonRepository _repository;
 
   // store for handling errors
   final ErrorStore errorStore = ErrorStore();
@@ -20,13 +21,11 @@ abstract class _ThemeStore with Store {
   @observable
   bool _darkMode = false;
 
-
   // getters:-------------------------------------------------------------------
   bool get darkMode => _darkMode;
 
   // constructor:---------------------------------------------------------------
-  _ThemeStore(Repository repository)
-      : this._repository = repository {
+  _ThemeStore(CommonRepository repository) : this._repository = repository {
     init();
   }
 
@@ -47,7 +46,5 @@ abstract class _ThemeStore with Store {
 
   // dispose:-------------------------------------------------------------------
   @override
-  dispose() {
-
-  }
+  dispose() {}
 }

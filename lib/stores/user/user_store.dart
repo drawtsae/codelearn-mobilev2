@@ -1,7 +1,7 @@
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../data/repository.dart';
+import '../../data/identity_repository.dart';
 import '../form/form_store.dart';
 
 part 'user_store.g.dart';
@@ -10,7 +10,7 @@ class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
   // repository instance
-  final Repository _repository;
+  final IdentityRepository _repository;
 
   // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
@@ -22,8 +22,7 @@ abstract class _UserStore with Store {
   bool isLoggedIn = false;
 
   // constructor:---------------------------------------------------------------
-  _UserStore(Repository repository) : this._repository = repository {
-
+  _UserStore(IdentityRepository repository) : this._repository = repository {
     // setting up disposers
     _setupDisposers();
 
@@ -44,7 +43,7 @@ abstract class _UserStore with Store {
 
   // empty responses:-----------------------------------------------------------
   static ObservableFuture<bool> emptyLoginResponse =
-  ObservableFuture.value(false);
+      ObservableFuture.value(false);
 
   // store variables:-----------------------------------------------------------
   @observable
@@ -59,7 +58,6 @@ abstract class _UserStore with Store {
   // actions:-------------------------------------------------------------------
   @action
   Future login(String email, String password) async {
-
     final future = _repository.login(email, password);
     loginFuture = ObservableFuture(future);
     await future.then((value) async {
@@ -74,7 +72,7 @@ abstract class _UserStore with Store {
       print(e);
       this.isLoggedIn = false;
       this.success = false;
-      throw e;
+      errorStore.setErrorMessage("login f");
     });
   }
 

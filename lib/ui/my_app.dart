@@ -1,6 +1,8 @@
 import 'package:boilerplate/constants/app_theme.dart';
 import 'package:boilerplate/constants/strings.dart';
-import 'package:boilerplate/data/repository.dart';
+import 'package:boilerplate/data/common_repository.dart';
+import 'package:boilerplate/data/identity_repository.dart';
+import 'package:boilerplate/data/post_repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
@@ -19,10 +21,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   // Create your store as a final variable in a base Widget. This works better
   // with Hot Reload than creating it directly in the `build` function.
-  final ThemeStore _themeStore = ThemeStore(getIt<Repository>());
-  final PostStore _postStore = PostStore(getIt<Repository>());
-  final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
-  final UserStore _userStore = UserStore(getIt<Repository>());
+  final ThemeStore _themeStore = ThemeStore(getIt<CommonRepository>());
+  final PostStore _postStore = PostStore(getIt<PostRepository>());
+  final LanguageStore _languageStore = LanguageStore(getIt<CommonRepository>());
+  final UserStore _userStore = UserStore(getIt<IdentityRepository>());
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
         Provider<ThemeStore>(create: (_) => _themeStore),
         Provider<PostStore>(create: (_) => _postStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
+        Provider<UserStore>(create: (_) => _userStore),
       ],
       child: Observer(
         name: 'global-observer',
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: _userStore.isLoggedIn ? HomeScreen() : LoginScreen(),
+            home: LoginScreen(),
           );
         },
       ),
