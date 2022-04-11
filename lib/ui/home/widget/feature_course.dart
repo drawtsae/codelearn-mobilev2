@@ -36,7 +36,7 @@ class FeatureCourse extends StatelessWidget {
                     itemCount: courseList.length,
                   );
                 } else {
-                  return Text('awaiting the future');
+                  return Center(child: CircularProgressIndicator());
                 }
               },
             ),

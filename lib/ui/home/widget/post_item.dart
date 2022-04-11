@@ -19,8 +19,8 @@ class PostItem extends StatelessWidget {
           Expanded(
             flex: 1,
             child: ClipRRect(
-              child: Image.asset(
-                'assets/images/img_login.jpg',
+              child: Image.network(
+                post.imageUrl ?? 'https://i.ibb.co/4Vsxhz0/2.png',
                 height: 80,
                 fit: BoxFit.cover,
               ),

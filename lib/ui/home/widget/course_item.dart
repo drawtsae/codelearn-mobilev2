@@ -27,12 +27,20 @@ class CourseItem extends StatelessWidget {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
-                    child: Image.network(
-                      course.imageUrl.toString(),
-                      height: 220,
-                      width: 220,
-                      fit: BoxFit.cover,
-                    ),
+                    child: Image.network(course.imageUrl.toString(),
+                        height: 220, width: 220, fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    }),
                   ),
                 ),
                 Expanded(

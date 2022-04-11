@@ -1,44 +1,60 @@
-import 'package:boilerplate/models/common_model/additional_info.dart';
-import 'package:boilerplate/models/test_case/testcase.dart';
+import 'package:boilerplate/models/common_model/additional_field.dart';
+import 'package:boilerplate/models/common_model/author.dart';
+import 'package:boilerplate/models/common_model/category.dart';
+import 'package:boilerplate/models/common_model/comment.dart';
+import 'package:boilerplate/models/lesson/lesson.dart';
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 
-// Required annotation/decorator to opt-in model for json setup. Alias for [JsonObject]
 @JsonObject()
 class Post {
   String? id;
+  String? title;
+  String? slug;
+  num? sortPriority;
+  String? summary;
+  num? viewCount;
+  num? voteCount;
+  bool? isActive;
+  bool? isComplete;
+  String? imageUrl;
+  String? content;
+  bool? enrolled;
+  num? enrolledCount;
+  List<AdditionalField>? additionalFields;
   String? createdBy;
   String? createdAt;
   String? lastModifiedBy;
   String? lastModifiedAt;
-  String? courseId;
-  String? parentId;
-  String? title;
-  String? slug;
-  num? sortPriority;
-  num? lessonLevel;
-  String? summary;
-  bool? isActive;
-  String? content;
-  String? videoUrl;
-  List<AdditionalInfo>? additionalInfos;
-  List<TestCase>? testCases;
+  Author? author;
+  List<Lesson>? lessons;
+  List<Comment>? comments;
+  List<Category>? categories;
+  num? rateScore;
+  num? rateCount;
 
   Post(
       {this.id,
+      this.title,
+      this.slug,
+      this.sortPriority,
+      this.summary,
+      this.viewCount,
+      this.voteCount,
+      this.isActive,
+      this.isComplete,
+      this.imageUrl,
+      this.content,
+      this.enrolled,
+      this.enrolledCount,
+      this.additionalFields,
       this.createdBy,
       this.createdAt,
       this.lastModifiedBy,
       this.lastModifiedAt,
-      this.courseId,
-      this.parentId,
-      this.title,
-      this.slug,
-      this.sortPriority,
-      this.lessonLevel,
-      this.summary,
-      this.isActive,
-      this.content,
-      this.videoUrl,
-      this.additionalInfos,
-      this.testCases});
+      this.author,
+      this.lessons,
+      this.comments,
+      this.categories,
+      this.rateScore,
+      this.rateCount});
 }

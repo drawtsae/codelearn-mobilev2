@@ -41,6 +41,38 @@ class PostApi {
     }
   }
 
+  Future<List<Post>?> getPosts(
+    String keyword,
+    List<String> categoryIds,
+    List<String> tagIds,
+    String type,
+    bool includeCategory,
+    bool includeTag,
+    int pageNumber,
+    int pageSize,
+  ) async {
+    try {
+      final param = {
+        'keyword': keyword,
+        'categoryIds': categoryIds,
+        'type': type,
+        'tagIds': tagIds,
+        'includeCategory': includeCategory,
+        'includeTag': includeTag,
+        'pageNumber': pageNumber,
+        'pageSize': pageSize
+      };
+
+      final res = await _dioClient.get(
+        Endpoints.getPosts,
+        queryParameters: param,
+      );
+      return JsonMapper.deserialize<List<Post>>(res['data']);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   /// sample api call with default rest client
 //  Future<PostsList> getPosts() {
 //

@@ -51,7 +51,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(IdentityRepository(
       getIt<IdentityApi>(), getIt<SharedPreferenceHelper>()));
   getIt.registerSingleton(CommonRepository(getIt<SharedPreferenceHelper>()));
-  getIt.registerSingleton(PostRepository());
+  getIt.registerSingleton(PostRepository(getIt<PostApi>()));
   getIt.registerSingleton(CourseRepository(getIt<CourseApi>()));
 
   // stores:--------------------------------------------------------------------
