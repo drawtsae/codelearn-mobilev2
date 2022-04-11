@@ -65,13 +65,15 @@ dependencies:
   sembast: ^3.1.0+2
   path_provider: ^2.0.2
 
+  simple_json_mapper: ^2.2.0
+
   # for dependency injection
   get_it: ^7.1.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  simple_json: ^2.0.0
   # The following adds the launcher icon support to your application.
   # run below mentioned commands to generate launcher icons
   # flutter packages get

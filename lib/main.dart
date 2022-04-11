@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'di/components/service_locator.dart';
+import 'mapper.g.dart' as mapper;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  mapper.init();
   await setPreferredOrientations();
   await setupLocator();
   return runZonedGuarded(() async {

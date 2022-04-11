@@ -1,3 +1,4 @@
+import 'package:boilerplate/data/network/exceptions/network_exceptions.dart';
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -72,7 +73,8 @@ abstract class _UserStore with Store {
       print(e);
       this.isLoggedIn = false;
       this.success = false;
-      errorStore.setErrorMessage("login f");
+      final errorMessage = NetworkException.fromDioError(e).toString();
+      errorStore.setErrorMessage(errorMessage);
     });
   }
 

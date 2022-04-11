@@ -1,14 +1,12 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/stores/course/course.dart';
-import 'package:boilerplate/ui/home/widget/category_title.dart';
-import 'package:boilerplate/ui/home/widget/course_item.dart';
 import 'package:boilerplate/ui/home/widget/emoji_text.dart';
 import 'package:boilerplate/ui/home/widget/feature_course.dart';
+import 'package:boilerplate/ui/home/widget/feature_post.dart';
 import 'package:boilerplate/ui/home/widget/search_input.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
+
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
@@ -25,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   //stores:---------------------------------------------------------------------
-  late PostStore _postStore;
+
   late ThemeStore _themeStore;
   late LanguageStore _languageStore;
 
@@ -41,12 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // initializing stores
     _languageStore = Provider.of<LanguageStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
-    _postStore = Provider.of<PostStore>(context);
 
     // check to see if already called api
-    if (!_postStore.loading) {
-      _postStore.getPosts();
-    }
+    //if (!_postStore.loading) {
+    //  _postStore.getPosts();
+    //}
   }
 
   @override
@@ -54,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _buildBody(),
+      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -161,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMainContent() {
     return Observer(
       builder: (context) {
-        return _postStore.loading
+        return true == false
             ? CustomProgressIndicatorWidget()
             : Material(child: _buildHomeBody());
       },
@@ -177,54 +175,69 @@ class _HomeScreenState extends State<HomeScreen> {
           EmojiText(),
           SearchInput(),
           FeatureCourse(),
+          FeaturePost(),
         ],
       ),
     );
   }
 
-  Widget _buildListView() {
-    return _postStore.postList != null
-        ? ListView.separated(
-            itemCount: _postStore.postList!.posts!.length,
-            separatorBuilder: (context, position) {
-              return Divider();
-            },
-            itemBuilder: (context, position) {
-              return _buildListItem(position);
-            },
-          )
-        : Center(
-            child: Text(
-              AppLocalizations.of(context).translate('home_tv_no_post_found'),
+  Widget _buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      items: [
+        BottomNavigationBarItem(
+          icon: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.amber,
+                  width: 2,
+                ),
+              ),
             ),
-          );
-  }
-
-  Widget _buildListItem(int position) {
-    return ListTile(
-      dense: true,
-      leading: Icon(Icons.cloud_circle),
-      title: Text(
-        '${_postStore.postList?.posts?[position].title}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-      ),
-      subtitle: Text(
-        '${_postStore.postList?.posts?[position].body}',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-      ),
+            child: Text(
+              'Home',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          label: 'home',
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset(
+            'assets/icons/notification.png',
+            width: 20,
+          ),
+          label: 'test 1',
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset(
+            'assets/icons/notification.png',
+            width: 20,
+          ),
+          label: 'test 2',
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset(
+            'assets/icons/notification.png',
+            width: 20,
+          ),
+          label: 'test 3',
+        ),
+      ],
     );
   }
 
   Widget _handleErrorMessage() {
     return Observer(
       builder: (context) {
-        if (_postStore.errorStore.errorMessage.isNotEmpty) {
-          return _showErrorMessage(_postStore.errorStore.errorMessage);
-        }
+        //if (_postStore.errorStore.errorMessage.isNotEmpty) {
+        //  return _showErrorMessage(_postStore.errorStore.errorMessage);
+        //}
 
         return SizedBox.shrink();
       },

@@ -1,6 +1,8 @@
 import 'package:boilerplate/data/common_repository.dart';
-import 'package:boilerplate/data/network/apis/identity/identity_api.dart';
-import 'package:boilerplate/data/network/apis/posts/post_api.dart';
+import 'package:boilerplate/data/course_repository.dart';
+import 'package:boilerplate/data/network/apis/course_api.dart';
+import 'package:boilerplate/data/network/apis/identity_api.dart';
+import 'package:boilerplate/data/network/apis/post_api.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/rest_client.dart';
 import 'package:boilerplate/data/identity_repository.dart';
@@ -12,7 +14,7 @@ import 'package:boilerplate/di/module/network_module.dart';
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:boilerplate/stores/form/form_store.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
+
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:dio/dio.dart';
@@ -43,16 +45,18 @@ Future<void> setupLocator() async {
   // api's:---------------------------------------------------------------------
   getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>()));
   getIt.registerSingleton(IdentityApi(getIt<DioClient>()));
+  getIt.registerSingleton(CourseApi(getIt<DioClient>()));
 
   // repository:----------------------------------------------------------------
   getIt.registerSingleton(IdentityRepository(
       getIt<IdentityApi>(), getIt<SharedPreferenceHelper>()));
   getIt.registerSingleton(CommonRepository(getIt<SharedPreferenceHelper>()));
   getIt.registerSingleton(PostRepository());
+  getIt.registerSingleton(CourseRepository(getIt<CourseApi>()));
 
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(LanguageStore(getIt<CommonRepository>()));
-  getIt.registerSingleton(PostStore(getIt<PostRepository>()));
+
   getIt.registerSingleton(ThemeStore(getIt<CommonRepository>()));
   getIt.registerSingleton(UserStore(getIt<IdentityRepository>()));
 }
