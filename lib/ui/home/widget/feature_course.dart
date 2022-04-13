@@ -6,8 +6,6 @@ import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/ui/home/widget/category_title.dart';
 import 'package:boilerplate/ui/home/widget/course_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 
 class FeatureCourse extends StatelessWidget {
   final CourseRepository _courseRepository =

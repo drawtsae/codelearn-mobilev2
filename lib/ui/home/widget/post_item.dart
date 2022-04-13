@@ -1,4 +1,5 @@
 import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/utils/extensions/time_ago.dart';
 
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class PostItem extends StatelessWidget {
             child: ClipRRect(
               child: Image.network(
                 post.imageUrl ?? 'https://i.ibb.co/4Vsxhz0/2.png',
-                height: 80,
+                height: 85,
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.only(
@@ -39,15 +40,21 @@ class PostItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '28 Feb - 10:29',
+                    TimeAgo.timeAgoSinceDate(post.createdAt,
+                        numericDates: false),
                     style: TextStyle(fontSize: 11),
                   ),
                   Text(
-                    'Awesome Title Awesome ',
+                    post.title ?? '',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    'Lorem ipsum dolor sit amet, consectetuer',
+                  Container(
+                    height: 32,
+                    child: Text(
+                      post.summary ?? '',
+                      overflow: TextOverflow.clip,
+                    ),
                   ),
                 ],
               ),
