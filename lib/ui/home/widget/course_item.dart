@@ -9,13 +9,24 @@ class CourseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 5,
+            spreadRadius: 0,
+            offset: Offset(3.0, 3.0), // shadow direction: bottom right
+          )
+        ],
+      ),
       child: Stack(
         children: [
           Container(
             width: 220,
             height: 230,
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(

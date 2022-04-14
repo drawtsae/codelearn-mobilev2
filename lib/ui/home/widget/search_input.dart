@@ -7,23 +7,18 @@ class SearchInput extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
             margin: EdgeInsets.all(25),
             child: TextField(
               cursorColor: Colors.black,
               decoration: InputDecoration(
-                  fillColor: Colors.amber.withOpacity(0.1),
+                  fillColor: Color.fromARGB(83, 255, 193, 7),
                   filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   contentPadding: EdgeInsets.all(18),
-                  border: InputBorder.none,
                   hintText: 'Search for history, classes,...',
-                  hintStyle: TextStyle(color: Colors.greenAccent)),
+                  hintStyle: TextStyle(color: Colors.black)),
             ),
           ),
           Positioned(
@@ -31,12 +26,9 @@ class SearchInput extends StatelessWidget {
             top: 35,
             child: Container(
               padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(8),
-              ),
+              decoration: BoxDecoration(),
               child: Image.asset(
-                'assets/icons/ic_search.png',
+                'assets/icons/search.png',
                 width: 20,
               ),
             ),
