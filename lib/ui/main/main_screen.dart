@@ -1,8 +1,13 @@
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/ui/home/home_view.dart';
+import 'package:boilerplate/ui/course/course.dart';
+import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/main/widget/bottom_navigation/main_bottom_navigation.dart';
 import 'package:boilerplate/ui/main/widget/main_app_bar.dart';
+import 'package:boilerplate/ui/post/post.dart';
+import 'package:boilerplate/ui/profile/profile.dart';
+import 'package:boilerplate/ui/trainning/training.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +52,10 @@ class _MainScreenState extends State<MainScreen> {
         controller: pageController,
         children: [
           HomeView(),
+          PostView(),
+          CourseView(),
+          TrainingView(),
+          ProfileView(),
         ],
       ),
       bottomNavigationBar: MainBottomNavigation(

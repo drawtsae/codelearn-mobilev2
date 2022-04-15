@@ -116,6 +116,27 @@ class CourseItem extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          Positioned(
+            top: 7,
+            right: 10,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 4, top: 10),
+                  child: Text(
+                    '4 🌟',
+                    style: TextStyle(
+                      color: Colors.amber,
+                    ),
+                  ),
+                ),
+                CircularProgressIndicator(
+                  value: 4 / 5,
+                  backgroundColor: Colors.black.withOpacity(0.2),
+                ),
+              ],
+            ),
           )
         ],
       ),

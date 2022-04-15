@@ -52,7 +52,7 @@ class MainBottomNavigation extends StatelessWidget {
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.account_circle),
-          title: Text('User'),
+          title: Text('Profile'),
           activeColor: Colors.amber,
           inactiveColor: Colors.grey,
           textAlign: TextAlign.center,

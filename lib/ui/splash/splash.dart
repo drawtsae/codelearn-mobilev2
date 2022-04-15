@@ -21,9 +21,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Material(
-      child: Center(child: AppIconWidget(image: Assets.appLogo)),
+      child: Center(
+        child: Image.asset(
+          'assets/images/logo.png',
+          fit: BoxFit.cover,
+        ),
+      ),
+      color: Color(0xff272727),
     );
   }
 

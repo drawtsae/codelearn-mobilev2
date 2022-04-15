@@ -10,8 +10,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: false,
       titleTextStyle: TextStyle(
-        color: Colors.amberAccent,
-        fontSize: 16,
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
