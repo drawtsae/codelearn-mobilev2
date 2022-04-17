@@ -69,6 +69,7 @@ dependencies:
 
   # for dependency injection
   get_it: ^7.1.3
+  fluttericon: ^2.0.0
 
 dev_dependencies:
   flutter_test:

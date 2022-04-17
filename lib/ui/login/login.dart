@@ -1,5 +1,4 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/constants/assets.dart';
 import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
@@ -7,7 +6,6 @@ import 'package:boilerplate/stores/form/form_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/utils/device/device_utils.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/widgets/app_icon_widget.dart';
 import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
 import 'package:boilerplate/widgets/rounded_button_widget.dart';
@@ -16,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -93,7 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
+            Center(
+              child: Text(
+                'TRTEAM',
+                style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+              ),
+            ),
             Text(
               'Login',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -146,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         TextButton(
           onPressed: () {},
-          child: Icon(Icons.facebook),
+          child: Icon(FontAwesome5.facebook),
           style: ButtonStyle(
             side: MaterialStateProperty.all(
               BorderSide(
@@ -158,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         TextButton(
           onPressed: () {},
-          child: Icon(Icons.facebook),
+          child: Icon(FontAwesome5.google),
           style: ButtonStyle(
             side: MaterialStateProperty.all(
               BorderSide(
@@ -170,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         TextButton(
           onPressed: () {},
-          child: Icon(Icons.facebook),
+          child: Icon(FontAwesome5.github),
           style: ButtonStyle(
             side: MaterialStateProperty.all(
               BorderSide(
