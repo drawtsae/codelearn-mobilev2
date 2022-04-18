@@ -60,6 +60,36 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
+  final _$firstNameAtom = Atom(name: '_FormStore.firstName');
+
+  @override
+  String get firstName {
+    _$firstNameAtom.reportRead();
+    return super.firstName;
+  }
+
+  @override
+  set firstName(String value) {
+    _$firstNameAtom.reportWrite(value, super.firstName, () {
+      super.firstName = value;
+    });
+  }
+
+  final _$lastNameAtom = Atom(name: '_FormStore.lastName');
+
+  @override
+  String get lastName {
+    _$lastNameAtom.reportRead();
+    return super.lastName;
+  }
+
+  @override
+  set lastName(String value) {
+    _$lastNameAtom.reportWrite(value, super.lastName, () {
+      super.lastName = value;
+    });
+  }
+
   final _$passwordAtom = Atom(name: '_FormStore.password');
 
   @override
@@ -162,6 +192,28 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void setFirstName(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setFirstName');
+    try {
+      return super.setFirstName(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setLastName(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setLastName');
+    try {
+      return super.setLastName(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setUserId(String value) {
     final _$actionInfo =
         _$_FormStoreActionController.startAction(name: '_FormStore.setUserId');
@@ -206,6 +258,28 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void validateFirstName(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateFirstName');
+    try {
+      return super.validateFirstName(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateLastName(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validateLastName');
+    try {
+      return super.validateLastName(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void validateUserName(String value) {
     final _$actionInfo = _$_FormStoreActionController.startAction(
         name: '_FormStore.validateUserName');
@@ -243,6 +317,8 @@ mixin _$FormStore on _FormStore, Store {
     return '''
 userEmail: ${userEmail},
 userName: ${userName},
+firstName: ${firstName},
+lastName: ${lastName},
 password: ${password},
 confirmPassword: ${confirmPassword},
 success: ${success},
@@ -307,6 +383,36 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  final _$firstNameAtom = Atom(name: '_FormErrorStore.firstName');
+
+  @override
+  String? get firstName {
+    _$firstNameAtom.reportRead();
+    return super.firstName;
+  }
+
+  @override
+  set firstName(String? value) {
+    _$firstNameAtom.reportWrite(value, super.firstName, () {
+      super.firstName = value;
+    });
+  }
+
+  final _$lastNameAtom = Atom(name: '_FormErrorStore.lastName');
+
+  @override
+  String? get lastName {
+    _$lastNameAtom.reportRead();
+    return super.lastName;
+  }
+
+  @override
+  set lastName(String? value) {
+    _$lastNameAtom.reportWrite(value, super.lastName, () {
+      super.lastName = value;
+    });
+  }
+
   final _$userNameAtom = Atom(name: '_FormErrorStore.userName');
 
   @override
@@ -342,6 +448,8 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     return '''
 userEmail: ${userEmail},
 password: ${password},
+firstName: ${firstName},
+lastName: ${lastName},
 userName: ${userName},
 confirmPassword: ${confirmPassword},
 hasErrorsInLogin: ${hasErrorsInLogin},

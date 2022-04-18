@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Align(
               alignment: Alignment.center,
               heightFactor: 4,
-              child: Text('Or, login with...'),
+              child: Text('Or, sign up with...'),
             ),
             _socialButtonWidget(context),
             SizedBox(height: 24.0),
@@ -199,7 +199,12 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Future.delayed(Duration(milliseconds: 0), () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  Routes.register, ModalRoute.withName(Routes.home));
+            });
+          },
           child: Text(
             'Register',
             style: TextStyle(

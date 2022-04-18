@@ -36,6 +36,11 @@ abstract class _FormStore with Store {
   String userName = '';
 
   @observable
+  String firstName = '';
+  @observable
+  String lastName = '';
+
+  @observable
   String password = '';
 
   @observable
@@ -56,6 +61,8 @@ abstract class _FormStore with Store {
   @computed
   bool get canRegister =>
       !formErrorStore.hasErrorsInRegister &&
+      firstName.isNotEmpty &&
+      lastName.isNotEmpty &&
       userEmail.isNotEmpty &&
       password.isNotEmpty &&
       confirmPassword.isNotEmpty;
@@ -68,6 +75,16 @@ abstract class _FormStore with Store {
   @action
   void setEmailId(String value) {
     userEmail = value;
+  }
+
+  @action
+  void setFirstName(String value) {
+    firstName = value;
+  }
+
+  @action
+  void setLastName(String value) {
+    lastName = value;
   }
 
   @action
@@ -93,6 +110,24 @@ abstract class _FormStore with Store {
       formErrorStore.userEmail = 'Please enter a valid email address';
     } else {
       formErrorStore.userEmail = null;
+    }
+  }
+
+  @action
+  void validateFirstName(String value) {
+    if (value.isEmpty) {
+      formErrorStore.firstName = "First Name can't be empty";
+    } else {
+      formErrorStore.firstName = null;
+    }
+  }
+
+  @action
+  void validateLastName(String value) {
+    if (value.isEmpty) {
+      formErrorStore.firstName = "Last Name can't be empty";
+    } else {
+      formErrorStore.firstName = null;
     }
   }
 
@@ -183,6 +218,10 @@ abstract class _FormErrorStore with Store {
   @observable
   String? password;
 
+  @observable
+  String? firstName;
+  @observable
+  String? lastName;
   @observable
   String? userName;
 
