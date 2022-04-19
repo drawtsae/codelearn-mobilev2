@@ -12,6 +12,8 @@ class Endpoints {
 
   // sign in endpoints
   static const String login = baseUrl + "/api/identity/token";
+  // register endpoints
+  static const String register = baseUrl + "/api/identity/register";
   //--------------------POST----------------------------------------
   // get post endpoints
   static const String getPostById = baseUrl + "/api/v1/Post/GetById";

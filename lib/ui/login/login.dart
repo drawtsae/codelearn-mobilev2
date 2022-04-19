@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Center(child: _buildRightSide()),
           Observer(
             builder: (context) {
-              return _userStore.success
+              return _userStore.loginSuccess
                   ? navigate(context)
                   : _showErrorMessage(_userStore.errorStore.errorMessage);
             },
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Observer(
             builder: (context) {
               return Visibility(
-                visible: _userStore.isLoading,
+                visible: _userStore.isLoginLoading,
                 child: CustomProgressIndicatorWidget(),
               );
             },

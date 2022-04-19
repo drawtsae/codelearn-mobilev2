@@ -23,4 +23,31 @@ class IdentityApi {
       throw e;
     }
   }
+
+  Future<Token> register(
+    String firstName,
+    String lastName,
+    String email,
+    String userName,
+    String password,
+    String confirmPassword,
+  ) async {
+    try {
+      final res = await _dioClient.post(
+        Endpoints.register,
+        data: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "userName": userName,
+          "password": password,
+          "confirmPassword": confirmPassword,
+        },
+      );
+      return Token.fromMap(res);
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
 }

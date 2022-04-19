@@ -1,3 +1,4 @@
+import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class NonAuthenticateProfile extends StatelessWidget {
@@ -26,7 +27,11 @@ class NonAuthenticateProfile extends StatelessWidget {
                       side: MaterialStateProperty.resolveWith<BorderSide>(
                           (states) => BorderSide(color: Colors.orange)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Future.delayed(Duration(milliseconds: 0), () {
+                        Navigator.of(context).pushNamed(Routes.login);
+                      });
+                    },
                     child: Text('Login'),
                   ),
                 ),
@@ -37,7 +42,11 @@ class NonAuthenticateProfile extends StatelessWidget {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.orange)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Future.delayed(Duration(milliseconds: 0), () {
+                        Navigator.of(context).pushNamed(Routes.register);
+                      });
+                    },
                     child: Text(
                       'Register',
                       style: TextStyle(color: Colors.white),

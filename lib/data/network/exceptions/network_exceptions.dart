@@ -40,8 +40,7 @@ class NetworkException implements Exception {
         message = "Something went wrong";
         break;
     }
-
-    @override
-    String toString() => message.toString();
   }
+  @override
+  String toString() => message.toString();
 }

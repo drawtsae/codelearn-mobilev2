@@ -18,7 +18,7 @@ abstract class _UserStore with Store {
 
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
-
+  @observable
   // bool to check if current user is logged in
   bool isLoggedIn = false;
 
@@ -38,7 +38,7 @@ abstract class _UserStore with Store {
 
   void _setupDisposers() {
     _disposers = [
-      reaction((_) => success, (_) => success = false, delay: 200),
+      reaction((_) => loginSuccess, (_) => loginSuccess = false, delay: 200),
     ];
   }
 
@@ -46,15 +46,27 @@ abstract class _UserStore with Store {
   static ObservableFuture<bool> emptyLoginResponse =
       ObservableFuture.value(false);
 
+  static ObservableFuture<bool> emptyRegisterResponse =
+      ObservableFuture.value(false);
+
   // store variables:-----------------------------------------------------------
   @observable
-  bool success = false;
+  bool loginSuccess = false;
 
   @observable
   ObservableFuture<bool> loginFuture = emptyLoginResponse;
 
   @computed
-  bool get isLoading => loginFuture.status == FutureStatus.pending;
+  bool get isLoginLoading => loginFuture.status == FutureStatus.pending;
+
+  @observable
+  bool registerSuccess = false;
+
+  @observable
+  ObservableFuture<bool> registerFuture = emptyRegisterResponse;
+
+  @computed
+  bool get isRegisterLoading => registerFuture.status == FutureStatus.pending;
 
   // actions:-------------------------------------------------------------------
   @action
@@ -65,14 +77,47 @@ abstract class _UserStore with Store {
       if (value) {
         _repository.saveIsLoggedIn(true);
         this.isLoggedIn = true;
-        this.success = true;
+        this.loginSuccess = true;
       } else {
         print('failed to login');
       }
     }).catchError((e) {
       print(e);
       this.isLoggedIn = false;
-      this.success = false;
+      this.loginSuccess = false;
+      final errorMessage = NetworkException.fromDioError(e).toString();
+      errorStore.setErrorMessage(errorMessage);
+    });
+  }
+
+  // actions:-------------------------------------------------------------------
+  @action
+  Future register(
+    String firstName,
+    String lastName,
+    String email,
+    String userName,
+    String password,
+    String confirmPassword,
+  ) async {
+    final future = _repository.register(
+      firstName,
+      lastName,
+      email,
+      userName,
+      password,
+      confirmPassword,
+    );
+    registerFuture = ObservableFuture(future);
+    await future.then((value) async {
+      if (value) {
+        this.registerSuccess = true;
+      } else {
+        print('failed to register');
+      }
+    }).catchError((e) {
+      print(e);
+      this.registerSuccess = false;
       final errorMessage = NetworkException.fromDioError(e).toString();
       errorStore.setErrorMessage(errorMessage);
     });

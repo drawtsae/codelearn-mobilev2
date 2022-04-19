@@ -19,6 +19,27 @@ class IdentityRepository {
     return await _sharedPrefsHelper.saveAuthToken(data.jwToken.toString());
   }
 
+  // Register:---------------------------------------------------------------------
+  Future<bool> register(
+    String firstName,
+    String lastName,
+    String email,
+    String userName,
+    String password,
+    String confirmPassword,
+  ) async {
+    var data = await _identityApi.register(
+      firstName,
+      lastName,
+      email,
+      userName,
+      password,
+      confirmPassword,
+    );
+
+    return true;
+  }
+
   Future<void> saveIsLoggedIn(bool value) =>
       _sharedPrefsHelper.saveIsLoggedIn(value);
 

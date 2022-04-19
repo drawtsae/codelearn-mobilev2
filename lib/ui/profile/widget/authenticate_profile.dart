@@ -1,7 +1,11 @@
 import 'package:boilerplate/constants/assets.dart';
+import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthenticateProfile extends StatelessWidget {
+  late UserStore _userStore;
+
   Widget _topAccountSummry() {
     return Container(
       width: Size.infinite.width,
@@ -175,7 +179,7 @@ class AuthenticateProfile extends StatelessWidget {
     );
   }
 
-  Widget _accountNavigations() {
+  Widget _accountNavigations(BuildContext context) {
     return Container(
       child: Column(children: [
         SizedBox(height: 20),
@@ -198,7 +202,9 @@ class AuthenticateProfile extends StatelessWidget {
           title: Text('Logout'),
           leading: Icon(Icons.logout),
           trailing: Icon(Icons.navigate_next),
-          onTap: () {},
+          onTap: () {
+            _userStore.logout();
+          },
         ),
         Divider(thickness: 1),
         SizedBox(height: 20)
@@ -208,6 +214,7 @@ class AuthenticateProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _userStore = Provider.of<UserStore>(context);
     return Container(
       child: Column(
         children: [
@@ -217,7 +224,7 @@ class AuthenticateProfile extends StatelessWidget {
           ),
           _topAccountSummry(),
           _botAccountSumary(),
-          _accountNavigations()
+          _accountNavigations(context)
         ],
       ),
     );

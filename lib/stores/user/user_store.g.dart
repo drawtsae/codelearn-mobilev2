@@ -9,25 +9,48 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserStore on _UserStore, Store {
-  Computed<bool>? _$isLoadingComputed;
+  Computed<bool>? _$isLoginLoadingComputed;
 
   @override
-  bool get isLoading => (_$isLoadingComputed ??=
-          Computed<bool>(() => super.isLoading, name: '_UserStore.isLoading'))
+  bool get isLoginLoading =>
+      (_$isLoginLoadingComputed ??= Computed<bool>(() => super.isLoginLoading,
+              name: '_UserStore.isLoginLoading'))
+          .value;
+  Computed<bool>? _$isRegisterLoadingComputed;
+
+  @override
+  bool get isRegisterLoading => (_$isRegisterLoadingComputed ??= Computed<bool>(
+          () => super.isRegisterLoading,
+          name: '_UserStore.isRegisterLoading'))
       .value;
 
-  final _$successAtom = Atom(name: '_UserStore.success');
+  final _$isLoggedInAtom = Atom(name: '_UserStore.isLoggedIn');
 
   @override
-  bool get success {
-    _$successAtom.reportRead();
-    return super.success;
+  bool get isLoggedIn {
+    _$isLoggedInAtom.reportRead();
+    return super.isLoggedIn;
   }
 
   @override
-  set success(bool value) {
-    _$successAtom.reportWrite(value, super.success, () {
-      super.success = value;
+  set isLoggedIn(bool value) {
+    _$isLoggedInAtom.reportWrite(value, super.isLoggedIn, () {
+      super.isLoggedIn = value;
+    });
+  }
+
+  final _$loginSuccessAtom = Atom(name: '_UserStore.loginSuccess');
+
+  @override
+  bool get loginSuccess {
+    _$loginSuccessAtom.reportRead();
+    return super.loginSuccess;
+  }
+
+  @override
+  set loginSuccess(bool value) {
+    _$loginSuccessAtom.reportWrite(value, super.loginSuccess, () {
+      super.loginSuccess = value;
     });
   }
 
@@ -46,6 +69,36 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  final _$registerSuccessAtom = Atom(name: '_UserStore.registerSuccess');
+
+  @override
+  bool get registerSuccess {
+    _$registerSuccessAtom.reportRead();
+    return super.registerSuccess;
+  }
+
+  @override
+  set registerSuccess(bool value) {
+    _$registerSuccessAtom.reportWrite(value, super.registerSuccess, () {
+      super.registerSuccess = value;
+    });
+  }
+
+  final _$registerFutureAtom = Atom(name: '_UserStore.registerFuture');
+
+  @override
+  ObservableFuture<bool> get registerFuture {
+    _$registerFutureAtom.reportRead();
+    return super.registerFuture;
+  }
+
+  @override
+  set registerFuture(ObservableFuture<bool> value) {
+    _$registerFutureAtom.reportWrite(value, super.registerFuture, () {
+      super.registerFuture = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_UserStore.login');
 
   @override
@@ -53,12 +106,25 @@ mixin _$UserStore on _UserStore, Store {
     return _$loginAsyncAction.run(() => super.login(email, password));
   }
 
+  final _$registerAsyncAction = AsyncAction('_UserStore.register');
+
+  @override
+  Future<dynamic> register(String firstName, String lastName, String email,
+      String userName, String password, String confirmPassword) {
+    return _$registerAsyncAction.run(() => super.register(
+        firstName, lastName, email, userName, password, confirmPassword));
+  }
+
   @override
   String toString() {
     return '''
-success: ${success},
+isLoggedIn: ${isLoggedIn},
+loginSuccess: ${loginSuccess},
 loginFuture: ${loginFuture},
-isLoading: ${isLoading}
+registerSuccess: ${registerSuccess},
+registerFuture: ${registerFuture},
+isLoginLoading: ${isLoginLoading},
+isRegisterLoading: ${isRegisterLoading}
     ''';
   }
 }
