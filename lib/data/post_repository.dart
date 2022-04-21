@@ -1,5 +1,5 @@
 import 'package:boilerplate/data/network/apis/post_api.dart';
-import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/models/post/post_list.dart';
 
 class PostRepository {
   final PostApi _api;
@@ -7,7 +7,7 @@ class PostRepository {
   PostRepository(this._api);
 
   //
-  Future<List<Post>> getPosts(
+  Future<PostList?> getPosts(
     String keyword,
     List<String> categoryIds,
     List<String> tagIds,
@@ -27,6 +27,6 @@ class PostRepository {
       pageNumber,
       pageSize,
     );
-    return res ?? [];
+    return res;
   }
 }

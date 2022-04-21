@@ -5,6 +5,7 @@ import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/rest_client.dart';
 import 'package:boilerplate/data/network/wrappers/api_response.dart';
 import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/models/post/post_list.dart';
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 
 class PostApi {
@@ -41,7 +42,7 @@ class PostApi {
     }
   }
 
-  Future<List<Post>?> getPosts(
+  Future<PostList?> getPosts(
     String keyword,
     List<String> categoryIds,
     List<String> tagIds,
@@ -67,7 +68,7 @@ class PostApi {
         Endpoints.getPosts,
         queryParameters: param,
       );
-      return JsonMapper.deserialize<List<Post>>(res['data']);
+      return JsonMapper.deserialize<PostList>(res);
     } catch (e) {
       throw e;
     }

@@ -4,6 +4,7 @@
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/models/post/post_list.dart';
 import 'package:boilerplate/models/common_model/additional_field.dart';
 import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/lesson/lesson.dart';
@@ -121,6 +122,24 @@ final _postMapper = JsonObjectMapper(
     'tags': instance.tags?.map((item) => mapper.serializeToMap(item)).toList(),
     'rateScore': mapper.applyDynamicFromInstanceConverter(instance.rateScore),
     'rateCount': mapper.applyDynamicFromInstanceConverter(instance.rateCount),
+  },
+);
+
+
+final _postlistMapper = JsonObjectMapper(
+  (CustomJsonMapper mapper, Map<String, dynamic> json) => PostList(
+    data: (json['data'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<Post>(item)!).toList(),
+    page: mapper.applyDynamicFromJsonConverter(json['page']),
+    totalCount: mapper.applyDynamicFromJsonConverter(json['totalCount']),
+    hasPreviousPage: mapper.applyDynamicFromJsonConverter(json['hasPreviousPage']),
+    hasNextPage: mapper.applyDynamicFromJsonConverter(json['hasNextPage']),
+  ),
+  (CustomJsonMapper mapper, PostList instance) => <String, dynamic>{
+    'data': instance.data?.map((item) => mapper.serializeToMap(item)).toList(),
+    'page': mapper.applyDynamicFromInstanceConverter(instance.page),
+    'totalCount': mapper.applyDynamicFromInstanceConverter(instance.totalCount),
+    'hasPreviousPage': mapper.applyDynamicFromInstanceConverter(instance.hasPreviousPage),
+    'hasNextPage': mapper.applyDynamicFromInstanceConverter(instance.hasNextPage),
   },
 );
 
@@ -251,6 +270,7 @@ final _tagMapper = JsonObjectMapper(
 void init() {
   JsonMapper.register(_courseMapper);
   JsonMapper.register(_postMapper);
+  JsonMapper.register(_postlistMapper);
   JsonMapper.register(_additionalfieldMapper);
   JsonMapper.register(_authorMapper);
   JsonMapper.register(_lessonMapper);
@@ -262,6 +282,7 @@ void init() {
 
   JsonMapper.registerListCast((value) => value?.cast<Course>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Post>().toList());
+  JsonMapper.registerListCast((value) => value?.cast<PostList>().toList());
   JsonMapper.registerListCast((value) => value?.cast<AdditionalField>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Author>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Lesson>().toList());
