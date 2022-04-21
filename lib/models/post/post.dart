@@ -3,6 +3,7 @@ import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/common_model/category.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/lesson/lesson.dart';
+import 'package:boilerplate/models/tag/tag.dart';
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 
 @JsonObject()
@@ -29,6 +30,7 @@ class Post {
   List<Lesson>? lessons;
   List<Comment>? comments;
   List<Category>? categories;
+  List<Tag>? tags;
   num? rateScore;
   num? rateCount;
 
@@ -55,6 +57,7 @@ class Post {
       this.lessons,
       this.comments,
       this.categories,
+      this.tags,
       this.rateScore,
       this.rateCount});
 }

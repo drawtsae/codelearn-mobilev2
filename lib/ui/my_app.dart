@@ -7,8 +7,10 @@ import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/ui/mail_confirm/mail_confirm.dart';
 import 'package:boilerplate/ui/main/main_screen.dart';
+import 'package:boilerplate/ui/post_detail/post_detail.dart';
 import 'package:boilerplate/ui/register/register.dart';
 import 'package:boilerplate/ui/splash/splash.dart';
+import 'package:boilerplate/ui/webview/webview.dart';
 
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';

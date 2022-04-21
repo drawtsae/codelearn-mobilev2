@@ -1,3 +1,4 @@
+import 'package:boilerplate/ui/webview/webview.dart';
 import 'package:flutter/material.dart';
 
 class AboutUs extends StatelessWidget {
@@ -32,11 +33,51 @@ class AboutUs extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 SizedBox(height: 20),
-                Text('Sharing'),
-                SizedBox(height: 10),
-                Text('About Us'),
-                SizedBox(height: 10),
-                Text('Terms of Use'),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                          url: "https://codelearn-trteam.netlify.app/about-us",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Sharing'),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                          url: "https://codelearn-trteam.netlify.app/about-us",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('About Us'),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                          url: "https://codelearn-trteam.netlify.app/terms",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Terms of Use'),
+                  ),
+                ),
               ],
             ),
             Column(
@@ -46,11 +87,51 @@ class AboutUs extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 SizedBox(height: 20),
-                Text('Support'),
-                SizedBox(height: 10),
-                Text('Discussion'),
-                SizedBox(height: 10),
-                Text('Contact us'),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                          url: "https://codelearn-trteam.netlify.app/about-us",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Support'),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                          url: "https://codelearn-trteam.netlify.app/about-us",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Discussion'),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                          url: "https://codelearn-trteam.netlify.app/about-us",
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Contact us'),
+                  ),
+                )
               ],
             ),
           ],

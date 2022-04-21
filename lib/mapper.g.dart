@@ -9,6 +9,7 @@ import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/lesson/lesson.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/common_model/category.dart';
+import 'package:boilerplate/models/tag/tag.dart';
 
 final _courseMapper = JsonObjectMapper(
   (CustomJsonMapper mapper, Map<String, dynamic> json) => Course(
@@ -90,6 +91,7 @@ final _postMapper = JsonObjectMapper(
     lessons: (json['lessons'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<Lesson>(item)!).toList(),
     comments: (json['comments'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<Comment>(item)!).toList(),
     categories: (json['categories'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<Category>(item)!).toList(),
+    tags: (json['tags'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<Tag>(item)!).toList(),
     rateScore: mapper.applyDynamicFromJsonConverter(json['rateScore']),
     rateCount: mapper.applyDynamicFromJsonConverter(json['rateCount']),
   ),
@@ -116,6 +118,7 @@ final _postMapper = JsonObjectMapper(
     'lessons': instance.lessons?.map((item) => mapper.serializeToMap(item)).toList(),
     'comments': instance.comments?.map((item) => mapper.serializeToMap(item)).toList(),
     'categories': instance.categories?.map((item) => mapper.serializeToMap(item)).toList(),
+    'tags': instance.tags?.map((item) => mapper.serializeToMap(item)).toList(),
     'rateScore': mapper.applyDynamicFromInstanceConverter(instance.rateScore),
     'rateCount': mapper.applyDynamicFromInstanceConverter(instance.rateCount),
   },
@@ -229,6 +232,22 @@ final _categoryMapper = JsonObjectMapper(
   },
 );
 
+
+final _tagMapper = JsonObjectMapper(
+  (CustomJsonMapper mapper, Map<String, dynamic> json) => Tag(
+    id: mapper.applyDynamicFromJsonConverter(json['id']),
+    code: mapper.applyDynamicFromJsonConverter(json['code']),
+    name: mapper.applyDynamicFromJsonConverter(json['name']),
+    color: mapper.applyDynamicFromJsonConverter(json['color']),
+  ),
+  (CustomJsonMapper mapper, Tag instance) => <String, dynamic>{
+    'id': mapper.applyDynamicFromInstanceConverter(instance.id),
+    'code': mapper.applyDynamicFromInstanceConverter(instance.code),
+    'name': mapper.applyDynamicFromInstanceConverter(instance.name),
+    'color': mapper.applyDynamicFromInstanceConverter(instance.color),
+  },
+);
+
 void init() {
   JsonMapper.register(_courseMapper);
   JsonMapper.register(_postMapper);
@@ -236,7 +255,8 @@ void init() {
   JsonMapper.register(_authorMapper);
   JsonMapper.register(_lessonMapper);
   JsonMapper.register(_commentMapper);
-  JsonMapper.register(_categoryMapper); 
+  JsonMapper.register(_categoryMapper);
+  JsonMapper.register(_tagMapper); 
 
   
 
@@ -247,5 +267,6 @@ void init() {
   JsonMapper.registerListCast((value) => value?.cast<Lesson>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Comment>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Category>().toList());
+  JsonMapper.registerListCast((value) => value?.cast<Tag>().toList());
 }
     
