@@ -1,5 +1,6 @@
 import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/models/tag/tag.dart';
+import 'package:boilerplate/ui/post_detail/post_detail.dart';
 import 'package:boilerplate/utils/extensions/hex_color.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(post);
     return Container(
       height: 350,
       color: Colors.amber[50],
@@ -23,11 +23,20 @@ class PostItem extends StatelessWidget {
             margin: EdgeInsets.all(5),
             child: Column(children: [
               Expanded(
-                child: Image.network(
-                  post.imageUrl ?? 'https://i.ibb.co/4Vsxhz0/2.png',
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PostDetailScreen(
+                        post: post,
+                      ),
+                    ),
+                  ),
+                  child: Image.network(
+                    post.imageUrl ?? 'https://i.ibb.co/4Vsxhz0/2.png',
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 flex: 4,
               ),

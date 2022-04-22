@@ -18,23 +18,24 @@ class _WebviewScreenState extends State<WebviewScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          leading: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              top: 10,
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(
+            left: 10,
+            top: 10,
+          ),
+          child: ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Icon(Icons.arrow_back_ios_outlined),
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(0, 0, 0, 0), // <-- Button color
+              // <-- Splash color
             ),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Icon(Icons.arrow_back_ios_outlined),
-              style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(0, 0, 0, 0), // <-- Button color
-                // <-- Splash color
-              ),
-            ),
-          )),
+          ),
+        ),
+      ),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: widget.url,
