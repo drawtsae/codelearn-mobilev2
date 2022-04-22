@@ -2,6 +2,7 @@ import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/wrappers/api_response.dart';
 import 'package:boilerplate/models/course/course.dart';
+import 'package:boilerplate/models/course/course_list.dart';
 
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 
@@ -19,7 +20,7 @@ class CourseApi {
     return JsonMapper.deserialize<Course>(res['data']);
   }
 
-  Future<List<Course>?> getCourses(
+  Future<CourseList?> getCourses(
     String keyword,
     int pageNumber,
     int pageSize,
@@ -36,6 +37,6 @@ class CourseApi {
       Endpoints.getCourses,
       queryParameters: param,
     );
-    return JsonMapper.deserialize<List<Course>>(res['data']);
+    return JsonMapper.deserialize<CourseList>(res);
   }
 }

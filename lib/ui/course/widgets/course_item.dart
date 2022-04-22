@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
 class CourseItem extends StatelessWidget {
-  const CourseItem({Key? key, required String content}) : super(key: key);
+  final Course course;
+  const CourseItem({Key? key, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class CourseItem extends StatelessWidget {
       boxFit: BoxFit.cover,
       titlePosition: GFPosition.start,
       image: Image.network(
-        'https://www.studytienganh.vn/upload/2021/06/106292.jpg',
+        course.imageUrl.toString(),
         height: MediaQuery.of(context).size.height * 0.2,
         width: MediaQuery.of(context).size.width,
         fit: BoxFit.cover,
@@ -20,20 +21,24 @@ class CourseItem extends StatelessWidget {
       showImage: true,
       title: GFListTile(
         avatar: GFAvatar(
-          backgroundImage: NetworkImage(
-              'https://www.studytienganh.vn/upload/2021/06/106292.jpg'),
+          backgroundImage: NetworkImage(course.author?.profilePicture ?? ""),
         ),
-        titleText: 'Course name',
-        subTitleText: 'author',
+        titleText: course.title,
+        subTitleText:
+            ("${course.author?.firstName} ${course.author?.lastName}"),
       ),
       content: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text("There is some description for this course"),
+        child: Text(
+          course.summary.toString(),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
       buttonBar: GFButtonBar(
         children: <Widget>[
           GFRating(
-            value: 5,
+            value: course.rateScore?.toDouble() ?? 0,
             onChanged: (value) {},
           ),
         ],
