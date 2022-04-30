@@ -1,8 +1,11 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:boilerplate/utils/extensions/time_ago.dart';
+import 'package:boilerplate/utils/social/social_media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 import '../../models/post/post.dart';
 
@@ -16,10 +19,72 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
+  bool? isUpvote = null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        children: [
+          SpeedDialChild(
+            child: Icon(FontAwesome5.exclamation_triangle),
+            label: 'report',
+          ),
+          SpeedDialChild(
+            child: Icon(
+              FontAwesome5.thumbs_down,
+              color: isUpvote == false ? Colors.amber : Colors.black,
+            ),
+            label: 'down vote',
+            onTap: () => setState(
+              () {
+                isUpvote = false;
+              },
+            ),
+          ),
+          SpeedDialChild(
+            child: Icon(
+              FontAwesome5.thumbs_up,
+              color: isUpvote == true ? Colors.amber : Colors.black,
+            ),
+            label: 'up vote',
+            onTap: () => setState(
+              () {
+                isUpvote = true;
+              },
+            ),
+          ),
+          SpeedDialChild(
+            child: Icon(FontAwesome5.facebook),
+            onTap: () => SocialMedia(
+              type: SocialType.facebook,
+              urlShare:
+                  "https://codelearn-trteam.netlify.app/news/${widget.post.slug}",
+              text: widget.post.summary,
+            ).share(),
+          ),
+          SpeedDialChild(
+            child: Icon(FontAwesome5.twitter),
+            onTap: () => SocialMedia(
+              type: SocialType.twitter,
+              urlShare:
+                  "https://codelearn-trteam.netlify.app/news/${widget.post.slug}",
+              text: widget.post.summary,
+            ).share(),
+          ),
+          SpeedDialChild(
+            child: Icon(FontAwesome5.linkedin),
+            onTap: () => SocialMedia(
+              type: SocialType.linkedin,
+              urlShare:
+                  "https://codelearn-trteam.netlify.app/news/${widget.post.slug}",
+              text: widget.post.summary,
+            ).share(),
+          )
+        ],
+      ),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -30,13 +95,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             left: 10,
             top: 10,
           ),
-          child: ElevatedButton(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios_outlined),
             onPressed: () => Navigator.of(context).pop(),
-            child: Icon(Icons.arrow_back_ios_outlined),
-            style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(0, 0, 0, 0), // <-- Button color
-              // <-- Splash color
-            ),
           ),
         ),
       ),
