@@ -25,7 +25,7 @@ class _CourseViewState extends State<CourseView> {
 
   List<Course> _courses = [];
 
-  void _getCourses(String keyword, pageNum, limitSize, sortBy) async {
+  Future<void> _getCourses(String keyword, pageNum, limitSize, sortBy) async {
     try {
       final res = await _courseRepository.getCourses(
           keyword, pageNum, limitSize, sortBy);
@@ -42,7 +42,7 @@ class _CourseViewState extends State<CourseView> {
     setState(() {
       _isFirstLoadRunning = true;
     });
-    _getCourses(_keyword, _pageNum, _limitSize, 'DateDESC');
+    await _getCourses(_keyword, _pageNum, _limitSize, 'DateDESC');
     setState(() {
       _isFirstLoadRunning = false;
     });
@@ -59,7 +59,7 @@ class _CourseViewState extends State<CourseView> {
         _isLoadMoreRunning = true;
         _pageNum += 1;
       });
-      _getCourses(_keyword, _pageNum, _limitSize, 'DateDESC');
+      await _getCourses(_keyword, _pageNum, _limitSize, 'DateDESC');
       setState(() {
         _isLoadMoreRunning = false;
       });
