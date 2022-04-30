@@ -1,4 +1,5 @@
 import 'package:boilerplate/models/course/course.dart';
+import 'package:boilerplate/ui/course_detail/course_detail.dart';
 import 'package:flutter/material.dart';
 
 class CourseItem extends StatelessWidget {
@@ -106,7 +107,11 @@ class CourseItem extends StatelessWidget {
             bottom: 70,
             right: 20,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CourseDetailScreen(),
+                ),
+              ),
               child: Text('Start'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.amber,

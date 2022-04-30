@@ -6,6 +6,7 @@ import 'package:boilerplate/data/identity_repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/ui/course_detail/course_detail.dart';
 import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/ui/mail_confirm/mail_confirm.dart';
 import 'package:boilerplate/ui/main/main_screen.dart';
