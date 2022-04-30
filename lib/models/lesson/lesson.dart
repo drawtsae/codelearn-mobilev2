@@ -7,6 +7,8 @@ class Lesson {
   num? lessonLevel;
   bool? isComplete;
   bool? isActive;
+  String? level;
+  List<String>? tags;
 
   Lesson(
       {this.id,
@@ -16,5 +18,6 @@ class Lesson {
       this.sortPriority,
       this.lessonLevel,
       this.isComplete,
-      this.isActive});
+      this.isActive,
+      this.level});
 }

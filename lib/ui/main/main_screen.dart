@@ -6,7 +6,7 @@ import 'package:boilerplate/ui/main/widget/bottom_navigation/main_bottom_navigat
 import 'package:boilerplate/ui/main/widget/main_app_bar.dart';
 import 'package:boilerplate/ui/post/post.dart';
 import 'package:boilerplate/ui/profile/profile.dart';
-import 'package:boilerplate/ui/trainning/training.dart';
+import 'package:boilerplate/ui/training/training.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
