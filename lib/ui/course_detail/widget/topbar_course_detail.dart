@@ -1,6 +1,13 @@
+import 'package:boilerplate/models/course/course.dart';
 import 'package:flutter/material.dart';
 
 class TopbarCourseDetail extends StatelessWidget {
+  final Course course;
+  final bool isLoggin;
+  const TopbarCourseDetail(
+      {Key? key, required this.course, required this.isLoggin})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -16,8 +23,8 @@ class TopbarCourseDetail extends StatelessWidget {
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40),
                   ),
-                  child: Image.asset(
-                    "assets/images/img_login.jpg",
+                  child: Image.network(
+                    course.imageUrl!,
                     fit: BoxFit.cover,
                     width: size.width,
                   ),
@@ -29,10 +36,15 @@ class TopbarCourseDetail extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 50,
-            child: ElevatedButton(
-              child: Text('Register'),
-              onPressed: () {},
-            ),
+            child: course.enrolled!
+                ? ElevatedButton(
+                    child: Text('Enrolled'),
+                    onPressed: () {},
+                  )
+                : ElevatedButton(
+                    child: Text('Register'),
+                    onPressed: () {},
+                  ),
           )
         ],
       ),

@@ -109,7 +109,7 @@ class CourseItem extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CourseDetailScreen(),
+                  builder: (context) => CourseDetailScreen(id: course.id!),
                 ),
               ),
               child: Text('Start'),

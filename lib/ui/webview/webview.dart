@@ -1,3 +1,5 @@
+import 'package:boilerplate/utils/routes/routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -47,6 +49,16 @@ class _WebviewScreenState extends State<WebviewScreen> {
               "document.getElementById('dashboard-header').style.display = 'none'");
           controller.runJavascript(
               "document.getElementsByTagName('footer')[0].style.display='none'");
+        },
+        navigationDelegate: (NavigationRequest request) {
+          if (request.url.contains("identity/sign-in")) {
+            //You can do anything
+            Navigator.of(context).pushNamed(Routes.login);
+            //Prevent that url works
+            return NavigationDecision.prevent;
+          }
+          //Any other url works
+          return NavigationDecision.navigate;
         },
       ),
     );

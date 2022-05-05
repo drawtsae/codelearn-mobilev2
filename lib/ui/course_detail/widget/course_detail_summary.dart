@@ -1,9 +1,10 @@
+import 'package:boilerplate/models/course/course.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class CourseDatailSummary extends StatelessWidget {
-  const CourseDatailSummary({
-    Key? key,
-  }) : super(key: key);
+  final Course course;
+  const CourseDatailSummary({Key? key, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,8 @@ class CourseDatailSummary extends StatelessWidget {
                 width: 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Image.asset(
-                    'assets/images/img_login.jpg',
+                  child: Image.network(
+                    course.author!.profilePicture!,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -34,7 +35,7 @@ class CourseDatailSummary extends StatelessWidget {
                       flex: 1,
                       child: Container(
                         child: Text(
-                          'Nguyễn Đông Hướng',
+                          "${course.author!.firstName!} ${course.author!.lastName!}",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -51,7 +52,7 @@ class CourseDatailSummary extends StatelessWidget {
                         height: 20,
                         padding: EdgeInsets.only(left: 5, right: 5),
                         child: Text(
-                          "gold",
+                          course.author!.memberTier ?? "Classic",
                           style: TextStyle(
                             color: Colors.amber.computeLuminance() < 0.5
                                 ? Colors.white
@@ -67,8 +68,9 @@ class CourseDatailSummary extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.")
+          Html(
+            data: course.content,
+          ),
         ],
       ),
     );

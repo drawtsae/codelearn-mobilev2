@@ -1,4 +1,5 @@
 import 'package:boilerplate/data/network/apis/course_api.dart';
+import 'package:boilerplate/models/course/course.dart';
 import '../models/course/course_list.dart';
 
 class CourseRepository {
@@ -6,8 +7,9 @@ class CourseRepository {
 
   CourseRepository(this._courseApi);
 
-  Future<void> getCourseById(String id) async {
+  Future<Course> getCourseById(String id) async {
     var data = await _courseApi.getCourseById(id);
+    return data!;
   }
 
   Future<CourseList?> getCourses(
