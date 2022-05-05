@@ -29,6 +29,13 @@ mixin _$FormStore on _FormStore, Store {
           () => super.canForgetPassword,
           name: '_FormStore.canForgetPassword'))
       .value;
+  Computed<bool>? _$canChangePasswordComputed;
+
+  @override
+  bool get canChangePassword => (_$canChangePasswordComputed ??= Computed<bool>(
+          () => super.canChangePassword,
+          name: '_FormStore.canChangePassword'))
+      .value;
 
   final _$userEmailAtom = Atom(name: '_FormStore.userEmail');
 
@@ -325,7 +332,8 @@ success: ${success},
 loading: ${loading},
 canLogin: ${canLogin},
 canRegister: ${canRegister},
-canForgetPassword: ${canForgetPassword}
+canForgetPassword: ${canForgetPassword},
+canChangePassword: ${canChangePassword}
     ''';
   }
 }

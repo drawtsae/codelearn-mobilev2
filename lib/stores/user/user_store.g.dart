@@ -23,6 +23,13 @@ mixin _$UserStore on _UserStore, Store {
           () => super.isRegisterLoading,
           name: '_UserStore.isRegisterLoading'))
       .value;
+  Computed<bool>? _$isChangePasswordLoadingComputed;
+
+  @override
+  bool get isChangePasswordLoading => (_$isChangePasswordLoadingComputed ??=
+          Computed<bool>(() => super.isChangePasswordLoading,
+              name: '_UserStore.isChangePasswordLoading'))
+      .value;
 
   final _$isLoggedInAtom = Atom(name: '_UserStore.isLoggedIn');
 
@@ -99,6 +106,49 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  final _$changePasswordSuccessAtom =
+      Atom(name: '_UserStore.changePasswordSuccess');
+
+  @override
+  bool get changePasswordSuccess {
+    _$changePasswordSuccessAtom.reportRead();
+    return super.changePasswordSuccess;
+  }
+
+  @override
+  set changePasswordSuccess(bool value) {
+    _$changePasswordSuccessAtom.reportWrite(value, super.changePasswordSuccess,
+        () {
+      super.changePasswordSuccess = value;
+    });
+  }
+
+  final _$changePasswordFutureAtom =
+      Atom(name: '_UserStore.changePasswordFuture');
+
+  @override
+  ObservableFuture<bool> get changePasswordFuture {
+    _$changePasswordFutureAtom.reportRead();
+    return super.changePasswordFuture;
+  }
+
+  @override
+  set changePasswordFuture(ObservableFuture<bool> value) {
+    _$changePasswordFutureAtom.reportWrite(value, super.changePasswordFuture,
+        () {
+      super.changePasswordFuture = value;
+    });
+  }
+
+  final _$changePasswordAsyncAction = AsyncAction('_UserStore.changePassword');
+
+  @override
+  Future<dynamic> changePassword(
+      String currentPassword, String newPassword, String confirmNewPassword) {
+    return _$changePasswordAsyncAction.run(() =>
+        super.changePassword(currentPassword, newPassword, confirmNewPassword));
+  }
+
   final _$loginAsyncAction = AsyncAction('_UserStore.login');
 
   @override
@@ -123,8 +173,11 @@ loginSuccess: ${loginSuccess},
 loginFuture: ${loginFuture},
 registerSuccess: ${registerSuccess},
 registerFuture: ${registerFuture},
+changePasswordSuccess: ${changePasswordSuccess},
+changePasswordFuture: ${changePasswordFuture},
 isLoginLoading: ${isLoginLoading},
-isRegisterLoading: ${isRegisterLoading}
+isRegisterLoading: ${isRegisterLoading},
+isChangePasswordLoading: ${isChangePasswordLoading}
     ''';
   }
 }

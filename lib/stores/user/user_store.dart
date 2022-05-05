@@ -49,6 +49,9 @@ abstract class _UserStore with Store {
   static ObservableFuture<bool> emptyRegisterResponse =
       ObservableFuture.value(false);
 
+  static ObservableFuture<bool> emptyChangePasswordResponse =
+      ObservableFuture.value(false);
+
   // store variables:-----------------------------------------------------------
   @observable
   bool loginSuccess = false;
@@ -68,7 +71,40 @@ abstract class _UserStore with Store {
   @computed
   bool get isRegisterLoading => registerFuture.status == FutureStatus.pending;
 
+  @observable
+  bool changePasswordSuccess = false;
+
+  @observable
+  ObservableFuture<bool> changePasswordFuture = emptyChangePasswordResponse;
+
+  @computed
+  bool get isChangePasswordLoading =>
+      changePasswordFuture.status == FutureStatus.pending;
+
   // actions:-------------------------------------------------------------------
+  @action
+  Future changePassword(String currentPassword, String newPassword,
+      String confirmNewPassword) async {
+    final future = _repository.changePassword(
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+    );
+    changePasswordFuture = ObservableFuture(future);
+    await future.then((value) async {
+      if (value) {
+        this.changePasswordSuccess = true;
+      } else {
+        print('failed to change password');
+      }
+    }).catchError((e) {
+      print(e);
+      this.changePasswordSuccess = false;
+      final errorMessage = NetworkException.fromDioError(e).toString();
+      errorStore.setErrorMessage(errorMessage);
+    });
+  }
+
   @action
   Future login(String email, String password) async {
     final future = _repository.login(email, password);

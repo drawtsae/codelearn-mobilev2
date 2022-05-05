@@ -70,6 +70,9 @@ abstract class _FormStore with Store {
   @computed
   bool get canForgetPassword =>
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
+  @computed
+  bool get canChangePassword =>
+      password.isNotEmpty && confirmPassword.isNotEmpty;
 
   // actions:-------------------------------------------------------------------
   @action

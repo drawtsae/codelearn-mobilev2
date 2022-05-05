@@ -2,6 +2,7 @@
 
 import 'package:boilerplate/utils/extensions/time_ago.dart';
 import 'package:boilerplate/utils/social/social_media.dart';
+import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -85,22 +86,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           )
         ],
       ),
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        // backgroundColor: Color(0x44000000),
-        leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 10,
-            top: 10,
-          ),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios_outlined),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-      ),
+      appBar: EmptyAppBar(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(

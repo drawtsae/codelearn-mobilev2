@@ -1,6 +1,8 @@
 import 'package:boilerplate/constants/assets.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
+import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class AuthenticateProfile extends StatelessWidget {
@@ -195,7 +197,7 @@ class AuthenticateProfile extends StatelessWidget {
           title: Text('Change Password'),
           leading: Icon(Icons.key),
           trailing: Icon(Icons.navigate_next),
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(context, Routes.changePassword),
         ),
         Divider(thickness: 1),
         ListTile(

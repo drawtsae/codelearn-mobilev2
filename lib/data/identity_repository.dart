@@ -40,6 +40,13 @@ class IdentityRepository {
     return true;
   }
 
+  Future<bool> changePassword(String currentPassword, String newPassword,
+      String confirmNewPassword) async {
+    await _identityApi.changePassword(
+        currentPassword, newPassword, confirmNewPassword);
+    return true;
+  }
+
   Future<void> saveIsLoggedIn(bool value) =>
       _sharedPrefsHelper.saveIsLoggedIn(value);
 

@@ -50,4 +50,21 @@ class IdentityApi {
       throw e;
     }
   }
+
+  Future changePassword(String currentPassword, String newPassword,
+      String confirmNewPassword) async {
+    try {
+      final res = await _dioClient.post(
+        Endpoints.changePassword,
+        data: {
+          "currentPassword": currentPassword,
+          "newPassword": newPassword,
+          "confirmNewPassword": confirmNewPassword
+        },
+      );
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
 }
