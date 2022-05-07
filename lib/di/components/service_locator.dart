@@ -22,6 +22,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/network/apis/training_api.dart';
+
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
@@ -48,6 +50,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(IdentityApi(getIt<DioClient>()));
   getIt.registerSingleton(CourseApi(getIt<DioClient>()));
   getIt.registerSingleton(UserApi(getIt<DioClient>()));
+  getIt.registerSingleton(TrainingAPI(getIt<DioClient>()));
 
   // repository:----------------------------------------------------------------
   getIt.registerSingleton(IdentityRepository(
