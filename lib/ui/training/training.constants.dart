@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson/lesson.dart';
+import '../../models/training/training.dart';
+
+const List<Training> EMPTY_TRAINING_LIST = [];
 
 class Levels {
-  static const EASY = "easy";
-  static const MEDIUM = "medium";
-  static const HARD = "hard";
+  static const EASY = "Easy";
+  static const MEDIUM = "Medium";
+  static const DIFFICULT = "Difficult";
 }
 
 const Map<String, Color> LevelColors = const {
   Levels.EASY: Colors.green,
   Levels.MEDIUM: Colors.blue,
-  Levels.HARD: Colors.deepOrange
+  Levels.DIFFICULT: Colors.deepOrange
 };
 
 const Map<String, LinearGradient> GradientLevels = const {
@@ -27,7 +30,7 @@ const Map<String, LinearGradient> GradientLevels = const {
       Colors.blue,
     ],
   ),
-  Levels.HARD: LinearGradient(
+  Levels.DIFFICULT: LinearGradient(
     colors: [
       Colors.deepOrangeAccent,
       Colors.deepOrange,
@@ -46,7 +49,7 @@ const Map<String, Icon> IconLevels = const {
     color: Colors.blue,
     size: 30.0,
   ),
-  Levels.HARD: Icon(
+  Levels.DIFFICULT: Icon(
     Icons.whatshot_rounded,
     color: Colors.deepOrange,
     size: 30.0,
