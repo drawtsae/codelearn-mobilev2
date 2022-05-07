@@ -1,6 +1,9 @@
+import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
+import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewScreen extends StatefulWidget {
@@ -14,6 +17,27 @@ class WebviewScreen extends StatefulWidget {
 
 class _WebviewScreenState extends State<WebviewScreen> {
   late WebViewController controller;
+  late SharedPreferenceHelper _sharedPreferenceHelper;
+
+  String? authWebview = '';
+  String? perisit = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _sharedPreferenceHelper =
+        SharedPreferenceHelper(getIt<SharedPreferences>());
+    firstLoad();
+  }
+
+  void firstLoad() async {
+    var authWebviewValue = await _sharedPreferenceHelper.authWebview;
+    var persistRootValue = await _sharedPreferenceHelper.persistRoot;
+    setState(() {
+      authWebview = authWebviewValue;
+      perisit = persistRootValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +63,21 @@ class _WebviewScreenState extends State<WebviewScreen> {
         ),
       ),
       body: WebView(
+        debuggingEnabled: true,
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: widget.url,
         onWebViewCreated: (controller) {
           this.controller = controller;
+        },
+        onPageStarted: (url) {
+          if (authWebview!.isNotEmpty && perisit!.isNotEmpty) {
+            controller.runJavascript(
+                "localStorage.setItem('auth',JSON.stringify($authWebview));localStorage.setItem('persist:root',JSON.stringify($perisit))");
+            controller
+                .runJavascript("console.log(JSON.stringify(localStorage))");
+          }
+
+          print(perisit);
         },
         onPageFinished: (url) {
           controller.runJavascript(

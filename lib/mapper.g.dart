@@ -4,8 +4,10 @@
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/models/course/course_list.dart';
+import 'package:boilerplate/models/identity/token.dart';
 import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/models/post/post_list.dart';
+import 'package:boilerplate/models/user/user_info.dart';
 import 'package:boilerplate/models/common_model/additional_field.dart';
 import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/lesson/lesson.dart';
@@ -87,6 +89,24 @@ final _courselistMapper = JsonObjectMapper(
 );
 
 
+final _tokenMapper = JsonObjectMapper(
+  (CustomJsonMapper mapper, Map<String, dynamic> json) => Token(
+    id: mapper.applyDynamicFromJsonConverter(json['id']),
+    userName: mapper.applyDynamicFromJsonConverter(json['userName']),
+    email: mapper.applyDynamicFromJsonConverter(json['email']),
+    jwToken: mapper.applyDynamicFromJsonConverter(json['jwToken']),
+    roles: (json['roles'] as List?)?.cast<String>().map((item) => mapper.applyDynamicFromJsonConverter<String>(item)!).toList(),
+  ),
+  (CustomJsonMapper mapper, Token instance) => <String, dynamic>{
+    'id': mapper.applyDynamicFromInstanceConverter(instance.id),
+    'userName': mapper.applyDynamicFromInstanceConverter(instance.userName),
+    'email': mapper.applyDynamicFromInstanceConverter(instance.email),
+    'jwToken': mapper.applyDynamicFromInstanceConverter(instance.jwToken),
+    'roles': mapper.applyDynamicFromInstanceConverter(instance.roles),
+  },
+);
+
+
 final _postMapper = JsonObjectMapper(
   (CustomJsonMapper mapper, Map<String, dynamic> json) => Post(
     id: mapper.applyDynamicFromJsonConverter(json['id']),
@@ -159,6 +179,44 @@ final _postlistMapper = JsonObjectMapper(
     'totalCount': mapper.applyDynamicFromInstanceConverter(instance.totalCount),
     'hasPreviousPage': mapper.applyDynamicFromInstanceConverter(instance.hasPreviousPage),
     'hasNextPage': mapper.applyDynamicFromInstanceConverter(instance.hasNextPage),
+  },
+);
+
+
+final _userinfoMapper = JsonObjectMapper(
+  (CustomJsonMapper mapper, Map<String, dynamic> json) => UserInfo(
+    id: mapper.applyDynamicFromJsonConverter(json['id']),
+    firstName: mapper.applyDynamicFromJsonConverter(json['firstName']),
+    lastName: mapper.applyDynamicFromJsonConverter(json['lastName']),
+    email: mapper.applyDynamicFromJsonConverter(json['email']),
+    phoneNumber: mapper.applyDynamicFromJsonConverter(json['phoneNumber']),
+    bio: mapper.applyDynamicFromJsonConverter(json['bio']),
+    profilePicture: mapper.applyDynamicFromJsonConverter(json['profilePicture']),
+    memberType: mapper.applyDynamicFromJsonConverter(json['memberType']),
+    memberTier: mapper.applyDynamicFromJsonConverter(json['memberTier']),
+    gender: mapper.applyDynamicFromJsonConverter(json['gender']),
+    exp: mapper.applyDynamicFromJsonConverter(json['exp']),
+    courseProcess: mapper.applyDynamicFromJsonConverter(json['courseProcess']),
+    additionalFields: mapper.applyDynamicFromJsonConverter(json['additionalFields']),
+    userLevel: mapper.deserialize<UserLevel>(json['userLevel'] as Map<String, dynamic>?),
+    roles: (json['roles'] as List?)?.cast<String>().map((item) => mapper.applyDynamicFromJsonConverter<String>(item)!).toList(),
+  ),
+  (CustomJsonMapper mapper, UserInfo instance) => <String, dynamic>{
+    'id': mapper.applyDynamicFromInstanceConverter(instance.id),
+    'firstName': mapper.applyDynamicFromInstanceConverter(instance.firstName),
+    'lastName': mapper.applyDynamicFromInstanceConverter(instance.lastName),
+    'email': mapper.applyDynamicFromInstanceConverter(instance.email),
+    'phoneNumber': mapper.applyDynamicFromInstanceConverter(instance.phoneNumber),
+    'bio': mapper.applyDynamicFromInstanceConverter(instance.bio),
+    'profilePicture': mapper.applyDynamicFromInstanceConverter(instance.profilePicture),
+    'memberType': mapper.applyDynamicFromInstanceConverter(instance.memberType),
+    'memberTier': mapper.applyDynamicFromInstanceConverter(instance.memberTier),
+    'gender': mapper.applyDynamicFromInstanceConverter(instance.gender),
+    'exp': mapper.applyDynamicFromInstanceConverter(instance.exp),
+    'courseProcess': mapper.applyDynamicFromInstanceConverter(instance.courseProcess),
+    'additionalFields': mapper.applyDynamicFromInstanceConverter(instance.additionalFields),
+    'userLevel': mapper.serializeToMap(instance.userLevel),
+    'roles': mapper.applyDynamicFromInstanceConverter(instance.roles),
   },
 );
 
@@ -288,29 +346,51 @@ final _tagMapper = JsonObjectMapper(
   },
 );
 
+
+final _userlevelMapper = JsonObjectMapper(
+  (CustomJsonMapper mapper, Map<String, dynamic> json) => UserLevel(
+    current: mapper.applyDynamicFromJsonConverter(json['current']),
+    next: mapper.applyDynamicFromJsonConverter(json['next']),
+    percent: mapper.applyDynamicFromJsonConverter(json['percent']),
+    rank: mapper.applyDynamicFromJsonConverter(json['rank']),
+  ),
+  (CustomJsonMapper mapper, UserLevel instance) => <String, dynamic>{
+    'current': mapper.applyDynamicFromInstanceConverter(instance.current),
+    'next': mapper.applyDynamicFromInstanceConverter(instance.next),
+    'percent': mapper.applyDynamicFromInstanceConverter(instance.percent),
+    'rank': mapper.applyDynamicFromInstanceConverter(instance.rank),
+  },
+);
+
 void init() {
   JsonMapper.register(_courseMapper);
   JsonMapper.register(_courselistMapper);
+  JsonMapper.register(_tokenMapper);
   JsonMapper.register(_postMapper);
   JsonMapper.register(_postlistMapper);
+  JsonMapper.register(_userinfoMapper);
   JsonMapper.register(_additionalfieldMapper);
   JsonMapper.register(_authorMapper);
   JsonMapper.register(_lessonMapper);
   JsonMapper.register(_commentMapper);
   JsonMapper.register(_categoryMapper);
-  JsonMapper.register(_tagMapper); 
+  JsonMapper.register(_tagMapper);
+  JsonMapper.register(_userlevelMapper); 
 
   
 
   JsonMapper.registerListCast((value) => value?.cast<Course>().toList());
   JsonMapper.registerListCast((value) => value?.cast<CourseList>().toList());
+  JsonMapper.registerListCast((value) => value?.cast<Token>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Post>().toList());
   JsonMapper.registerListCast((value) => value?.cast<PostList>().toList());
+  JsonMapper.registerListCast((value) => value?.cast<UserInfo>().toList());
   JsonMapper.registerListCast((value) => value?.cast<AdditionalField>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Author>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Lesson>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Comment>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Category>().toList());
   JsonMapper.registerListCast((value) => value?.cast<Tag>().toList());
+  JsonMapper.registerListCast((value) => value?.cast<UserLevel>().toList());
 }
     

@@ -1,7 +1,8 @@
-import 'dart:async';
-
+import 'dart:convert';
 import 'package:boilerplate/data/network/apis/identity_api.dart';
+import 'package:boilerplate/data/network/apis/user_api.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
+import 'package:simple_json_mapper/simple_json_mapper.dart';
 
 class IdentityRepository {
   // data source object
@@ -9,14 +10,37 @@ class IdentityRepository {
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
   final IdentityApi _identityApi;
+  final UserApi _userApi;
   // constructor
-  IdentityRepository(this._identityApi, this._sharedPrefsHelper);
+  IdentityRepository(this._identityApi, this._sharedPrefsHelper, this._userApi);
 
   // Login:---------------------------------------------------------------------
   Future<bool> login(String username, String password) async {
     var data = await _identityApi.signIn(username, password);
+    await _sharedPrefsHelper.saveAuthToken(data!.jwToken!);
 
-    return await _sharedPrefsHelper.saveAuthToken(data.jwToken.toString());
+    final userInfo = await _userApi.getUserInfomation();
+    final sb = StringBuffer();
+    sb.writeAll(data.roles ?? <String>['Basic'], ', ');
+
+    var currentUser = {
+      "currentUser": JsonMapper.serializeToMap(userInfo),
+      "getProfile": "SUCCESS",
+      "updateProfile": "NULL"
+    };
+    var authWebviewAuth = {
+      "id": data.id,
+      "jwToken": data.jwToken,
+      "role": sb.toString()
+    };
+
+    String userString = json.encode(currentUser);
+    var perisistRoot = {
+      'user': userString,
+      '_persist': "{\"version\":-1,\"rehydrated\":true}"
+    };
+    return await _sharedPrefsHelper.saveWeviewToken(
+        json.encode(authWebviewAuth), json.encode(perisistRoot));
   }
 
   // Register:---------------------------------------------------------------------
@@ -51,4 +75,9 @@ class IdentityRepository {
       _sharedPrefsHelper.saveIsLoggedIn(value);
 
   Future<bool> get isLoggedIn => _sharedPrefsHelper.isLoggedIn;
+
+  Future<void> logout() async {
+    this.saveIsLoggedIn(false);
+    await _sharedPrefsHelper.removeAuthToken();
+  }
 }

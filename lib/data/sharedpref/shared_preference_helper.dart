@@ -20,7 +20,23 @@ class SharedPreferenceHelper {
     return _sharedPreference.setString(Preferences.auth_token, authToken);
   }
 
+  Future<bool> saveWeviewToken(String authWebview, String persistRoot) async {
+    await _sharedPreference.setString(Preferences.auth_webview, authWebview);
+    return await _sharedPreference.setString(
+        Preferences.persist_root, persistRoot);
+  }
+
+  Future<String?> get authWebview async {
+    return _sharedPreference.getString(Preferences.auth_webview);
+  }
+
+  Future<String?> get persistRoot async {
+    return _sharedPreference.getString(Preferences.persist_root);
+  }
+
   Future<bool> removeAuthToken() async {
+    await _sharedPreference.remove(Preferences.auth_webview);
+    await _sharedPreference.remove(Preferences.persist_root);
     return _sharedPreference.remove(Preferences.auth_token);
   }
 

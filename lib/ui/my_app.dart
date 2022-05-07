@@ -2,6 +2,7 @@ import 'package:boilerplate/constants/app_theme.dart';
 import 'package:boilerplate/constants/strings.dart';
 import 'package:boilerplate/data/common_repository.dart';
 import 'package:boilerplate/data/identity_repository.dart';
+import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/common_model/author.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
   // with Hot Reload than creating it directly in the `build` function.
   final ThemeStore _themeStore = ThemeStore(getIt<CommonRepository>());
   final LanguageStore _languageStore = LanguageStore(getIt<CommonRepository>());
-  final UserStore _userStore = UserStore(getIt<IdentityRepository>());
+  final UserStore _userStore =
+      UserStore(getIt<IdentityRepository>(), getIt<SharedPreferenceHelper>());
 
   @override
   Widget build(BuildContext context) {

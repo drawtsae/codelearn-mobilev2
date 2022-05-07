@@ -1,6 +1,8 @@
 import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
+import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/models/identity/token.dart';
+import 'package:simple_json_mapper/simple_json_mapper.dart';
 
 class IdentityApi {
   final DioClient _dioClient;
@@ -8,7 +10,7 @@ class IdentityApi {
   // injecting dio instance
   IdentityApi(this._dioClient);
 
-  Future<Token> signIn(String userName, String password) async {
+  Future<Token?> signIn(String userName, String password) async {
     try {
       final res = await _dioClient.post(
         Endpoints.login,
@@ -17,14 +19,14 @@ class IdentityApi {
           "password": password,
         },
       );
-      return Token.fromMap(res);
+      return JsonMapper.deserialize<Token>(res['data']);
     } catch (e) {
       print(e.toString());
       throw e;
     }
   }
 
-  Future<Token> register(
+  Future<Token?> register(
     String firstName,
     String lastName,
     String email,
@@ -44,7 +46,7 @@ class IdentityApi {
           "confirmPassword": confirmPassword,
         },
       );
-      return Token.fromMap(res);
+      return JsonMapper.deserialize<Token>(res['data']);
     } catch (e) {
       print(e.toString());
       throw e;

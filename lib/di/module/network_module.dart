@@ -21,21 +21,33 @@ abstract class NetworkModule {
         requestHeader: true,
       ))
       ..interceptors.add(
-        InterceptorsWrapper(
-          onRequest: (RequestOptions options,
-              RequestInterceptorHandler handler) async {
-            // getting token
-            var token = await sharedPrefHelper.authToken;
+        InterceptorsWrapper(onRequest:
+            (RequestOptions options, RequestInterceptorHandler handler) async {
+          // getting token
+          var token = await sharedPrefHelper.authToken;
 
-            if (token != null) {
-              options.headers.putIfAbsent('Authorization', () => token);
-            } else {
-              print('Auth token is null');
-            }
+          if (token != null) {
+            options.headers.putIfAbsent('Authorization', () => "Bearer $token");
+          } else {
+            print('Auth token is null');
+          }
 
-            return handler.next(options);
-          },
-        ),
+          return handler.next(options);
+        }, onError: (DioError error, ErrorInterceptorHandler handler) async {
+          if (error.response?.statusCode == 401) {
+            sharedPrefHelper.removeAuthToken();
+            final headers =
+                error.requestOptions.headers.remove("Authorization");
+            final opts = new Options(
+                method: error.requestOptions.method, headers: headers);
+            final cloneReq = await dio.request(error.requestOptions.path,
+                options: opts,
+                data: error.requestOptions.data,
+                queryParameters: error.requestOptions.queryParameters);
+            return handler.resolve(cloneReq);
+          }
+          return handler.next(error);
+        }),
       );
 
     return dio;

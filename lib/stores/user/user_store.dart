@@ -1,4 +1,5 @@
 import 'package:boilerplate/data/network/exceptions/network_exceptions.dart';
+import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -12,6 +13,7 @@ class UserStore = _UserStore with _$UserStore;
 abstract class _UserStore with Store {
   // repository instance
   final IdentityRepository _repository;
+  final SharedPreferenceHelper _sharedPreferenceHelper;
 
   // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
@@ -23,7 +25,8 @@ abstract class _UserStore with Store {
   bool isLoggedIn = false;
 
   // constructor:---------------------------------------------------------------
-  _UserStore(IdentityRepository repository) : this._repository = repository {
+  _UserStore(IdentityRepository repository, this._sharedPreferenceHelper)
+      : this._repository = repository {
     // setting up disposers
     _setupDisposers();
 
@@ -161,7 +164,7 @@ abstract class _UserStore with Store {
 
   logout() {
     this.isLoggedIn = false;
-    _repository.saveIsLoggedIn(false);
+    _repository.logout();
   }
 
   // general methods:-----------------------------------------------------------

@@ -31,4 +31,9 @@ class Endpoints {
 
   // get course by id endpoints
   static const String getCourses = baseUrl + "/api/v1/Course/GetCourses";
+
+  //--------------------USER----------------------------------------
+  // get profile infomation
+  static const String getProfileInformation =
+      baseUrl + "/api/v1/User/GetProfileInformation";
 }

@@ -3,6 +3,7 @@ import 'package:boilerplate/data/course_repository.dart';
 import 'package:boilerplate/data/network/apis/course_api.dart';
 import 'package:boilerplate/data/network/apis/identity_api.dart';
 import 'package:boilerplate/data/network/apis/post_api.dart';
+import 'package:boilerplate/data/network/apis/user_api.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/rest_client.dart';
 import 'package:boilerplate/data/identity_repository.dart';
@@ -46,10 +47,11 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>()));
   getIt.registerSingleton(IdentityApi(getIt<DioClient>()));
   getIt.registerSingleton(CourseApi(getIt<DioClient>()));
+  getIt.registerSingleton(UserApi(getIt<DioClient>()));
 
   // repository:----------------------------------------------------------------
   getIt.registerSingleton(IdentityRepository(
-      getIt<IdentityApi>(), getIt<SharedPreferenceHelper>()));
+      getIt<IdentityApi>(), getIt<SharedPreferenceHelper>(), getIt<UserApi>()));
   getIt.registerSingleton(CommonRepository(getIt<SharedPreferenceHelper>()));
   getIt.registerSingleton(PostRepository(getIt<PostApi>()));
   getIt.registerSingleton(CourseRepository(getIt<CourseApi>()));
@@ -58,5 +60,6 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(LanguageStore(getIt<CommonRepository>()));
 
   getIt.registerSingleton(ThemeStore(getIt<CommonRepository>()));
-  getIt.registerSingleton(UserStore(getIt<IdentityRepository>()));
+  getIt.registerSingleton(
+      UserStore(getIt<IdentityRepository>(), getIt<SharedPreferenceHelper>()));
 }
