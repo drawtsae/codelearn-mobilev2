@@ -17,12 +17,11 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => PostDetailScreen(
-            postId: post.id,
+            postId: post.id.toString(),
           ),
         ),
       ),
