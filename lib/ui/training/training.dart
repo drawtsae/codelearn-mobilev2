@@ -26,7 +26,7 @@ class _TrainingViewState extends State<TrainingView> {
   late TrainingRepository _trainingRepository;
   TextEditingController _searchField = TextEditingController();
 
-  // Defines States\\
+  // Defines States
   bool _hasNextPage = true;
   int _pageNumber = 0;
   List<Training> _trainings = EMPTY_TRAINING_LIST;
@@ -101,9 +101,6 @@ class _TrainingViewState extends State<TrainingView> {
         body: Stack(children: <Widget>[
           _buildMainContext(context),
         ]));
-    // return Stack(children: <Widget>[
-    //   _buildMainContext(context),
-    // ]);
   }
 
   @override
