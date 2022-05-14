@@ -25,6 +25,9 @@ class Endpoints {
   // get post endpoints
   static const String getPosts = baseUrl + "/api/v1/Post/Gets";
 
+  // vote post endpoints
+  static const String votePosts = baseUrl + "/api/v1/Post/VotePost";
+
   //--------------------COURSE----------------------------------------
   // get course by id endpoints
   static const String getCourseById = baseUrl + "/api/v1/Course/GetById";
@@ -39,4 +42,8 @@ class Endpoints {
   //--------------------TRAINING----------------------------------------
   // get trainings endpoints
   static const String getTrainings = baseUrl + "/api/v1/Training/GetTrainings";
+
+  //--------------------Comment----------------------------------------
+  // create comment
+  static const String createComment = baseUrl + "/api/v1/Comment/CreateComment";
 }

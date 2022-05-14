@@ -1,4 +1,5 @@
 import 'package:boilerplate/data/network/apis/post_api.dart';
+import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/models/post/post_list.dart';
 
 class PostRepository {
@@ -27,6 +28,16 @@ class PostRepository {
       pageNumber,
       pageSize,
     );
+    return res;
+  }
+
+  Future<Post?> getPostById(String id) async {
+    var res = await _api.getPostById(id);
+    return res;
+  }
+
+  Future<bool> votePosts(String postId, int status) async {
+    var res = await _api.votePost(postId, status);
     return res;
   }
 }

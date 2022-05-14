@@ -27,7 +27,7 @@ class PostItem extends StatelessWidget {
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => PostDetailScreen(
-                        post: post,
+                        postId: post.id.toString(),
                       ),
                     ),
                   ),
