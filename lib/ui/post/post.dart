@@ -4,14 +4,19 @@ import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/ui/post/post.constants.dart';
 import 'package:boilerplate/ui/post/widget/post_item.dart';
+import 'package:boilerplate/ui/post_create/post_create.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/common.dart';
 import '../../constants/enums.dart';
+import '../../data/sharedpref/shared_preference_helper.dart';
 import '../../models/post/post_list.dart';
+import '../../stores/user/user_store.dart';
 import '../../widgets/shimmer_loading.dart';
 
 class PostView extends StatefulWidget {
@@ -20,6 +25,8 @@ class PostView extends StatefulWidget {
 
 class _PostViewState extends State<PostView> {
   late PostRepository _postRepository;
+  late SharedPreferenceHelper _sharedPreferenceHelper;
+
   TextEditingController _searchField = TextEditingController();
 
   // Defines States
@@ -81,15 +88,21 @@ class _PostViewState extends State<PostView> {
   // Main
   @override
   Widget build(BuildContext context) {
+    final _userStore = Provider.of<UserStore>(context);
     return Scaffold(
         extendBodyBehindAppBar: true,
-        floatingActionButton:
-            SpeedDial(animatedIcon: AnimatedIcons.menu_close, children: [
-          SpeedDialChild(
-            child: Icon(FontAwesome5.plus),
-            label: 'Create Post',
-          )
-        ]),
+        floatingActionButton: _userStore.isLoggedIn
+            ? SpeedDial(animatedIcon: AnimatedIcons.menu_close, children: [
+                SpeedDialChild(
+                    child: Icon(FontAwesome5.plus),
+                    label: 'Create Post',
+                    onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PostCreateScreen(),
+                          ),
+                        ))
+              ])
+            : null,
         body: Stack(children: <Widget>[
           _buildMainContext(context),
         ]));
@@ -99,6 +112,8 @@ class _PostViewState extends State<PostView> {
   void initState() {
     super.initState();
     _postRepository = PostRepository(getIt<PostApi>());
+    _sharedPreferenceHelper =
+        SharedPreferenceHelper(getIt<SharedPreferences>());
     handleFirstLoad();
   }
 

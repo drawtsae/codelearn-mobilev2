@@ -1,6 +1,8 @@
+import 'package:boilerplate/data/category_repository.dart';
 import 'package:boilerplate/data/comment_repository.dart';
 import 'package:boilerplate/data/common_repository.dart';
 import 'package:boilerplate/data/course_repository.dart';
+import 'package:boilerplate/data/network/apis/category_api.dart';
 import 'package:boilerplate/data/network/apis/comment_api.dart';
 import 'package:boilerplate/data/network/apis/course_api.dart';
 import 'package:boilerplate/data/network/apis/identity_api.dart';
@@ -54,6 +56,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(UserApi(getIt<DioClient>()));
   getIt.registerSingleton(TrainingAPI(getIt<DioClient>()));
   getIt.registerSingleton(CommentApi(getIt<DioClient>()));
+  getIt.registerSingleton(CategoryAPI(getIt<DioClient>()));
 
   // repository:----------------------------------------------------------------
   getIt.registerSingleton(IdentityRepository(
@@ -62,6 +65,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(PostRepository(getIt<PostApi>()));
   getIt.registerSingleton(CourseRepository(getIt<CourseApi>()));
   getIt.registerSingleton(CommentRepository(getIt<CommentApi>()));
+  getIt.registerSingleton(CategoryRepository(getIt<CategoryAPI>()));
 
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(LanguageStore(getIt<CommonRepository>()));

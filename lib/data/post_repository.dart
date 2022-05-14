@@ -40,4 +40,15 @@ class PostRepository {
     var res = await _api.votePost(postId, status);
     return res;
   }
+
+  Future<bool> createPost(
+    String title,
+    String slug,
+    String summary,
+    String content,
+    List<String> categoryIds,
+  ) async {
+    var res = await _api.createPost(title, slug, summary, content, categoryIds);
+    return res;
+  }
 }

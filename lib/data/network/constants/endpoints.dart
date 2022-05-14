@@ -18,7 +18,7 @@ class Endpoints {
   // changePassword endpoints
   static const String changePassword =
       baseUrl + "/api/identity/change-password";
-  //--------------------POST----------------------------------------
+  //--------------------POST--------------------
   // get post endpoints
   static const String getPostById = baseUrl + "/api/v1/Post/GetById";
 
@@ -28,22 +28,29 @@ class Endpoints {
   // vote post endpoints
   static const String votePosts = baseUrl + "/api/v1/Post/VotePost";
 
-  //--------------------COURSE----------------------------------------
+  // vote post endpoints
+  static const String createPost = baseUrl + "/api/v1/Post/Create";
+  //--------------------COURSE--------------------
   // get course by id endpoints
   static const String getCourseById = baseUrl + "/api/v1/Course/GetById";
 
   // get course by id endpoints
   static const String getCourses = baseUrl + "/api/v1/Course/GetCourses";
 
-  //--------------------USER----------------------------------------
+  //--------------------USER--------------------
   // get profile infomation
   static const String getProfileInformation =
       baseUrl + "/api/v1/User/GetProfileInformation";
-  //--------------------TRAINING----------------------------------------
+  //--------------------TRAINING--------------------
   // get trainings endpoints
   static const String getTrainings = baseUrl + "/api/v1/Training/GetTrainings";
 
-  //--------------------Comment----------------------------------------
+  //--------------------Comment--------------------
   // create comment
   static const String createComment = baseUrl + "/api/v1/Comment/CreateComment";
+
+  //--------------------Category--------------------
+  //get categories
+  static const String getCategories =
+      baseUrl + "/api/v1/Category/GetCategories";
 }
