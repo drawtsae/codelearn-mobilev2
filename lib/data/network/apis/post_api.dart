@@ -28,7 +28,7 @@ class PostApi {
   //   throw e;
   // }
   //}
-  Future<APIResponse<Post>?> getPostById(String id) async {
+  Future<Post?> getPostById(String id) async {
     try {
       final param = {'id': id};
 
@@ -36,9 +36,9 @@ class PostApi {
         Endpoints.getPostById,
         queryParameters: param,
       );
-      return JsonMapper.deserialize<APIResponse<Post>>(res);
+      return JsonMapper.deserialize<Post>(res['data']);
     } catch (e) {
-      return JsonMapper.deserialize<APIResponse<Post>>(e);
+      throw e;
     }
   }
 
@@ -69,6 +69,16 @@ class PostApi {
         queryParameters: param,
       );
       return JsonMapper.deserialize<PostList>(res);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<bool> votePost(String postId, int status) async {
+    final param = {'id': postId, 'status': status};
+    try {
+      final res = await _dioClient.post(Endpoints.votePosts, data: param);
+      return true;
     } catch (e) {
       throw e;
     }
