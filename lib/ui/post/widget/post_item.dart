@@ -1,9 +1,12 @@
+import 'package:boilerplate/constants/common.dart';
 import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/tag/tag.dart';
-import 'package:boilerplate/ui/post_detail/post_detail.dart';
-import 'package:boilerplate/utils/extensions/hex_color.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
+
+import '../../../constants/number.dart';
+import '../../../constants/url.dart';
+import '../../post_detail/post_detail.dart';
 
 class PostItem extends StatelessWidget {
   final Post post;
@@ -14,128 +17,65 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 350,
-      color: Colors.amber[50],
-      child: Column(children: [
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.all(5),
-            child: Column(children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PostDetailScreen(
-                        postId: post.id.toString(),
-                      ),
-                    ),
-                  ),
-                  child: Image.network(
-                    post.imageUrl ?? 'https://i.ibb.co/4Vsxhz0/2.png',
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                flex: 4,
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  alignment: Alignment.topLeft,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          post.title ?? "",
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 17),
-                        ),
-                        RichText(
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 5,
-                          text: TextSpan(
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.7)),
-                              text: post.summary),
-                        ),
-                        Container(
-                          height: 20,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) =>
-                                _buildTag(post.tags![index]),
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    SizedBox(width: 15),
-                            itemCount: post.tags!.length,
-                          ),
-                        ),
-                      ]),
-                ),
-                flex: 6,
-              ),
-            ]),
+
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PostDetailScreen(
+            postId: post.id,
           ),
-          flex: 85,
         ),
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  width: 0.9,
-                  color: Colors.black.withOpacity(0.3),
-                ),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      ),
+      child: GFCard(
+        boxFit: BoxFit.cover,
+        titlePosition: GFPosition.start,
+        image: Image.network(
+          post.imageUrl != null
+              ? post.imageUrl.toString()
+              : DEFAULT_POST_IMAGE_URL,
+          height: MediaQuery.of(context).size.height * 0.2,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
+        showImage: true,
+        title: GFListTile(
+          avatar: GFAvatar(
+              backgroundImage:
+                  NetworkImage(post.author?.profilePicture ?? EMPTY_STRING)),
+          titleText: post.title,
+          subTitleText: ("${post.author?.firstName} ${post.author?.lastName}"),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+          child: Text(
+            post.summary.toString(),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        buttonBar: GFButtonBar(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.account_circle_outlined),
-                    Text(post.author!.firstName.toString()),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Text(TimeAgo.timeAgoSinceDate(post.createdAt)),
                 ),
-                Text(TimeAgo.timeAgoSinceDate(post.createdAt)),
-                Row(
-                  children: [
-                    Icon(Icons.remove_red_eye_outlined),
-                    Text(post.viewCount == null
-                        ? '0'
-                        : post.viewCount.toString()),
-                  ],
-                )
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.remove_red_eye),
+                      Text(post.viewCount == null
+                          ? NUMBER_ZERO.toString()
+                          : post.viewCount.toString()),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-          flex: 15,
-        )
-      ]),
-    );
-  }
-
-  Container _buildTag(Tag tag) {
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(2),
-        color: HexColor.fromHex(tag.color.toString()),
-      ),
-      height: 20,
-      padding: EdgeInsets.only(left: 5, right: 5),
-      child: Text(
-        tag.name.toString(),
-        style: TextStyle(
-          color: HexColor.fromHex(tag.color.toString()).computeLuminance() < 0.5
-              ? Colors.white
-              : Colors.black,
-          fontWeight: FontWeight.bold,
+          ],
         ),
       ),
     );
