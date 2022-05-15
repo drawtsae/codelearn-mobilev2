@@ -8,6 +8,7 @@ import 'package:boilerplate/data/post_repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/ui/post_detail/widget/comment_item.dart';
 import 'package:boilerplate/ui/post_detail/widget/comments_section.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
 import 'package:boilerplate/utils/social/social_media.dart';
@@ -27,11 +28,14 @@ class PostDetailScreen extends StatefulWidget {
   _PostDetailScreenState createState() => _PostDetailScreenState();
 }
 
-class _PostDetailScreenState extends State<PostDetailScreen> {
+class _PostDetailScreenState extends State<PostDetailScreen>
+    with WidgetsBindingObserver {
   bool? isUpvote;
   bool isLoading = true;
   String? _dropDownValue;
   String? _parentReplyComment;
+  String? _hintText;
+  var _isKeyboardVisible = false;
 
   late PostRepository _postRepository;
   late CommentRepository _commentRepository;
@@ -44,7 +48,29 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     super.initState();
     _postRepository = PostRepository(getIt<PostApi>());
     _commentRepository = CommentRepository(getIt<CommentApi>());
+    WidgetsBinding.instance.addObserver(this);
     firstLoad();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
+    final newValue = bottomInset > 0.0;
+    if (newValue != _isKeyboardVisible) {
+      setState(() {
+        _isKeyboardVisible = newValue;
+        if (_isKeyboardVisible == false) {
+          _parentReplyComment = null;
+          _hintText = 'Comment...';
+        }
+      });
+    }
   }
 
   void firstLoad() async {
@@ -52,6 +78,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     setState(() {
       _post = data;
       isLoading = false;
+      _hintText = "Comment...";
     });
   }
 
@@ -80,6 +107,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       "Post",
       widget.postId,
     );
+  }
+
+  void handleReply(Comment comment) {
+    setState(() {
+      _parentReplyComment = comment.id;
+      _hintText = 'Reply to ${comment.author?.firstName}';
+    });
+    myFocusNode.requestFocus();
   }
 
   @override
@@ -118,9 +153,19 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                               SizedBox(height: 40),
                               Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: CommentSection(
-                                  comments: _post!.comments ?? [],
-                                  onReply: () => myFocusNode.requestFocus(),
+                                child: Container(
+                                  child: Column(
+                                    children: _post?.comments
+                                            ?.map((val) => CommentItem(
+                                                  comment: val,
+                                                  isParrent: true,
+                                                  onDelete: () => {},
+                                                  onReply: () =>
+                                                      handleReply(val),
+                                                ))
+                                            .toList() ??
+                                        [],
+                                  ),
                                 ),
                               )
                             ],
@@ -191,7 +236,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                               commentAction(value),
                                           decoration: InputDecoration(
                                             hintStyle: TextStyle(fontSize: 17),
-                                            hintText: 'Comment...',
+                                            hintText: _hintText,
                                             border: InputBorder.none,
                                             contentPadding: EdgeInsets.only(
                                               left: 5,

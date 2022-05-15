@@ -1,5 +1,6 @@
 import 'package:boilerplate/data/network/exceptions/network_exceptions.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
+import 'package:boilerplate/models/user/user_info.dart';
 import 'package:boilerplate/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -165,6 +166,10 @@ abstract class _UserStore with Store {
   logout() {
     this.isLoggedIn = false;
     _repository.logout();
+  }
+
+  Future<UserInfo?> getCurrentUserInfo() async {
+    return await _sharedPreferenceHelper.currentUserInfo;
   }
 
   // general methods:-----------------------------------------------------------

@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:boilerplate/models/user/user_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_json_mapper/simple_json_mapper.dart';
 
 import 'constants/preferences.dart';
 
@@ -30,6 +33,20 @@ class SharedPreferenceHelper {
     return _sharedPreference.getString(Preferences.auth_webview);
   }
 
+  Future<UserInfo?> get currentUserInfo async {
+    final String? authString = await persistRoot;
+    if (authString != null) {
+      var authObject = json.decode(authString);
+      String currentUserString = authObject['user'];
+      var currentUserObject = json.decode(currentUserString);
+      var userInfo = JsonMapper.deserializeFromMap<UserInfo>(
+          currentUserObject['currentUser']);
+      return userInfo;
+    }
+
+    return null;
+  }
+
   Future<String?> get persistRoot async {
     return _sharedPreference.getString(Preferences.persist_root);
   }
@@ -37,6 +54,7 @@ class SharedPreferenceHelper {
   Future<bool> removeAuthToken() async {
     await _sharedPreference.remove(Preferences.auth_webview);
     await _sharedPreference.remove(Preferences.persist_root);
+    await saveIsLoggedIn(false);
     return _sharedPreference.remove(Preferences.auth_token);
   }
 

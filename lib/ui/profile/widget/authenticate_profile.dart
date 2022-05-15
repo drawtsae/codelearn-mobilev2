@@ -1,4 +1,6 @@
 import 'package:boilerplate/constants/assets.dart';
+import 'package:boilerplate/constants/common.dart';
+import 'package:boilerplate/models/user/user_info.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import 'package:provider/provider.dart';
 class AuthenticateProfile extends StatelessWidget {
   late UserStore _userStore;
 
-  Widget _topAccountSummry() {
+  Widget _topAccountSummry(UserInfo? userInfo) {
     return Container(
       width: Size.infinite.width,
       decoration: BoxDecoration(
@@ -23,8 +25,8 @@ class AuthenticateProfile extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(100.0),
-                  child: Image.asset(
-                    Assets.carBackground,
+                  child: Image.network(
+                    userInfo?.profilePicture ?? DEFAULT_AVATAR,
                     width: 35,
                     height: 35,
                     fit: BoxFit.fill,
@@ -34,15 +36,15 @@ class AuthenticateProfile extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 15),
                   child: RichText(
                     text: TextSpan(
-                      text: 'Nguyễn Đông Hướng ',
+                      text: '${userInfo?.firstName} ${userInfo?.lastName}',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
                           text: '\n',
                         ),
                         TextSpan(
-                            text: 'hdit@gmail.com',
+                            text: userInfo?.email,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                             )),
@@ -58,7 +60,7 @@ class AuthenticateProfile extends StatelessWidget {
                   flex: 8,
                   child: LinearProgressIndicator(
                     minHeight: 10,
-                    value: 0.8,
+                    value: (userInfo?.userLevel?.percent ?? 0) / 100,
                   ),
                 ),
                 Expanded(
@@ -66,15 +68,15 @@ class AuthenticateProfile extends StatelessWidget {
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: '4 %',
+                      text: '${userInfo?.userLevel?.percent} %',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
                           text: '\n',
                         ),
                         TextSpan(
-                          text: 'GOLD',
+                          text: userInfo?.userLevel?.next,
                         ),
                       ],
                     ),
@@ -88,7 +90,7 @@ class AuthenticateProfile extends StatelessWidget {
     );
   }
 
-  Widget _botAccountSumary() {
+  Widget _botAccountSumary(UserInfo? userInfo) {
     return Row(
       children: [
         Expanded(
@@ -104,12 +106,12 @@ class AuthenticateProfile extends StatelessWidget {
                       text: 'Course: ',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
                           text: '\n\n',
                         ),
                         TextSpan(
-                          text: '1/3 ',
+                          text: '${userInfo?.courseProcess} ',
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 16,
@@ -154,12 +156,12 @@ class AuthenticateProfile extends StatelessWidget {
                   text: 'Rank: ',
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
-                  children: const <TextSpan>[
+                  children: <TextSpan>[
                     TextSpan(
                       text: '\n\n',
                     ),
                     TextSpan(
-                      text: '5/42 ',
+                      text: '${userInfo?.userLevel?.rank} ',
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 16,
@@ -217,6 +219,7 @@ class AuthenticateProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _userStore = Provider.of<UserStore>(context);
+
     return Container(
       child: Column(
         children: [
@@ -224,8 +227,20 @@ class AuthenticateProfile extends StatelessWidget {
             "Welcome to Codelearn. Let's get started!",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
-          _topAccountSummry(),
-          _botAccountSumary(),
+          FutureBuilder<UserInfo?>(
+              future: _userStore.getCurrentUserInfo(),
+              builder: (context, AsyncSnapshot<UserInfo?> snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    child: Column(children: [
+                      _topAccountSummry(snapshot.data),
+                      _botAccountSumary(snapshot.data),
+                    ]),
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }),
           _accountNavigations(context)
         ],
       ),

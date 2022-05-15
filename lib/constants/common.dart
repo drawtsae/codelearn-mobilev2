@@ -5,6 +5,7 @@ const int DEFAULT_PAGE_NUMBER = 1;
 // Defines for variables constants
 const String EMPTY_STRING = "";
 const List<String> EMPTY_LIST_STRING = [];
+const String DEFAULT_AVATAR = 'https://i.ibb.co/4Vsxhz0/2.png';
 
 // Defines constants for training
 class TrainingLevels {
