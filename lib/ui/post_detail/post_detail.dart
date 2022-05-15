@@ -6,8 +6,10 @@ import 'package:boilerplate/data/network/apis/comment_api.dart';
 import 'package:boilerplate/data/network/apis/post_api.dart';
 import 'package:boilerplate/data/post_repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
+import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/post/post.dart';
+import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:boilerplate/ui/post_detail/widget/comment_item.dart';
 import 'package:boilerplate/ui/post_detail/widget/comments_section.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
@@ -18,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:provider/provider.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final String postId;
@@ -41,6 +44,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
   late CommentRepository _commentRepository;
   final FocusNode myFocusNode = FocusNode();
   final TextEditingController _commentController = TextEditingController();
+  late UserStore _userStore;
   Post? _post;
 
   @override
@@ -49,12 +53,20 @@ class _PostDetailScreenState extends State<PostDetailScreen>
     _postRepository = PostRepository(getIt<PostApi>());
     _commentRepository = CommentRepository(getIt<CommentApi>());
     WidgetsBinding.instance.addObserver(this);
+
     firstLoad();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _userStore = Provider.of<UserStore>(context);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _userStore.dispose();
     super.dispose();
   }
 
@@ -99,6 +111,8 @@ class _PostDetailScreenState extends State<PostDetailScreen>
   }
 
   void commentAction(String value) async {
+    if (value.isEmpty) return;
+
     final commentLevel = _parentReplyComment == null ? 0 : 1;
     var newCommentId = await _commentRepository.createComment(
       _parentReplyComment,
@@ -107,6 +121,38 @@ class _PostDetailScreenState extends State<PostDetailScreen>
       "Post",
       widget.postId,
     );
+    var currentUser = await _userStore.getCurrentUserInfo();
+    Comment newComment = Comment(
+      id: newCommentId,
+      parentId: _parentReplyComment,
+      commentLevel: commentLevel,
+      isActive: true,
+      content: value,
+      author: Author(
+        id: currentUser?.id,
+        firstName: currentUser?.firstName,
+        lastName: currentUser?.lastName,
+        profilePicture: currentUser?.profilePicture,
+      ),
+      createdAt: DateTime.now().toString(),
+    );
+
+    if (_parentReplyComment == null) {
+      setState(() {
+        _post?.comments?.add(newComment);
+      });
+    } else {
+      var commentsIndex = _post?.comments
+          ?.indexWhere((element) => element.id == _parentReplyComment);
+
+      if (commentsIndex! > -1) {
+        setState(() {
+          _post?.comments?[commentsIndex].comments?.add(newComment);
+        });
+      }
+    }
+
+    _commentController.clear();
   }
 
   void handleReply(Comment comment) {
@@ -154,7 +200,11 @@ class _PostDetailScreenState extends State<PostDetailScreen>
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Container(
-                                  child: Column(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.53,
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
                                     children: _post?.comments
                                             ?.map((val) => CommentItem(
                                                   comment: val,
