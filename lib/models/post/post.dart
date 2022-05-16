@@ -1,9 +1,10 @@
 import 'package:boilerplate/models/common_model/additional_field.dart';
 import 'package:boilerplate/models/common_model/author.dart';
-import 'package:boilerplate/models/common_model/category.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/tag/tag.dart';
 import 'package:simple_json_mapper/simple_json_mapper.dart';
+
+import '../category/category.dart';
 
 @JsonObject()
 class Post {
