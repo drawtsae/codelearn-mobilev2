@@ -82,6 +82,9 @@ dependencies:
   form_builder_extra_fields: ^7.1.0
   flutter_summernote: ^1.0.0
   cool_alert: ^1.1.0
+  photo_view: ^0.13.0
+  table_calendar: ^3.0.5
+  flutter_annual_task: ^0.2.0
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/ui/change_password/change_password.dart';
 import 'package:boilerplate/ui/course_detail/course_detail.dart';
+import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:boilerplate/ui/login/login.dart';
 import 'package:boilerplate/ui/mail_confirm/mail_confirm.dart';
 import 'package:boilerplate/ui/main/main_screen.dart';
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: SplashScreen(),
+            home: GeneralProfileSceen(),
           );
         },
       ),
