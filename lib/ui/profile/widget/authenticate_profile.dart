@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../../profile_update/profile_update.screen.dart';
+
 class AuthenticateProfile extends StatelessWidget {
   late UserStore _userStore;
 
@@ -189,10 +191,14 @@ class AuthenticateProfile extends StatelessWidget {
         SizedBox(height: 20),
         Divider(thickness: 1),
         ListTile(
-          title: Text('Profile'),
+          title: Text('Update Profile'),
           leading: Icon(Icons.account_circle_outlined),
           trailing: Icon(Icons.navigate_next),
-          onTap: () {},
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ProfileUpdateScreen(),
+            ),
+          ),
         ),
         Divider(thickness: 1),
         ListTile(

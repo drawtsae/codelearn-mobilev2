@@ -19,7 +19,7 @@ class IdentityRepository {
     var data = await _identityApi.signIn(username, password);
     await _sharedPrefsHelper.saveAuthToken(data!.jwToken!);
 
-    final userInfo = await _userApi.getUserInfomation();
+    final userInfo = await _userApi.getUserInformation();
     final sb = StringBuffer();
     sb.writeAll(data.roles ?? <String>['Basic'], ', ');
 
@@ -79,5 +79,16 @@ class IdentityRepository {
   Future<void> logout() async {
     this.saveIsLoggedIn(false);
     await _sharedPrefsHelper.removeAuthToken();
+  }
+
+  Future<bool> updateProfile(
+    String firstName,
+    String lastName,
+    String gender,
+    String phoneNumber,
+  ) async {
+    final res =
+        await _userApi.updateUserInfo(firstName, lastName, gender, phoneNumber);
+    return res;
   }
 }

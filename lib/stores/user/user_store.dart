@@ -172,6 +172,12 @@ abstract class _UserStore with Store {
     return await _sharedPreferenceHelper.currentUserInfo;
   }
 
+  Future<bool> updateProfile(String firstName, String lastName, String gender,
+      String phoneNumber) async {
+    return await _repository.updateProfile(
+        firstName, lastName, gender, phoneNumber);
+  }
+
   // general methods:-----------------------------------------------------------
   void dispose() {
     for (final d in _disposers) {
