@@ -41,6 +41,7 @@ class Endpoints {
   // get profile infomation
   static const String getProfileInformation =
       baseUrl + "/api/v1/User/GetProfileInformation";
+  static const String updateUserInfo = baseUrl + "/api/v1/User/UpdateUserInfo";
   //--------------------TRAINING--------------------
   // get trainings endpoints
   static const String getTrainings = baseUrl + "/api/v1/Training/GetTrainings";

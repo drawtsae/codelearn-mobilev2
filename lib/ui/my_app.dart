@@ -1,33 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+
 import 'package:boilerplate/constants/app_theme.dart';
 import 'package:boilerplate/constants/strings.dart';
 import 'package:boilerplate/data/common_repository.dart';
 import 'package:boilerplate/data/identity_repository.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-
 import 'package:boilerplate/di/components/service_locator.dart';
-import 'package:boilerplate/models/common_model/author.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/ui/change_password/change_password.dart';
-import 'package:boilerplate/ui/course_detail/course_detail.dart';
-import 'package:boilerplate/ui/general_profile/general_profile.dart';
-import 'package:boilerplate/ui/login/login.dart';
-import 'package:boilerplate/ui/mail_confirm/mail_confirm.dart';
-import 'package:boilerplate/ui/main/main_screen.dart';
-import 'package:boilerplate/ui/post_detail/post_detail.dart';
-import 'package:boilerplate/ui/register/register.dart';
 import 'package:boilerplate/ui/splash/splash.dart';
-import 'package:boilerplate/ui/webview/webview.dart';
-
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
-
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
-
 import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
@@ -69,7 +55,7 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: GeneralProfileSceen(),
+            home: SplashScreen(),
           );
         },
       ),

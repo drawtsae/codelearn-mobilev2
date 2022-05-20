@@ -11,6 +11,7 @@ import '../../data/network/apis/post_api.dart';
 import '../../data/post_repository.dart';
 import '../../di/components/service_locator.dart';
 import '../../models/category/category_list.dart';
+import '../../widgets/empty_app_bar_widget.dart';
 import 'post_create.constants.dart';
 
 class PostCreateScreen extends StatefulWidget {
@@ -64,7 +65,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   @override
   void initState() {
     super.initState();
-    _categoryRepository = CategoryRepository(getIt<CategoryAPI>());
     _postRepository = PostRepository(getIt<PostApi>());
     getCategories();
   }
@@ -72,21 +72,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          leading: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              top: 10,
-            ),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_outlined),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-        ),
+        appBar: EmptyAppBar(),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -103,7 +89,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Post title',
                       ),
-                      onChanged: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: "Please input your title"),
@@ -114,8 +99,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Category',
                       ),
-                      // initialValue: 'Male',
-                      allowClear: true,
                       hint: const Text('-- Select category'),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
@@ -160,19 +143,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                       child: MaterialButton(
                         color: Theme.of(context).colorScheme.secondary,
                         child: const Text(
-                          "Reset",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          _formKey.currentState!.reset();
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: MaterialButton(
-                        color: Theme.of(context).colorScheme.secondary,
-                        child: const Text(
                           "Submit",
                           style: TextStyle(color: Colors.white),
                         ),
@@ -188,7 +158,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                                 _formKey.currentState!.value["category"];
                             String title =
                                 _formKey.currentState!.value["title"];
-                            final test = _formKey.currentState!.value["title"];
                             await createPost(
                                 title: title,
                                 content: content,
