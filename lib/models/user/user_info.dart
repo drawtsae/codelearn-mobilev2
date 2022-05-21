@@ -1,3 +1,4 @@
+import 'package:boilerplate/models/course/course.dart';
 import 'package:simple_json_mapper/simple_json_mapper.dart';
 
 @JsonObject()
@@ -12,10 +13,13 @@ class UserInfo {
   String? memberType;
   String? memberTier;
   String? gender;
-  num? exp;
+  int? exp;
   String? courseProcess;
   String? additionalFields;
   UserLevel? userLevel;
+  UserTrainings? userTrainings;
+  List<Course>? userCourses;
+  List<String>? certificates;
   List<String>? roles;
 
   UserInfo(
@@ -33,6 +37,9 @@ class UserInfo {
       this.courseProcess,
       this.additionalFields,
       this.userLevel,
+      this.userTrainings,
+      this.userCourses,
+      this.certificates,
       this.roles});
 }
 
@@ -43,4 +50,17 @@ class UserLevel {
   String? rank;
 
   UserLevel({this.current, this.next, this.percent, this.rank});
+}
+
+class UserTrainings {
+  int? contributes;
+  int? completedEasy;
+  int? completedMedium;
+  int? completedDifficult;
+
+  UserTrainings(
+      {this.contributes,
+      this.completedEasy,
+      this.completedMedium,
+      this.completedDifficult});
 }

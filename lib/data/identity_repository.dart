@@ -19,7 +19,7 @@ class IdentityRepository {
     var data = await _identityApi.signIn(username, password);
     await _sharedPrefsHelper.saveAuthToken(data!.jwToken!);
 
-    final userInfo = await _userApi.getUserInformation();
+    final userInfo = await _userApi.getUserInformation(null);
     final sb = StringBuffer();
     sb.writeAll(data.roles ?? <String>['Basic'], ', ');
 

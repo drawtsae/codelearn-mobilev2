@@ -9,8 +9,11 @@ class UserApi {
 
   UserApi(this._dioClient);
 
-  Future<UserInfo?> getUserInformation() async {
-    final res = await _dioClient.post(Endpoints.getProfileInformation);
+  //if userId it mean get current user
+  Future<UserInfo?> getUserInformation(String? userId) async {
+    final param = {'userId': userId};
+    final res =
+        await _dioClient.post(Endpoints.getProfileInformation, data: param);
     return JsonMapper.deserialize<UserInfo>(res['data']);
   }
 
