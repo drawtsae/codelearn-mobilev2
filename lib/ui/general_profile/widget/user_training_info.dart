@@ -1,11 +1,13 @@
 import 'package:boilerplate/constants/assets.dart';
+import 'package:boilerplate/models/user/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/octicons_icons.dart';
 
 class UserTrainingInfo extends StatelessWidget {
-  const UserTrainingInfo({
-    Key? key,
-  }) : super(key: key);
+  final UserTrainings userTrainings;
+
+  const UserTrainingInfo({Key? key, required this.userTrainings})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,10 @@ class UserTrainingInfo extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                    children: [TextSpan(text: '\n'), TextSpan(text: '0')],
+                    children: [
+                      TextSpan(text: '\n'),
+                      TextSpan(text: userTrainings.contributes.toString())
+                    ],
                   ),
                 )
               ],
@@ -90,7 +95,10 @@ class UserTrainingInfo extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 18,
                         ),
-                        children: [TextSpan(text: '\n'), TextSpan(text: '0')],
+                        children: [
+                          TextSpan(text: '\n'),
+                          TextSpan(text: userTrainings.completedEasy.toString())
+                        ],
                       ),
                     ),
                   ),
@@ -114,7 +122,11 @@ class UserTrainingInfo extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 18,
                         ),
-                        children: [TextSpan(text: '\n'), TextSpan(text: '0')],
+                        children: [
+                          TextSpan(text: '\n'),
+                          TextSpan(
+                              text: userTrainings.completedMedium.toString())
+                        ],
                       ),
                     ),
                   ),
@@ -138,7 +150,11 @@ class UserTrainingInfo extends StatelessWidget {
                           color: Colors.black,
                           fontSize: 18,
                         ),
-                        children: [TextSpan(text: '\n'), TextSpan(text: '0')],
+                        children: [
+                          TextSpan(text: '\n'),
+                          TextSpan(
+                              text: userTrainings.completedDifficult.toString())
+                        ],
                       ),
                     ),
                   ),

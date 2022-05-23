@@ -1,10 +1,36 @@
 import 'package:boilerplate/constants/assets.dart';
+import 'package:boilerplate/models/user/user_info.dart';
 import 'package:flutter/material.dart';
 
 class OverralInfomation extends StatelessWidget {
-  const OverralInfomation({
-    Key? key,
-  }) : super(key: key);
+  final UserInfo? userInfo;
+
+  const OverralInfomation({Key? key, this.userInfo}) : super(key: key);
+
+  double calPercent(num? number) {
+    if (number != null)
+      return number / 100;
+    else
+      return 0;
+  }
+
+  Color getColorByLevel(String? currentLevel) {
+    if (currentLevel == "BRONZE")
+      return Colors.brown.shade300;
+    else if (currentLevel == "SLIVER")
+      return Colors.grey;
+    else
+      return Colors.amber;
+  }
+
+  int getNumStarByLevel(String? currentLevel) {
+    if (currentLevel == "BRONZE")
+      return 1;
+    else if (currentLevel == "SLIVER")
+      return 2;
+    else
+      return 3;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +44,9 @@ class OverralInfomation extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            decoration:
-                BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+                color: getColorByLevel(userInfo?.userLevel?.current),
+                shape: BoxShape.circle),
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(top: 30),
             child: ClipRRect(
@@ -34,23 +61,16 @@ class OverralInfomation extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
+            children: List.generate(
+              getNumStarByLevel(userInfo?.userLevel?.current),
+              (index) => Icon(
                 Icons.star,
-                color: Colors.amber,
+                color: getColorByLevel(userInfo?.userLevel?.current),
               ),
-              Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              Icon(
-                Icons.star,
-                color: Colors.amber,
-              )
-            ],
+            ),
           ),
           Text(
-            "Nguyễn ĐÔng Hướng",
+            "${userInfo?.firstName} ${userInfo?.lastName}",
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
@@ -64,7 +84,7 @@ class OverralInfomation extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: '127',
+                  text: userInfo?.exp.toString(),
                   style: TextStyle(color: Colors.amber),
                 )
               ],
@@ -72,14 +92,20 @@ class OverralInfomation extends StatelessWidget {
           ),
           Row(
             children: [
-              Expanded(flex: 2, child: Center(child: Text('SLIVER'))),
+              Expanded(
+                  flex: 2,
+                  child:
+                      Center(child: Text(userInfo?.userLevel?.current ?? ""))),
               Expanded(
                 flex: 8,
                 child: LinearProgressIndicator(
                   minHeight: 10,
+                  value: calPercent(userInfo?.userLevel?.percent),
                 ),
               ),
-              Expanded(flex: 2, child: Center(child: Text('GOLD'))),
+              Expanded(
+                  flex: 2,
+                  child: Center(child: Text(userInfo?.userLevel?.next ?? ""))),
             ],
           ),
           Padding(
@@ -107,19 +133,15 @@ class OverralInfomation extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(Icons.mail_outline),
-                  title: Text("donghuong@gmail.com"),
+                  title: Text(userInfo?.email ?? ""),
                 ),
                 ListTile(
                   leading: Icon(Icons.phone_outlined),
-                  title: Text("0326946745"),
+                  title: Text(userInfo?.phoneNumber ?? ""),
                 ),
                 ListTile(
                   leading: Icon(Icons.bookmark_outline_sharp),
-                  title: Text("this is bio "),
-                ),
-                ListTile(
-                  leading: Icon(Icons.calendar_month_outlined),
-                  title: Text("12-12-2022"),
+                  title: Text(userInfo?.bio ?? ""),
                 ),
               ],
             ),

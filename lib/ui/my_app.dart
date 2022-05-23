@@ -1,3 +1,4 @@
+import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -55,7 +56,9 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: SplashScreen(),
+            home: GeneralProfileSceen(
+              userId: "a7cf7bfe-6946-48df-aeba-78c53086de96",
+            ),
           );
         },
       ),

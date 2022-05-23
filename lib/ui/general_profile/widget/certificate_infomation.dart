@@ -2,9 +2,10 @@ import 'package:boilerplate/ui/general_profile/widget/image_dialog.dart';
 import 'package:flutter/material.dart';
 
 class CertificatesInfo extends StatelessWidget {
-  const CertificatesInfo({
-    Key? key,
-  }) : super(key: key);
+  final List<String> certificates;
+
+  const CertificatesInfo({Key? key, required this.certificates})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,53 +30,47 @@ class CertificatesInfo extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: GestureDetector(
-                child: Image.network(
-                  "https://hcti.io/v1/image/5023ad9f-20b8-4089-9e5e-d107d20e3a67",
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width * 0.5,
-                  fit: BoxFit.fill,
-                ),
-                onTap: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (_) => ImageDialog(
-                      imageUrl:
-                          "https://hcti.io/v1/image/5023ad9f-20b8-4089-9e5e-d107d20e3a67",
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: GestureDetector(
-                child: Image.network(
-                  "https://hcti.io/v1/image/5023ad9f-20b8-4089-9e5e-d107d20e3a67",
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width * 0.5,
-                  fit: BoxFit.fill,
-                ),
-                onTap: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (_) => ImageDialog(
-                      imageUrl:
-                          "https://hcti.io/v1/image/5023ad9f-20b8-4089-9e5e-d107d20e3a67",
-                    ),
-                  );
-                },
-              ),
-            ),
+          Column(
+            children: certificates
+                .map(
+                  (certificate) =>
+                      CertificateItem(certificateImage: certificate),
+                )
+                .toList(),
           )
         ],
+      ),
+    );
+  }
+}
+
+class CertificateItem extends StatelessWidget {
+  final String certificateImage;
+  const CertificateItem({Key? key, required this.certificateImage})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GestureDetector(
+          child: Image.network(
+            certificateImage,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.width * 0.5,
+            fit: BoxFit.fill,
+          ),
+          onTap: () async {
+            await showDialog(
+              context: context,
+              builder: (_) => ImageDialog(
+                imageUrl: certificateImage,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

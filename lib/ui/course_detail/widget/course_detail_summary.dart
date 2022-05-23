@@ -1,4 +1,5 @@
 import 'package:boilerplate/models/course/course.dart';
+import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -14,14 +15,23 @@ class CourseDatailSummary extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                height: 40,
-                width: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    course.author!.profilePicture!,
-                    fit: BoxFit.fill,
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => GeneralProfileSceen(
+                      userId: course.author?.id,
+                    ),
+                  ),
+                ),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(
+                      course.author!.profilePicture!,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ),

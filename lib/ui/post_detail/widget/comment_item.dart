@@ -1,4 +1,5 @@
 import 'package:boilerplate/models/common_model/comment.dart';
+import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
 import 'package:flutter/material.dart';
 
@@ -21,13 +22,22 @@ class CommentItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(100.0),
-          child: Image.network(
-            comment.author!.profilePicture ?? "",
-            width: isParrent == true ? 35 : 25,
-            height: isParrent == true ? 35 : 25,
-            fit: BoxFit.fill,
+        GestureDetector(
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => GeneralProfileSceen(
+                userId: comment.author?.id,
+              ),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100.0),
+            child: Image.network(
+              comment.author!.profilePicture ?? "",
+              width: isParrent == true ? 35 : 25,
+              height: isParrent == true ? 35 : 25,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
         Expanded(

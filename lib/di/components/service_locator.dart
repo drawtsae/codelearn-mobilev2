@@ -13,6 +13,7 @@ import 'package:boilerplate/data/network/rest_client.dart';
 import 'package:boilerplate/data/identity_repository.dart';
 import 'package:boilerplate/data/post_repository.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
+import 'package:boilerplate/data/user_repository.dart';
 import 'package:boilerplate/di/module/local_module.dart';
 
 import 'package:boilerplate/di/module/network_module.dart';
@@ -66,6 +67,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(CourseRepository(getIt<CourseApi>()));
   getIt.registerSingleton(CommentRepository(getIt<CommentApi>()));
   getIt.registerSingleton(CategoryRepository(getIt<CategoryAPI>()));
+  getIt.registerSingleton(UserRepository(getIt<UserApi>()));
 
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(LanguageStore(getIt<CommonRepository>()));

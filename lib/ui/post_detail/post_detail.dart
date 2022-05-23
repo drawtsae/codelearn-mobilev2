@@ -10,6 +10,7 @@ import 'package:boilerplate/models/common_model/author.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
+import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:boilerplate/ui/post_detail/widget/comment_item.dart';
 import 'package:boilerplate/ui/post_detail/widget/comments_section.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
@@ -362,14 +363,23 @@ class _PostDetailScreenState extends State<PostDetailScreen>
                       padding: EdgeInsets.all(8),
                       child: Row(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image.network(
-                              _post?.author?.profilePicture ??
-                                  'https://i.ibb.co/4Vsxhz0/2.png',
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill,
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => GeneralProfileSceen(
+                                  userId: _post?.author?.id,
+                                ),
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                _post?.author?.profilePicture ??
+                                    'https://i.ibb.co/4Vsxhz0/2.png',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                           Padding(
