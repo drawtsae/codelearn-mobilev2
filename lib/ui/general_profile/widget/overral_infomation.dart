@@ -1,4 +1,5 @@
 import 'package:boilerplate/constants/assets.dart';
+import 'package:boilerplate/constants/common.dart';
 import 'package:boilerplate/models/user/user_info.dart';
 import 'package:flutter/material.dart';
 
@@ -51,8 +52,8 @@ class OverralInfomation extends StatelessWidget {
             margin: EdgeInsets.only(top: 30),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100.0),
-              child: Image.asset(
-                Assets.carBackground,
+              child: Image.network(
+                userInfo?.profilePicture ?? DEFAULT_AVATAR,
                 width: MediaQuery.of(context).size.width * 0.25,
                 height: MediaQuery.of(context).size.width * 0.25,
                 fit: BoxFit.fill,
