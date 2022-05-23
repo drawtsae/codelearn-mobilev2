@@ -56,9 +56,7 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: GeneralProfileSceen(
-              userId: "a7cf7bfe-6946-48df-aeba-78c53086de96",
-            ),
+            home: SplashScreen(),
           );
         },
       ),
