@@ -23,3 +23,5 @@ class TrainingStatus {
   static const String COMPLETED = "Completed";
   static const String INCOMPLETE = "Incomplete";
 }
+
+const EMPTY_THINGS = ["", null, false, 0];
