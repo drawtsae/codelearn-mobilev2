@@ -1,7 +1,6 @@
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,7 +19,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   late SharedPreferenceHelper _sharedPreferenceHelper;
 
   String? authWebview = '';
-  String? perisit = '';
+  String? persist = '';
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
     var persistRootValue = await _sharedPreferenceHelper.persistRoot;
     setState(() {
       authWebview = authWebviewValue;
-      perisit = persistRootValue;
+      persist = persistRootValue;
     });
   }
 
@@ -56,8 +55,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
             onPressed: () => Navigator.of(context).pop(),
             child: Icon(Icons.arrow_back_ios_outlined),
             style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(0, 0, 0, 0), // <-- Button color
-              // <-- Splash color
+              primary: Colors.transparent,
             ),
           ),
         ),
@@ -70,14 +68,14 @@ class _WebviewScreenState extends State<WebviewScreen> {
           this.controller = controller;
         },
         onPageStarted: (url) {
-          if (authWebview!.isNotEmpty && perisit!.isNotEmpty) {
+          if (authWebview!.isNotEmpty && persist!.isNotEmpty) {
             controller.runJavascript(
-                "localStorage.setItem('auth',JSON.stringify($authWebview));localStorage.setItem('persist:root',JSON.stringify($perisit))");
+                "localStorage.setItem('auth',JSON.stringify($authWebview));localStorage.setItem('persist:root',JSON.stringify($persist))");
             controller
                 .runJavascript("console.log(JSON.stringify(localStorage))");
           }
 
-          print(perisit);
+          print(persist);
         },
         onPageFinished: (url) {
           controller.runJavascript(

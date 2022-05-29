@@ -45,6 +45,8 @@ class Endpoints {
   //--------------------TRAINING--------------------
   // get trainings endpoints
   static const String getTrainings = baseUrl + "/api/v1/Training/GetTrainings";
+  static const String createTraining =
+      baseUrl + "/api/v1/Training/CreateTraining";
 
   //--------------------Comment--------------------
   // create comment

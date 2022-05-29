@@ -1,11 +1,13 @@
 import 'package:boilerplate/data/training_repository.dart';
+import 'package:boilerplate/ui/training_create/training_create.screen.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../widgets/empty_app_bar_widget.dart';
+import '../../data/sharedpref/shared_preference_helper.dart';
 import '../../widgets/shimmer_loading.dart';
 import '../../constants/common.dart';
 import '../../constants/enums.dart';
@@ -24,15 +26,17 @@ class TrainingView extends StatefulWidget {
 
 class _TrainingViewState extends State<TrainingView> {
   late TrainingRepository _trainingRepository;
-  TextEditingController _searchField = TextEditingController();
+  late SharedPreferenceHelper _sharedPreferenceHelper;
 
   // Defines States
+  bool _isLogin = false;
   bool _hasNextPage = true;
   int _pageNumber = 0;
   List<Training> _trainings = EMPTY_TRAINING_LIST;
   LoadingType _isLoading = LoadingType.None;
   String _keyword = EMPTY_STRING;
   String _trainingStatus = EMPTY_STRING;
+  TextEditingController _searchField = TextEditingController();
 
   // Defines Actions
   Future<void> _getTrainings(
@@ -68,6 +72,10 @@ class _TrainingViewState extends State<TrainingView> {
 
   // Defines handlers
   void handleFirstLoad() async {
+    var loginStatus = await _sharedPreferenceHelper.isLoggedIn;
+    setState(() {
+      _isLogin = loginStatus;
+    });
     await _getTrainings();
   }
 
@@ -91,13 +99,19 @@ class _TrainingViewState extends State<TrainingView> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        floatingActionButton:
-            SpeedDial(animatedIcon: AnimatedIcons.menu_close, children: [
-          SpeedDialChild(
-            child: Icon(FontAwesome5.plus),
-            label: 'Create Training',
-          )
-        ]),
+        floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            visible: _isLogin,
+            children: [
+              SpeedDialChild(
+                  child: Icon(FontAwesome5.plus),
+                  label: 'Create Training',
+                  onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TrainingCreateScreen(),
+                        ),
+                      ))
+            ]),
         body: Stack(children: <Widget>[
           _buildMainContext(context),
         ]));
@@ -107,6 +121,8 @@ class _TrainingViewState extends State<TrainingView> {
   void initState() {
     super.initState();
     _trainingRepository = TrainingRepository(getIt<TrainingAPI>());
+    _sharedPreferenceHelper =
+        SharedPreferenceHelper(getIt<SharedPreferences>());
     handleFirstLoad();
   }
 
@@ -138,8 +154,10 @@ class _TrainingViewState extends State<TrainingView> {
                     // isLoading: _isLoading == LoadingType.More,
                     onEndOfPage: () => handleLoadMore(),
                     child: ListView.separated(
-                        itemBuilder: (context, index) =>
-                            TrainingItem(training: _trainings[index]),
+                        itemBuilder: (context, index) => TrainingItem(
+                              training: _trainings[index],
+                              isLogin: _isLogin,
+                            ),
                         separatorBuilder: (BuildContext context, int index) =>
                             SizedBox(height: 15),
                         itemCount: _trainings.length),

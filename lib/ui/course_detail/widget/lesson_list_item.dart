@@ -27,7 +27,7 @@ class LessonListItem extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => WebviewScreen(
                         url:
-                            "https://codelearn-trteam.netlify.app/lesson/${lesson.id}",
+                            "https://codelearn-trteam.netlify.app/lesson/${lesson.id}/mobile",
                       ),
                     ),
                   )
