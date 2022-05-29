@@ -5,11 +5,9 @@ import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/ui/course_detail/widget/course_detail_summary.dart';
 import 'package:boilerplate/ui/course_detail/widget/lesson_list.dart';
-import 'package:boilerplate/ui/course_detail/widget/lesson_list_item.dart';
 import 'package:boilerplate/ui/course_detail/widget/topbar_course_detail.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CourseDetailScreen extends StatefulWidget {
@@ -88,7 +86,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     isLoggin: _isLogin,
                   ),
                   //----------
-                  CourseDatailSummary(course: _course!),
+                  CourseDetailSummary(course: _course!),
                   LessonList(
                     lessons: _course!.lessons!,
                     isLoggin: _isLogin,

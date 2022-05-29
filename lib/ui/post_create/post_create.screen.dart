@@ -47,24 +47,36 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
   }
 
   // Actions
-  Future<void> createPost(
-      {String? title, String? content, String? categoryId}) async {
-    final summary = content;
-    bool res = await _postRepository
-        .createPost(title!, title, summary!, content!, [categoryId!]);
-    if (res) {
-      Navigator.of(context).pop();
-      CoolAlert.show(
-        context: context,
-        type: CoolAlertType.success,
-        text: "Your transaction was successful!",
-      );
+  Future<void> onSubmitPost() async {
+    _formKey.currentState!.save();
+    await _keyEditor.currentState?.getText();
+    final content = await _keyEditor.currentState?.getText();
+
+    if (_formKey.currentState!.validate() && !_contentIsNull) {
+      final formValues = _formKey.currentState!.value;
+
+      String categoryId = formValues["category"];
+      String title = formValues["title"];
+      String slug = title;
+      String summary = content!;
+
+      try {
+        await _postRepository
+            .createPost(title, slug, summary, content, [categoryId]);
+        Navigator.of(context).pop();
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          text: "Your transaction was successful!",
+        );
+      } catch (err) {}
     }
   }
 
   @override
   void initState() {
     super.initState();
+    _categoryRepository = CategoryRepository(getIt<CategoryAPI>());
     _postRepository = PostRepository(getIt<PostApi>());
     getCategories();
   }
@@ -146,26 +158,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                           "Submit",
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed: () async {
-                          _formKey.currentState!.save();
-                          await _keyEditor.currentState?.getText();
-                          final content =
-                              await _keyEditor.currentState?.getText();
-                          if (_formKey.currentState!.validate() &&
-                              !_contentIsNull) {
-                            //Submit here
-                            String categoryId =
-                                _formKey.currentState!.value["category"];
-                            String title =
-                                _formKey.currentState!.value["title"];
-                            await createPost(
-                                title: title,
-                                content: content,
-                                categoryId: categoryId);
-                            print(_formKey.currentState!.value["title"]);
-                            print(content);
-                          }
-                        },
+                        onPressed: () => onSubmitPost(),
                       ),
                     ),
                   ],
