@@ -99,17 +99,19 @@ class _TrainingViewState extends State<TrainingView> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        floatingActionButton:
-            SpeedDial(animatedIcon: AnimatedIcons.menu_close, children: [
-          SpeedDialChild(
-              child: Icon(FontAwesome5.plus),
-              label: 'Create Training',
-              onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => TrainingCreateScreen(),
-                    ),
-                  ))
-        ]),
+        floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            visible: _isLogin,
+            children: [
+              SpeedDialChild(
+                  child: Icon(FontAwesome5.plus),
+                  label: 'Create Training',
+                  onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TrainingCreateScreen(),
+                        ),
+                      ))
+            ]),
         body: Stack(children: <Widget>[
           _buildMainContext(context),
         ]));

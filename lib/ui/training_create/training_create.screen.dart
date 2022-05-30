@@ -234,7 +234,7 @@ class _TrainingCreateScreenState extends State<TrainingCreateScreen> {
                     "*This field is required",
                     style: TextStyle(color: Colors.red),
                   ),
-                  visible: true,
+                  visible: _summerNoteContentIsNull,
                 ),
               ],
             ),
