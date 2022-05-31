@@ -2,7 +2,7 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = "https://codelearn-api.duckdns.org";
+  static const String baseUrl = "http://192.168.0.102:5000";
 
   // receiveTimeout
   static const int receiveTimeout = 15000;
@@ -30,12 +30,19 @@ class Endpoints {
 
   // vote post endpoints
   static const String createPost = baseUrl + "/api/v1/Post/Create";
+
+  // get user post endpoints
+  static const String getUserPost = baseUrl + "/api/v1/Post/GetUserPost";
   //--------------------COURSE--------------------
   // get course by id endpoints
   static const String getCourseById = baseUrl + "/api/v1/Course/GetById";
 
   // get course by id endpoints
   static const String getCourses = baseUrl + "/api/v1/Course/GetCourses";
+
+  // get course by id endpoints
+  static const String getUserCourses =
+      baseUrl + "/api/v1/Course/GetUserCourses";
 
   //--------------------USER--------------------
   // get profile infomation
@@ -45,6 +52,10 @@ class Endpoints {
   //--------------------TRAINING--------------------
   // get trainings endpoints
   static const String getTrainings = baseUrl + "/api/v1/Training/GetTrainings";
+
+  // get getUserTrainings endpoints
+  static const String getUserTrainings =
+      baseUrl + "/api/v1/Training/GetUserTrainings";
 
   //--------------------Comment--------------------
   // create comment

@@ -39,4 +39,14 @@ class CourseApi {
     );
     return JsonMapper.deserialize<CourseList>(res);
   }
+
+  Future<List<Course>?> getUserCourses(List<String> filters) async {
+    var param = {'filters': filters};
+
+    final res = await _dioClient.get(
+      Endpoints.getUserCourses,
+      queryParameters: param,
+    );
+    return JsonMapper.deserialize<List<Course>>(res['data']);
+  }
 }

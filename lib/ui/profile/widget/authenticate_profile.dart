@@ -202,6 +202,13 @@ class AuthenticateProfile extends StatelessWidget {
         ),
         Divider(thickness: 1),
         ListTile(
+          title: Text('Learning Journey'),
+          leading: Icon(Icons.import_contacts),
+          trailing: Icon(Icons.navigate_next),
+          onTap: () => Navigator.pushNamed(context, Routes.learningjourney),
+        ),
+        Divider(thickness: 1),
+        ListTile(
           title: Text('Change Password'),
           leading: Icon(Icons.key),
           trailing: Icon(Icons.navigate_next),

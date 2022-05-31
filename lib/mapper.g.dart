@@ -17,6 +17,7 @@ import 'package:boilerplate/models/lesson/lesson.dart';
 import 'package:boilerplate/models/common_model/comment.dart';
 import 'package:boilerplate/models/tag/tag.dart';
 import 'package:boilerplate/models/training/training.dart';
+import 'package:boilerplate/models/test_case/testcase.dart';
 
 final _categoryMapper = JsonObjectMapper(
   (CustomJsonMapper mapper, Map<String, dynamic> json) => Category(
@@ -381,6 +382,10 @@ final _tagMapper = JsonObjectMapper(
 final _trainingMapper = JsonObjectMapper(
   (CustomJsonMapper mapper, Map<String, dynamic> json) => Training(
     id: mapper.applyDynamicFromJsonConverter(json['id']),
+    createdBy: mapper.applyDynamicFromJsonConverter(json['createdBy']),
+    createdAt: mapper.applyDynamicFromJsonConverter(json['createdAt']),
+    lastModifiedBy: mapper.applyDynamicFromJsonConverter(json['lastModifiedBy']),
+    lastModifiedAt: mapper.applyDynamicFromJsonConverter(json['lastModifiedAt']),
     title: mapper.applyDynamicFromJsonConverter(json['title']),
     slug: mapper.applyDynamicFromJsonConverter(json['slug']),
     sortPriority: mapper.applyDynamicFromJsonConverter(json['sortPriority']),
@@ -389,12 +394,20 @@ final _trainingMapper = JsonObjectMapper(
     isActive: mapper.applyDynamicFromJsonConverter(json['isActive']),
     content: mapper.applyDynamicFromJsonConverter(json['content']),
     videoUrl: mapper.applyDynamicFromJsonConverter(json['videoUrl']),
-    additionalFields: (json['additionalFields'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<AdditionalField>(item)!).toList(),
-    authorId: mapper.applyDynamicFromJsonConverter(json['authorId']),
+    tags: (json['tags'] as List?)?.cast<String>().map((item) => mapper.applyDynamicFromJsonConverter<String>(item)!).toList(),
     author: mapper.deserialize<Author>(json['author'] as Map<String, dynamic>?),
+    testCases: (json['testCases'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<TestCase>(item)!).toList(),
+    comments: (json['comments'] as List?)?.cast<Map<String, dynamic>>().map((item) => mapper.deserialize<Comment>(item)!).toList(),
+    isCompleted: mapper.applyDynamicFromJsonConverter(json['isCompleted']),
+    userJoinCount: mapper.applyDynamicFromJsonConverter(json['userJoinCount']),
+    userCompletedCount: mapper.applyDynamicFromJsonConverter(json['userCompletedCount']),
   ),
   (CustomJsonMapper mapper, Training instance) => <String, dynamic>{
     'id': mapper.applyDynamicFromInstanceConverter(instance.id),
+    'createdBy': mapper.applyDynamicFromInstanceConverter(instance.createdBy),
+    'createdAt': mapper.applyDynamicFromInstanceConverter(instance.createdAt),
+    'lastModifiedBy': mapper.applyDynamicFromInstanceConverter(instance.lastModifiedBy),
+    'lastModifiedAt': mapper.applyDynamicFromInstanceConverter(instance.lastModifiedAt),
     'title': mapper.applyDynamicFromInstanceConverter(instance.title),
     'slug': mapper.applyDynamicFromInstanceConverter(instance.slug),
     'sortPriority': mapper.applyDynamicFromInstanceConverter(instance.sortPriority),
@@ -403,9 +416,13 @@ final _trainingMapper = JsonObjectMapper(
     'isActive': mapper.applyDynamicFromInstanceConverter(instance.isActive),
     'content': mapper.applyDynamicFromInstanceConverter(instance.content),
     'videoUrl': mapper.applyDynamicFromInstanceConverter(instance.videoUrl),
-    'additionalFields': instance.additionalFields?.map((item) => mapper.serializeToMap(item)).toList(),
-    'authorId': mapper.applyDynamicFromInstanceConverter(instance.authorId),
+    'tags': mapper.applyDynamicFromInstanceConverter(instance.tags),
     'author': mapper.serializeToMap(instance.author),
+    'testCases': instance.testCases?.map((item) => mapper.serializeToMap(item)).toList(),
+    'comments': instance.comments?.map((item) => mapper.serializeToMap(item)).toList(),
+    'isCompleted': mapper.applyDynamicFromInstanceConverter(instance.isCompleted),
+    'userJoinCount': mapper.applyDynamicFromInstanceConverter(instance.userJoinCount),
+    'userCompletedCount': mapper.applyDynamicFromInstanceConverter(instance.userCompletedCount),
   },
 );
 
@@ -441,6 +458,28 @@ final _usertrainingsMapper = JsonObjectMapper(
   },
 );
 
+
+final _testcaseMapper = JsonObjectMapper(
+  (CustomJsonMapper mapper, Map<String, dynamic> json) => TestCase(
+    id: mapper.applyDynamicFromJsonConverter(json['id']),
+    lessonId: mapper.applyDynamicFromJsonConverter(json['lessonId']),
+    sortPriority: mapper.applyDynamicFromJsonConverter(json['sortPriority']),
+    inputData: mapper.applyDynamicFromJsonConverter(json['inputData']),
+    expectedOutput: mapper.applyDynamicFromJsonConverter(json['expectedOutput']),
+    timeLimit: mapper.applyDynamicFromJsonConverter(json['timeLimit']),
+    isActive: mapper.applyDynamicFromJsonConverter(json['isActive']),
+  ),
+  (CustomJsonMapper mapper, TestCase instance) => <String, dynamic>{
+    'id': mapper.applyDynamicFromInstanceConverter(instance.id),
+    'lessonId': mapper.applyDynamicFromInstanceConverter(instance.lessonId),
+    'sortPriority': mapper.applyDynamicFromInstanceConverter(instance.sortPriority),
+    'inputData': mapper.applyDynamicFromInstanceConverter(instance.inputData),
+    'expectedOutput': mapper.applyDynamicFromInstanceConverter(instance.expectedOutput),
+    'timeLimit': mapper.applyDynamicFromInstanceConverter(instance.timeLimit),
+    'isActive': mapper.applyDynamicFromInstanceConverter(instance.isActive),
+  },
+);
+
 void init() {
   JsonMapper.register(_categoryMapper);
   JsonMapper.register(_categorylistMapper);
@@ -458,7 +497,8 @@ void init() {
   JsonMapper.register(_tagMapper);
   JsonMapper.register(_trainingMapper);
   JsonMapper.register(_userlevelMapper);
-  JsonMapper.register(_usertrainingsMapper); 
+  JsonMapper.register(_usertrainingsMapper);
+  JsonMapper.register(_testcaseMapper); 
 
   
 
@@ -479,5 +519,6 @@ void init() {
   JsonMapper.registerListCast((value) => value?.cast<Training>().toList());
   JsonMapper.registerListCast((value) => value?.cast<UserLevel>().toList());
   JsonMapper.registerListCast((value) => value?.cast<UserTrainings>().toList());
+  JsonMapper.registerListCast((value) => value?.cast<TestCase>().toList());
 }
     

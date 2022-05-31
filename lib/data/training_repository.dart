@@ -1,3 +1,5 @@
+import 'package:boilerplate/models/training/training.dart';
+
 import '../constants/common.dart';
 import '../models/training/training_list.dart';
 import 'network/apis/training_api.dart';
@@ -23,5 +25,15 @@ class TrainingRepository {
       pageSize,
       pageNumber,
     );
+  }
+
+  Future<List<Training>?> getUserTrainings(List<String> status,
+      List<String> level, List<String> submitStatus) async {
+    try {
+      final res = await _api.getUserTrainings(status, level, submitStatus);
+      return res;
+    } catch (e) {
+      throw e;
+    }
   }
 }

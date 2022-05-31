@@ -97,4 +97,13 @@ class PostApi {
       throw e;
     }
   }
+
+  Future<List<Post>?> getUserPost(List<String> postFilter) async {
+    final param = {'PostFilters': postFilter};
+    final res = await _dioClient.get(
+      Endpoints.getUserPost,
+      queryParameters: param,
+    );
+    return JsonMapper.deserialize<List<Post>>(res['data']);
+  }
 }

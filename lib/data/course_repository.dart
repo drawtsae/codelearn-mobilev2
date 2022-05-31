@@ -19,4 +19,10 @@ class CourseRepository {
 
     return res;
   }
+
+  Future<List<Course>> getUserCourses(List<String> filters) async {
+    var res = await _courseApi.getUserCourses(filters);
+
+    return res ?? [];
+  }
 }

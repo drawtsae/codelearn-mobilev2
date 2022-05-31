@@ -51,4 +51,9 @@ class PostRepository {
     var res = await _api.createPost(title, slug, summary, content, categoryIds);
     return res;
   }
+
+  Future<List<Post>> getUserPost(List<String> postFilter) async {
+    var res = await _api.getUserPost(postFilter);
+    return res ?? [];
+  }
 }

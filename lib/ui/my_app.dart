@@ -1,4 +1,5 @@
 import 'package:boilerplate/ui/general_profile/general_profile.dart';
+import 'package:boilerplate/ui/learning_journey/learning_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
