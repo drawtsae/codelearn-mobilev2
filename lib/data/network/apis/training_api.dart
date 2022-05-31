@@ -56,4 +56,52 @@ class TrainingAPI {
       throw e;
     }
   }
+
+  Future<bool> createTraining(
+      String title,
+      String slug,
+      String summary,
+      String level,
+      String content,
+      String videoUrl,
+      String tags,
+      // This is for test cases areas
+      String in1,
+      String out1,
+      String in2,
+      String out2,
+      String in3,
+      String out3) async {
+    final testCases = [
+      {
+        "inputData": in1,
+        "expectedOutput": out1,
+      },
+      {
+        "inputData": in2,
+        "expectedOutput": out2,
+      },
+      {
+        "inputData": in3,
+        "expectedOutput": out3,
+      }
+    ];
+
+    final param = {
+      'title': title,
+      'slug': slug,
+      'summary': summary,
+      'level': level,
+      'content': content,
+      'videoUrl': videoUrl,
+      'tags': [tags],
+      'testCases': testCases
+    };
+    try {
+      await _dioClient.post(Endpoints.createTraining, data: param);
+      return true;
+    } catch (e) {
+      throw e;
+    }
+  }
 }

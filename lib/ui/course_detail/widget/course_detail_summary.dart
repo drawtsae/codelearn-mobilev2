@@ -3,9 +3,9 @@ import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-class CourseDatailSummary extends StatelessWidget {
+class CourseDetailSummary extends StatelessWidget {
   final Course course;
-  const CourseDatailSummary({Key? key, required this.course}) : super(key: key);
+  const CourseDetailSummary({Key? key, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
