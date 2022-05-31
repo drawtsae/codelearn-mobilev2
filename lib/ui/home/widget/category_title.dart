@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:getwidget/getwidget.dart';
 
 class CategoryTitle extends StatelessWidget {
   final String rightText;
   final String leftText;
+  final Function onNavigate;
 
   const CategoryTitle(
-      {Key? key, required this.rightText, required this.leftText})
+      {Key? key,
+      required this.rightText,
+      required this.leftText,
+      required this.onNavigate})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,11 @@ class CategoryTitle extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          Text(
-            rightText,
-            style: TextStyle(
-              fontSize: 16,
-            ),
+          GFButton(
+            onPressed: () => onNavigate(),
+            text: rightText,
+            type: GFButtonType.outline,
+            color: GFColors.INFO,
           ),
         ],
       ),

@@ -1,5 +1,3 @@
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/ui/course/course.dart';
 import 'package:boilerplate/ui/home/home.dart';
 import 'package:boilerplate/ui/main/widget/bottom_navigation/main_bottom_navigation.dart';
@@ -9,7 +7,6 @@ import 'package:boilerplate/ui/profile/profile.dart';
 import 'package:boilerplate/ui/training/training.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -19,15 +16,13 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   //stores:---------------------------------------------------------------------
   int _selectedIndex = 0;
-  PageController pageController = PageController();
-  //late ThemeStore _themeStore;
-  //late LanguageStore _languageStore;
+  PageController _pageController = PageController();
 
-  void ontaped(int index) {
+  void onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    _pageController.jumpToPage(index);
   }
 
   @override
@@ -38,10 +33,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    // initializing stores
-    //_languageStore = Provider.of<LanguageStore>(context);
-    //_themeStore = Provider.of<ThemeStore>(context);
   }
 
   @override
@@ -49,18 +40,19 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: MainAppBar(),
       body: PageView(
-        controller: pageController,
+        controller: _pageController,
         children: [
-          HomeView(),
+          HomeView(pageController: _pageController),
           PostView(),
           CourseView(),
           TrainingView(),
           ProfileView(),
         ],
+        onPageChanged: onPageChanged,
       ),
       bottomNavigationBar: MainBottomNavigation(
         selectedIndex: _selectedIndex,
-        onItemSelected: ontaped,
+        onItemSelected: onPageChanged,
       ),
     );
   }

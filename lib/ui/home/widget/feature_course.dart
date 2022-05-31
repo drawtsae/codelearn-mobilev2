@@ -9,15 +9,25 @@ import 'package:boilerplate/ui/home/widget/course_item.dart';
 import 'package:flutter/material.dart';
 
 class FeatureCourse extends StatelessWidget {
+  final PageController pageController;
   final CourseRepository _courseRepository =
       CourseRepository(getIt<CourseApi>());
+
+  FeatureCourse({
+    Key? key,
+    required this.pageController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          CategoryTitle(leftText: 'Top of the week.', rightText: 'view all'),
+          CategoryTitle(
+            leftText: 'Suggestion course',
+            rightText: 'View all',
+            onNavigate: () => pageController.jumpToPage(2),
+          ),
           Container(
             height: 300,
             child: FutureBuilder(

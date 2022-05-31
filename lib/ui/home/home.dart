@@ -1,5 +1,4 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:boilerplate/ui/home/widget/emoji_text.dart';
 import 'package:boilerplate/ui/home/widget/feature_course.dart';
 import 'package:boilerplate/ui/home/widget/feature_post.dart';
 import 'package:boilerplate/ui/home/widget/search_input.dart';
@@ -8,6 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class HomeView extends StatelessWidget {
+  final PageController pageController;
+
+  const HomeView({
+    Key? key,
+    required this.pageController,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -21,10 +27,6 @@ class HomeView extends StatelessWidget {
   Widget _handleErrorMessage() {
     return Observer(
       builder: (context) {
-        //if (_postStore.errorStore.errorMessage.isNotEmpty) {
-        //  return _showErrorMessage(_postStore.errorStore.errorMessage);
-        //}
-
         return SizedBox.shrink();
       },
     );
@@ -46,10 +48,13 @@ class HomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          EmojiText(),
           SearchInput(),
-          FeatureCourse(),
-          FeaturePost(),
+          FeatureCourse(
+            pageController: pageController,
+          ),
+          FeaturePost(
+            pageController: pageController,
+          ),
         ],
       ),
     );
