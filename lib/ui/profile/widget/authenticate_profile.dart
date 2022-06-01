@@ -236,10 +236,6 @@ class AuthenticateProfile extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Text(
-            "Welcome to Codelearn. Let's get started!",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
           FutureBuilder<UserInfo?>(
               future: _userStore.getCurrentUserInfo(),
               builder: (context, AsyncSnapshot<UserInfo?> snapshot) {

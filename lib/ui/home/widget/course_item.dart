@@ -1,6 +1,7 @@
 import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/ui/course_detail/course_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 
 class CourseItem extends StatelessWidget {
   final Course course;
@@ -62,6 +63,9 @@ class CourseItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(
+                          height: 5,
+                        ),
                         Row(
                           children: [
                             ClipRRect(
@@ -84,15 +88,12 @@ class CourseItem extends StatelessWidget {
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
                         Text(
                           course.title.toString(),
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.5),
                           ),
                           overflow: TextOverflow.ellipsis,
                         )
@@ -112,7 +113,7 @@ class CourseItem extends StatelessWidget {
                   builder: (context) => CourseDetailScreen(id: course.id!),
                 ),
               ),
-              child: Text('Start'),
+              child: Text('🚀 Start'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.amber,
                 elevation: 0,
@@ -127,19 +128,11 @@ class CourseItem extends StatelessWidget {
             right: 10,
             child: Stack(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 4, top: 10),
-                  child: Text(
-                    '4 🌟',
-                    style: TextStyle(
-                      color: Colors.amber,
-                    ),
-                  ),
-                ),
-                CircularProgressIndicator(
-                  value: 4 / 5,
-                  backgroundColor: Colors.black.withOpacity(0.2),
-                ),
+                GFRating(
+                  size: GFSize.SMALL,
+                  value: course.rateScore?.toDouble() ?? 0,
+                  onChanged: (value) {},
+                )
               ],
             ),
           )
