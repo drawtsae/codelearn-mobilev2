@@ -7,7 +7,9 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants/number.dart';
 import '../../data/sharedpref/shared_preference_helper.dart';
+import '../../widgets/empty_list.dart';
 import '../../widgets/shimmer_loading.dart';
 import '../../constants/common.dart';
 import '../../constants/enums.dart';
@@ -62,7 +64,9 @@ class _TrainingViewState extends State<TrainingView> {
     });
 
     setState(() {
-      _trainings = (keyword != _keyword ? EMPTY_TRAINING_LIST : _trainings) +
+      _trainings = ((loadingType == LoadingType.More)
+              ? _trainings
+              : EMPTY_TRAINING_LIST) +
           response!.data!;
       _hasNextPage = response!.hasNextPage!;
       _pageNumber = pageNumber;
@@ -84,7 +88,7 @@ class _TrainingViewState extends State<TrainingView> {
       await _getTrainings(
           keyword: _keyword,
           status: _trainingStatus,
-          pageNumber: _pageNumber++,
+          pageNumber: _pageNumber + 1,
           loadingType: LoadingType.More);
     }
   }
@@ -153,14 +157,19 @@ class _TrainingViewState extends State<TrainingView> {
                 : LazyLoadScrollView(
                     // isLoading: _isLoading == LoadingType.More,
                     onEndOfPage: () => handleLoadMore(),
-                    child: ListView.separated(
-                        itemBuilder: (context, index) => TrainingItem(
-                              training: _trainings[index],
-                              isLogin: _isLogin,
-                            ),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(height: 15),
-                        itemCount: _trainings.length),
+                    child: _trainings.length == NUMBER_ZERO
+                        ? EmptyList(
+                            listName: "training",
+                          )
+                        : ListView.separated(
+                            itemBuilder: (context, index) => TrainingItem(
+                                  training: _trainings[index],
+                                  isLogin: _isLogin,
+                                ),
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    SizedBox(height: 15),
+                            itemCount: _trainings.length),
                   )),
         if (_isLoading == LoadingType.More) ShimmerLoading()
       ],

@@ -28,14 +28,6 @@ class PostItem extends StatelessWidget {
       child: GFCard(
         boxFit: BoxFit.cover,
         titlePosition: GFPosition.start,
-        image: Image.network(
-          post.imageUrl != null
-              ? post.imageUrl.toString()
-              : DEFAULT_POST_IMAGE_URL,
-          height: MediaQuery.of(context).size.height * 0.2,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.cover,
-        ),
         showImage: true,
         title: GFListTile(
           avatar: GFAvatar(
@@ -44,13 +36,11 @@ class PostItem extends StatelessWidget {
           titleText: post.title,
           subTitleText: ("${post.author?.firstName} ${post.author?.lastName}"),
         ),
-        content: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-          child: Text(
-            post.summary.toString(),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+        content: Text(
+          post.summary.toString(),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: Colors.grey),
         ),
         buttonBar: GFButtonBar(
           children: <Widget>[

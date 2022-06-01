@@ -94,7 +94,7 @@ class TrainingAPI {
       'level': level,
       'content': content,
       'videoUrl': videoUrl,
-      'tags': [tags],
+      'tags': tags.split(' '),
       'testCases': testCases
     };
     try {

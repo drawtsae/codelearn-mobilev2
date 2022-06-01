@@ -1,10 +1,8 @@
-import 'package:boilerplate/constants/assets.dart';
-import 'package:boilerplate/constants/common.dart';
 import 'package:boilerplate/models/user/user_info.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
 
 import '../../profile_update/profile_update.screen.dart';
@@ -25,14 +23,9 @@ class AuthenticateProfile extends StatelessWidget {
           children: [
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
-                  child: Image.network(
-                    userInfo?.profilePicture ?? DEFAULT_AVATAR,
-                    width: 35,
-                    height: 35,
-                    fit: BoxFit.fill,
-                  ),
+                GFAvatar(
+                  backgroundImage: NetworkImage(userInfo!.profilePicture ??
+                      'https://i.ibb.co/4Vsxhz0/2.png'),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
@@ -60,10 +53,16 @@ class AuthenticateProfile extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 8,
-                  child: LinearProgressIndicator(
-                    minHeight: 10,
-                    value: (userInfo?.userLevel?.percent ?? 0) / 100,
-                  ),
+                  child: GFProgressBar(
+                      percentage: (userInfo?.userLevel?.percent ?? 0) / 100,
+                      backgroundColor: Colors.black26,
+                      lineHeight: 20,
+                      // child: const Text(
+                      //   '${userInfo.userLevel?.percent} %',
+                      //   textAlign: TextAlign.end,
+                      //   style: TextStyle(fontSize: 16, color: Colors.white),
+                      // ),
+                      progressBarColor: GFColors.WARNING),
                 ),
                 Expanded(
                   flex: 2,
@@ -129,10 +128,11 @@ class AuthenticateProfile extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
-                  LinearProgressIndicator(
-                    value: 0.3,
-                    minHeight: 10,
-                  )
+                  GFProgressBar(
+                      percentage: 4 / 5,
+                      backgroundColor: Colors.black26,
+                      lineHeight: 10,
+                      progressBarColor: GFColors.WARNING)
                 ],
               ),
               height: 100,
