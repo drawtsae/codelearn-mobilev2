@@ -38,7 +38,8 @@ class PostItem extends StatelessWidget {
               flex: 1,
               child: ClipRRect(
                 child: Image.network(
-                  post.imageUrl ?? 'https://i.ibb.co/4Vsxhz0/2.png',
+                  post.author!.profilePicture ??
+                      'https://i.ibb.co/4Vsxhz0/2.png',
                   height: 85,
                   fit: BoxFit.cover,
                 ),

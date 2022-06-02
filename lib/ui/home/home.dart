@@ -1,12 +1,11 @@
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:boilerplate/ui/home/widget/feature_course.dart';
 import 'package:boilerplate/ui/home/widget/feature_post.dart';
-import 'package:boilerplate/ui/home/widget/search_input.dart';
+import 'package:boilerplate/ui/home/widget/carousel_banner.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   final PageController pageController;
 
   const HomeView({
@@ -14,6 +13,11 @@ class HomeView extends StatelessWidget {
     required this.pageController,
   }) : super(key: key);
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -48,30 +52,15 @@ class HomeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SearchInput(),
+          CarouselBanner(),
           FeatureCourse(
-            pageController: pageController,
+            pageController: widget.pageController,
           ),
           FeaturePost(
-            pageController: pageController,
+            pageController: widget.pageController,
           ),
         ],
       ),
     );
-  }
-
-  // General Methods:-----------------------------------------------------------
-  _showErrorMessage(BuildContext context, String message) {
-    Future.delayed(Duration(milliseconds: 0), () {
-      if (message.isNotEmpty) {
-        FlushbarHelper.createError(
-          message: message,
-          title: "",
-          duration: Duration(seconds: 3),
-        )..show(context);
-      }
-    });
-
-    return SizedBox.shrink();
   }
 }

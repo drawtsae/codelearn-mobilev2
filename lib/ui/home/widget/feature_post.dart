@@ -29,7 +29,7 @@ class FeaturePost extends StatelessWidget {
             height: 300,
             child: FutureBuilder(
                 future: _postRepository.getPosts(
-                    '', [], [], 'News', false, false, 1, 5),
+                    '', [], [], 'Sharing', false, false, 1, 5),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     var postList = snapshot.data as PostList;

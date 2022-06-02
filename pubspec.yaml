@@ -88,6 +88,7 @@ dependencies:
   form_builder_image_picker: ^2.0.0
   expandable: ^5.0.1
   advanced_datatable: ^0.0.7+hotfix
+  empty_widget: ^0.0.5
 
 dev_dependencies:
   flutter_test:

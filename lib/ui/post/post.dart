@@ -14,9 +14,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/common.dart';
 import '../../constants/enums.dart';
+import '../../constants/number.dart';
 import '../../data/sharedpref/shared_preference_helper.dart';
 import '../../models/post/post_list.dart';
 import '../../stores/user/user_store.dart';
+import '../../widgets/empty_list.dart';
 import '../../widgets/shimmer_loading.dart';
 
 class PostView extends StatefulWidget {
@@ -27,11 +29,10 @@ class _PostViewState extends State<PostView> {
   late PostRepository _postRepository;
   late SharedPreferenceHelper _sharedPreferenceHelper;
 
-  TextEditingController _searchField = TextEditingController();
-
   // Defines States
+  TextEditingController _searchField = TextEditingController();
   bool _hasNextPage = true;
-  int _pageNumber = 0;
+  int _pageNumber = NUMBER_ONE;
   List<Post> _posts = EMPTY_POST_LIST;
   LoadingType _isLoading = LoadingType.None;
   String _keyword = EMPTY_STRING;
@@ -54,13 +55,13 @@ class _PostViewState extends State<PostView> {
         // Whenever loading more, must have to wait 1 second to send the request
         Duration(milliseconds: loadingType == LoadingType.First ? 0 : 1000),
         () async {
-      response = await _postRepository.getPosts(_keyword, categoryIds, tagIds,
+      response = await _postRepository.getPosts(keyword, categoryIds, tagIds,
           'Sharing', true, true, pageNumber, pageSize);
     });
 
     setState(() {
-      _posts =
-          (keyword != _keyword ? EMPTY_POST_LIST : _posts) + response!.data!;
+      _posts = ((loadingType == LoadingType.More) ? _posts : EMPTY_POST_LIST) +
+          response!.data!;
       _hasNextPage = response!.hasNextPage!;
       _pageNumber = pageNumber;
       _isLoading = LoadingType.None;
@@ -76,7 +77,7 @@ class _PostViewState extends State<PostView> {
     if (_hasNextPage && _isLoading == LoadingType.None) {
       await _getPosts(
           keyword: _keyword,
-          pageNumber: _pageNumber++,
+          pageNumber: _pageNumber + 1,
           loadingType: LoadingType.More);
     }
   }
@@ -140,12 +141,17 @@ class _PostViewState extends State<PostView> {
                 : LazyLoadScrollView(
                     // isLoading: _isLoading == LoadingType.More,
                     onEndOfPage: () => handleLoadMore(),
-                    child: ListView.separated(
-                        itemBuilder: (context, index) =>
-                            PostItem(post: _posts[index]),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(height: 15),
-                        itemCount: _posts.length),
+                    child: _posts.length == NUMBER_ZERO
+                        ? EmptyList(
+                            listName: "post",
+                          )
+                        : ListView.separated(
+                            itemBuilder: (context, index) =>
+                                PostItem(post: _posts[index]),
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    SizedBox(height: 15),
+                            itemCount: _posts.length),
                   )),
         if (_isLoading == LoadingType.More) ShimmerLoading()
       ],

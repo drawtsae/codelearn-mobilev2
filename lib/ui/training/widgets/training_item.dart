@@ -20,7 +20,7 @@ class TrainingItem extends StatelessWidget {
           backgroundImage: NetworkImage(training.author?.profilePicture ?? "")),
       titleText: "${training.title} ${""}",
       subTitleText: training.summary,
-      description: Text("#tag1  #tag2",
+      description: Text((training.tags!.map((e) => "#$e")).join(" "),
           style: TextStyle(color: LevelColors[training.level])),
       icon: IconLevels[training.level],
       onTap: () => isLogin
