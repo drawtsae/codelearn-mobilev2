@@ -7,7 +7,12 @@ import 'package:provider/provider.dart';
 
 import '../../profile_update/profile_update.screen.dart';
 
-class AuthenticateProfile extends StatelessWidget {
+class AuthenticateProfile extends StatefulWidget {
+  @override
+  State<AuthenticateProfile> createState() => _AuthenticateProfileState();
+}
+
+class _AuthenticateProfileState extends State<AuthenticateProfile> {
   late UserStore _userStore;
 
   Widget _topAccountSummry(UserInfo? userInfo) {
@@ -31,7 +36,7 @@ class AuthenticateProfile extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 15),
                   child: RichText(
                     text: TextSpan(
-                      text: '${userInfo?.firstName} ${userInfo?.lastName}',
+                      text: '${userInfo.firstName} ${userInfo.lastName}',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       children: <TextSpan>[
@@ -39,7 +44,7 @@ class AuthenticateProfile extends StatelessWidget {
                           text: '\n',
                         ),
                         TextSpan(
-                            text: userInfo?.email,
+                            text: userInfo.email,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                             )),
@@ -54,7 +59,7 @@ class AuthenticateProfile extends StatelessWidget {
                 Expanded(
                   flex: 8,
                   child: GFProgressBar(
-                      percentage: (userInfo?.userLevel?.percent ?? 0) / 100,
+                      percentage: (userInfo.userLevel?.percent ?? 0) / 100,
                       backgroundColor: Colors.black26,
                       lineHeight: 20,
                       // child: const Text(
@@ -69,7 +74,7 @@ class AuthenticateProfile extends StatelessWidget {
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: '${userInfo?.userLevel?.percent} %',
+                      text: '${userInfo.userLevel?.percent} %',
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                       children: <TextSpan>[
@@ -77,7 +82,7 @@ class AuthenticateProfile extends StatelessWidget {
                           text: '\n',
                         ),
                         TextSpan(
-                          text: userInfo?.userLevel?.next,
+                          text: userInfo.userLevel?.next,
                         ),
                       ],
                     ),
@@ -194,11 +199,13 @@ class AuthenticateProfile extends StatelessWidget {
           title: Text('Update Profile'),
           leading: Icon(Icons.account_circle_outlined),
           trailing: Icon(Icons.navigate_next),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ProfileUpdateScreen(),
-            ),
-          ),
+          onTap: () => Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => ProfileUpdateScreen(),
+                ),
+              )
+              .then((value) => setState(() {})),
         ),
         Divider(thickness: 1),
         ListTile(

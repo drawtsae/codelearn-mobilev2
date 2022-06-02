@@ -29,6 +29,26 @@ class SharedPreferenceHelper {
         Preferences.persist_root, persistRoot);
   }
 
+  Future<bool> reloadWeviewTokenWithUserInfo(UserInfo userInfo) async {
+    final sb = StringBuffer();
+    sb.writeAll(userInfo.roles ?? <String>['Basic'], ', ');
+
+    var currentUser = {
+      "currentUser": JsonMapper.serializeToMap(userInfo),
+      "getProfile": "SUCCESS",
+      "updateProfile": "NULL"
+    };
+
+    String userString = json.encode(currentUser);
+    var perisistRoot = {
+      'user': userString,
+      '_persist': "{\"version\":-1,\"rehydrated\":true}"
+    };
+    await _sharedPreference.remove(Preferences.persist_root);
+    return await _sharedPreference.setString(
+        Preferences.persist_root, json.encode(perisistRoot));
+  }
+
   Future<String?> get authWebview async {
     return _sharedPreference.getString(Preferences.auth_webview);
   }

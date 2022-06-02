@@ -87,8 +87,14 @@ class IdentityRepository {
     String gender,
     String phoneNumber,
   ) async {
-    final res =
+    final isSuccess =
         await _userApi.updateUserInfo(firstName, lastName, gender, phoneNumber);
-    return res;
+
+    if (isSuccess) {
+      final userInfo = await _userApi.getUserInformation(null);
+      _sharedPrefsHelper.reloadWeviewTokenWithUserInfo(userInfo!);
+    }
+
+    return isSuccess;
   }
 }

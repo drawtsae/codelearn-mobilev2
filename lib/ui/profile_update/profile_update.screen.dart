@@ -32,7 +32,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
       String gender = _formKey.currentState!.value["gender"];
       String phoneNumber = _formKey.currentState!.value["phoneNumber"];
 
-      _userStore.updateProfile(firstName, lastName, gender, phoneNumber);
+      await _userStore.updateProfile(firstName, lastName, gender, phoneNumber);
       Navigator.of(context).pop();
       CoolAlert.show(
         context: context,

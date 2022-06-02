@@ -37,6 +37,7 @@ class FeaturePost extends StatelessWidget {
                     return ListView.separated(
                         padding: EdgeInsets.all(25),
                         scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) =>
                             PostItem(post: postList.data![index]),
                         separatorBuilder: (BuildContext context, int index) =>

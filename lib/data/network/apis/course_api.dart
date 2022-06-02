@@ -49,4 +49,13 @@ class CourseApi {
     );
     return JsonMapper.deserialize<List<Course>>(res['data']);
   }
+
+  Future<bool> enrollCourse(String courseId) async {
+    var param = {'courseId': courseId};
+    await _dioClient.post(
+      Endpoints.enrollCourse,
+      data: param,
+    );
+    return true;
+  }
 }
