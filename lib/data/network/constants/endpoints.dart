@@ -43,6 +43,8 @@ class Endpoints {
   // get course by id endpoints
   static const String getUserCourses =
       baseUrl + "/api/v1/Course/GetUserCourses";
+  // EnrollCourse
+  static const String enrollCourse = baseUrl + "/api/v1/Course/EnrollCourse";
 
   //--------------------USER--------------------
   // get profile infomation

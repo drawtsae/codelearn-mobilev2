@@ -1,6 +1,7 @@
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/utils/routes/routes.dart';
+import 'package:boilerplate/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,6 +21,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   String? authWebview = '';
   String? persist = '';
+  bool _loading = true;
 
   @override
   void initState() {
@@ -60,40 +62,60 @@ class _WebviewScreenState extends State<WebviewScreen> {
           ),
         ),
       ),
-      body: WebView(
-        debuggingEnabled: true,
-        javascriptMode: JavascriptMode.unrestricted,
-        initialUrl: widget.url,
-        onWebViewCreated: (controller) {
-          this.controller = controller;
-        },
-        onPageStarted: (url) {
-          if (authWebview!.isNotEmpty && persist!.isNotEmpty) {
-            controller.runJavascript(
-                "localStorage.setItem('auth',JSON.stringify($authWebview));localStorage.setItem('persist:root',JSON.stringify($persist))");
-            controller
-                .runJavascript("console.log(JSON.stringify(localStorage))");
-          }
+      body: Stack(children: [
+        WebView(
+          debuggingEnabled: true,
+          javascriptMode: JavascriptMode.unrestricted,
+          initialUrl: widget.url,
+          onWebViewCreated: (controller) {
+            this.controller = controller;
+          },
+          onPageStarted: (url) {
+            setState(() {
+              _loading = true;
+            });
+            if (authWebview!.isNotEmpty && persist!.isNotEmpty) {
+              controller.runJavascript(
+                  "localStorage.setItem('auth',JSON.stringify($authWebview));localStorage.setItem('persist:root',JSON.stringify($persist))");
+              controller
+                  .runJavascript("console.log(JSON.stringify(localStorage))");
+            }
+          },
+          onPageFinished: (url) {
+            setState(() {
+              _loading = false;
+            });
 
-          print(persist);
-        },
-        onPageFinished: (url) {
-          controller.runJavascript(
-              "document.getElementById('dashboard-header').style.display = 'none'");
-          controller.runJavascript(
-              "document.getElementsByTagName('footer')[0].style.display='none'");
-        },
-        navigationDelegate: (NavigationRequest request) {
-          if (request.url.contains("identity/sign-in")) {
-            //You can do anything
-            Navigator.of(context).pushNamed(Routes.login);
-            //Prevent that url works
-            return NavigationDecision.prevent;
-          }
-          //Any other url works
-          return NavigationDecision.navigate;
-        },
-      ),
+            controller.runJavascript(
+                "document.getElementById('dashboard-header').style.display = 'none'");
+            controller.runJavascript(
+                "document.getElementsByTagName('footer')[0].style.display='none'");
+          },
+          navigationDelegate: (NavigationRequest request) {
+            if (request.url.contains("identity/sign-in")) {
+              //You can do anything
+              Navigator.of(context).pushNamed(Routes.login);
+              //Prevent that url works
+              return NavigationDecision.prevent;
+            }
+            if (request.url.contains("result/success")) {
+              Navigator.pop(context, "success");
+              return NavigationDecision.prevent;
+            }
+            if (request.url.contains("result/warning")) {
+              Navigator.pop(context, "false");
+              return NavigationDecision.prevent;
+            }
+
+            //Any other url works
+            return NavigationDecision.navigate;
+          },
+        ),
+        Visibility(
+          visible: _loading,
+          child: CustomProgressIndicatorWidget(),
+        )
+      ]),
     );
   }
 }

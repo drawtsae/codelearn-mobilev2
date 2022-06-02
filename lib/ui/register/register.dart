@@ -109,12 +109,6 @@ class _RegisterScreen extends State<RegisterScreen> {
             _passwordInput(),
             _confirmPasswordInput(),
             _buildSignUpButton(),
-            Align(
-              alignment: Alignment.center,
-              heightFactor: 4,
-              child: Text('Or, login with...'),
-            ),
-            _socialButtonWidget(context),
             SizedBox(height: 24.0),
             _checkHaveAnAccountWidget(context)
           ],

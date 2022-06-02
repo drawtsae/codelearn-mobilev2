@@ -25,4 +25,10 @@ class CourseRepository {
 
     return res ?? [];
   }
+
+  Future<bool> enrollCourse(String id) async {
+    await _courseApi.enrollCourse(id);
+
+    return true;
+  }
 }

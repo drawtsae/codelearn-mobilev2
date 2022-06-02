@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
 class CategoryTitle extends StatelessWidget {
@@ -30,7 +30,8 @@ class CategoryTitle extends StatelessWidget {
             onPressed: () => onNavigate(),
             text: rightText,
             type: GFButtonType.outline,
-            color: GFColors.INFO,
+            color: GFColors.PRIMARY,
+            icon: Icon(Icons.search),
           ),
         ],
       ),

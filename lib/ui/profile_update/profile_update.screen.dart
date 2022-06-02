@@ -1,13 +1,13 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:boilerplate/ui/profile_update/profile_update.constants.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/user/user_info.dart';
 import '../../widgets/empty_app_bar_widget.dart';
 import '../../stores/user/user_store.dart';
 import '../../constants/style.dart';
@@ -32,7 +32,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
       String gender = _formKey.currentState!.value["gender"];
       String phoneNumber = _formKey.currentState!.value["phoneNumber"];
 
-      _userStore.updateProfile(firstName, lastName, gender, phoneNumber);
+      await _userStore.updateProfile(firstName, lastName, gender, phoneNumber);
       Navigator.of(context).pop();
       CoolAlert.show(
         context: context,
@@ -74,18 +74,23 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
             child: Padding(
           padding: PADDING_CONTENT_STYLES,
           child: Column(children: <Widget>[
-            Text(
-              'Update Profile',
-              style: TITLE_STYLES,
-            ),
             FormBuilder(
                 key: _formKey,
                 child: Column(
                   children: [
-                    FormBuilderImagePicker(
-                      name: 'profilePicture',
-                      maxImages: 1,
-                    ),
+                    FutureBuilder<UserInfo?>(
+                        future: _userStore.getCurrentUserInfo(),
+                        builder: (context, AsyncSnapshot<UserInfo?> snapshot) {
+                          if (snapshot.hasData) {
+                            return GFAvatar(
+                              size: GFSize.LARGE,
+                              backgroundImage: NetworkImage(
+                                  snapshot.data!.profilePicture ?? ""),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
                     FormBuilderTextField(
                       name: 'firstName',
                       decoration: const InputDecoration(
@@ -121,7 +126,6 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                     ),
                     FormBuilderTextField(
                       name: 'phoneNumber',
-                      readOnly: true,
                       decoration: const InputDecoration(
                         labelText: 'Phone',
                       ),
@@ -141,7 +145,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             errorText: "Please input this field")
                       ]),
                       items: GENDERS
-                          .map((gender) => DropdownMenuItem(
+                          .map((gender) => DropdownMenuItem<String>(
                                 value: gender,
                                 child: Text('$gender'),
                               ))

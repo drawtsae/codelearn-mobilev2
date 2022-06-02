@@ -11,7 +11,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _userStore = Provider.of<UserStore>(context);
     return Container(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: SingleChildScrollView(
           child: Column(
             children: [
