@@ -21,6 +21,6 @@ class CommentApi {
       'typeId': typeId
     };
     var res = await _dioClient.post(Endpoints.createComment, data: bodyParam);
-    return res['message'];
+    return res['message'] ?? "";
   }
 }

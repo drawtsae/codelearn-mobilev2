@@ -121,7 +121,8 @@ class _PostDetailScreenState extends State<PostDetailScreen>
     }
   }
 
-  void commentAction(String value) async {
+  void commentAction(
+      String value, void Function(void Function()) setState) async {
     if (value.isEmpty) return;
 
     final commentLevel = _parentReplyComment == null ? 0 : 1;
@@ -133,6 +134,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
       widget.postId,
     );
     var currentUser = await _userStore.getCurrentUserInfo();
+    final now = DateTime.now();
     Comment newComment = Comment(
       id: newCommentId,
       parentId: _parentReplyComment,
@@ -145,7 +147,8 @@ class _PostDetailScreenState extends State<PostDetailScreen>
         lastName: currentUser?.lastName,
         profilePicture: currentUser?.profilePicture,
       ),
-      createdAt: DateTime.now().toString(),
+      createdAt:
+          DateTime.utc(now.year, now.month, now.day, now.hour).toString(),
     );
 
     if (_parentReplyComment == null) {
@@ -191,128 +194,129 @@ class _PostDetailScreenState extends State<PostDetailScreen>
             child: Icon(FontAwesome5.comment),
             label: 'comment',
             onTap: () => showModalBottomSheet(
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10.0))),
-                backgroundColor: Colors.white,
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => Container(
-                      height: MediaQuery.of(context).size.height * 0.7,
-                      child: Stack(children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0),
-                              ),
-                              color: Colors.black.withOpacity(0.05)),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 40),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.53,
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    children: _post?.comments
-                                            ?.map((val) => CommentItem(
-                                                  comment: val,
-                                                  isParrent: true,
-                                                  onDelete: () => {},
-                                                  onReply: () =>
-                                                      handleReply(val),
-                                                ))
-                                            .toList() ??
-                                        [],
-                                  ),
-                                ),
-                              )
-                            ],
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(10.0))),
+              backgroundColor: Colors.white,
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => StatefulBuilder(builder:
+                  (BuildContext context,
+                      StateSetter setState /*You can rename this!*/) {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: Stack(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(25.0),
                           ),
-                        ),
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(10.0),
-                              ),
-                              color: Colors.white),
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Text(
-                                  "${_post!.comments!.length} comments",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Positioned(
-                                right: 10,
-                                top: 10,
-                                child: GestureDetector(
-                                  onTap: () => Navigator.of(context).pop(),
-                                  child: Icon(Icons.close),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
+                          color: Colors.black.withOpacity(0.05)),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 40),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
                             child: Container(
-                              height: 60,
-                              padding: EdgeInsets.only(
-                                  left: 10, right: 5, top: 5, bottom: 20),
-                              decoration: BoxDecoration(color: Colors.white),
-                              child: Row(
-                                children: [
-                                  GFAvatar(
-                                    size: GFSize.SMALL,
-                                    backgroundImage: NetworkImage(
-                                        _post!.author?.profilePicture ??
-                                            'https://i.ibb.co/4Vsxhz0/2.png'),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.1),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: TextField(
-                                          controller: _commentController,
-                                          focusNode: myFocusNode,
-                                          onSubmitted: (value) =>
-                                              commentAction(value),
-                                          decoration: InputDecoration(
-                                            hintStyle: TextStyle(fontSize: 17),
-                                            hintText: _hintText,
-                                            border: InputBorder.none,
-                                            contentPadding: EdgeInsets.only(
-                                              left: 5,
-                                              bottom: 15,
-                                            ),
-                                          ),
+                              height: MediaQuery.of(context).size.height * 0.53,
+                              child: ListView(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                children: _post?.comments
+                                        ?.map((val) => CommentItem(
+                                              comment: val,
+                                              isParrent: true,
+                                              onDelete: () => {},
+                                              onReply: () => handleReply(val),
+                                            ))
+                                        .toList() ??
+                                    [],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(10.0),
+                          ),
+                          color: Colors.white),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Text(
+                              "${_post!.comments!.length} comments",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Positioned(
+                            right: 10,
+                            top: 10,
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: Icon(Icons.close),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Container(
+                          height: 60,
+                          padding: EdgeInsets.only(
+                              left: 10, right: 5, top: 5, bottom: 20),
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: Row(
+                            children: [
+                              GFAvatar(
+                                size: GFSize.SMALL,
+                                backgroundImage: NetworkImage(
+                                    _post!.author?.profilePicture ??
+                                        'https://i.ibb.co/4Vsxhz0/2.png'),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: TextField(
+                                      controller: _commentController,
+                                      focusNode: myFocusNode,
+                                      onSubmitted: (value) =>
+                                          commentAction(value, setState),
+                                      decoration: InputDecoration(
+                                        hintStyle: TextStyle(fontSize: 17),
+                                        hintText: _hintText,
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(
+                                          left: 5,
+                                          bottom: 15,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        )
-                      ]),
-                    )),
+                        ),
+                      ),
+                    )
+                  ]),
+                );
+              }),
+            ),
           ),
           SpeedDialChild(
             child: Icon(
