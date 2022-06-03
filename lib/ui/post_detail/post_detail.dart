@@ -12,7 +12,6 @@ import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/stores/user/user_store.dart';
 import 'package:boilerplate/ui/general_profile/general_profile.dart';
 import 'package:boilerplate/ui/post_detail/widget/comment_item.dart';
-import 'package:boilerplate/ui/post_detail/widget/comments_section.dart';
 import 'package:boilerplate/utils/extensions/time_ago.dart';
 import 'package:boilerplate/utils/social/social_media.dart';
 import 'package:boilerplate/widgets/empty_app_bar_widget.dart';
@@ -21,7 +20,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../data/sharedpref/shared_preference_helper.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final String postId;
@@ -40,7 +43,9 @@ class _PostDetailScreenState extends State<PostDetailScreen>
   String? _parentReplyComment;
   String? _hintText;
   var _isKeyboardVisible = false;
+  bool _isLogin = false;
 
+  late SharedPreferenceHelper _sharedPreferenceHelper;
   late PostRepository _postRepository;
   late CommentRepository _commentRepository;
   final FocusNode myFocusNode = FocusNode();
@@ -53,6 +58,8 @@ class _PostDetailScreenState extends State<PostDetailScreen>
     super.initState();
     _postRepository = PostRepository(getIt<PostApi>());
     _commentRepository = CommentRepository(getIt<CommentApi>());
+    _sharedPreferenceHelper =
+        SharedPreferenceHelper(getIt<SharedPreferences>());
     WidgetsBinding.instance.addObserver(this);
 
     firstLoad();
@@ -88,10 +95,13 @@ class _PostDetailScreenState extends State<PostDetailScreen>
 
   void firstLoad() async {
     var data = await _postRepository.getPostById(widget.postId);
+    var loginStatus = await _sharedPreferenceHelper.isLoggedIn;
+
     setState(() {
       _post = data;
       isLoading = false;
       _hintText = "Comment...";
+      _isLogin = loginStatus;
     });
   }
 
@@ -170,6 +180,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
       extendBodyBehindAppBar: true,
       floatingActionButton: SpeedDial(
         animatedIcon: AnimatedIcons.menu_close,
+        visible: _isLogin,
         children: [
           SpeedDialChild(
             child: Icon(FontAwesome5.exclamation_triangle),
@@ -261,14 +272,11 @@ class _PostDetailScreenState extends State<PostDetailScreen>
                               decoration: BoxDecoration(color: Colors.white),
                               child: Row(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(100.0),
-                                    child: Image.asset(
-                                      Assets.carBackground,
-                                      width: 35,
-                                      height: 35,
-                                      fit: BoxFit.fill,
-                                    ),
+                                  GFAvatar(
+                                    size: GFSize.SMALL,
+                                    backgroundImage: NetworkImage(
+                                        _post!.author?.profilePicture ??
+                                            'https://i.ibb.co/4Vsxhz0/2.png'),
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -356,11 +364,11 @@ class _PostDetailScreenState extends State<PostDetailScreen>
           ? CustomProgressIndicatorWidget()
           : SingleChildScrollView(
               child: Container(
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                 child: Column(
                   children: [
                     SizedBox(height: 80),
                     Container(
-                      padding: EdgeInsets.all(8),
                       child: Row(
                         children: [
                           GestureDetector(
@@ -373,12 +381,10 @@ class _PostDetailScreenState extends State<PostDetailScreen>
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
-                              child: Image.network(
-                                _post?.author?.profilePicture ??
-                                    'https://i.ibb.co/4Vsxhz0/2.png',
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.fill,
+                              child: GFAvatar(
+                                backgroundImage: NetworkImage(
+                                    _post!.author?.profilePicture ??
+                                        'https://i.ibb.co/4Vsxhz0/2.png'),
                               ),
                             ),
                           ),

@@ -107,12 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
             _buildPasswordField(),
             _buildForgotPasswordButton(),
             _buildSignInButton(),
-            Align(
-              alignment: Alignment.center,
-              heightFactor: 4,
-              child: Text('Or, sign up with...'),
-            ),
-            _socialButtonWidget(context),
             SizedBox(height: 24.0),
             _checkHaveAnAccountWidget(context)
           ],
