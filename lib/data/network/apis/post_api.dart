@@ -5,6 +5,7 @@ import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/rest_client.dart';
 import 'package:boilerplate/data/network/wrappers/api_response.dart';
+import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 import 'package:boilerplate/models/post/post.dart';
 import 'package:boilerplate/models/post/post_list.dart';
 import 'package:simple_json_mapper/simple_json_mapper.dart';
@@ -16,8 +17,10 @@ class PostApi {
   // rest-client instance
   final RestClient _restClient;
 
+  final SharedPreferenceHelper _sharedPreferenceHelper;
+
   // injecting dio instance
-  PostApi(this._dioClient, this._restClient);
+  PostApi(this._dioClient, this._restClient, this._sharedPreferenceHelper);
 
   Future<Post?> getPostById(String id) async {
     try {
@@ -77,6 +80,7 @@ class PostApi {
 
   Future<bool> createPost(String title, String slug, String summary,
       String content, List<String> categoryIds) async {
+    final currentUser = await _sharedPreferenceHelper.currentUserInfo;
     final param = {
       'title': title,
       'slug': slug,
@@ -88,7 +92,7 @@ class PostApi {
       'tagIds': [],
       'isNews': false,
       'imageUrl': EMPTY_STRING,
-      'authorId': 'a7cf7bfe-6946-48df-aeba-78c53086de96',
+      'authorId': currentUser?.id,
     };
     try {
       final test = await _dioClient.post(Endpoints.createPost, data: param);

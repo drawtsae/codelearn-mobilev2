@@ -51,7 +51,8 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(RestClient());
 
   // api's:---------------------------------------------------------------------
-  getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>()));
+  getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>(),
+      getIt<SharedPreferenceHelper>()));
   getIt.registerSingleton(IdentityApi(getIt<DioClient>()));
   getIt.registerSingleton(CourseApi(getIt<DioClient>()));
   getIt.registerSingleton(UserApi(getIt<DioClient>()));

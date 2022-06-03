@@ -22,7 +22,7 @@ class FeaturePost extends StatelessWidget {
         children: [
           CategoryTitle(
             leftText: 'Top News',
-            rightText: 'view all',
+            rightText: 'View all',
             onNavigate: () => pageController.jumpToPage(1),
           ),
           Container(

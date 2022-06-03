@@ -110,7 +110,7 @@ class _TrainingCreateScreenState extends State<TrainingCreateScreen> {
                             errorText: "Please input this field")
                       ]),
                       items: LEVELS
-                          .map((level) => DropdownMenuItem(
+                          .map((level) => DropdownMenuItem<String>(
                                 value: level,
                                 child: Text('$level'),
                               ))

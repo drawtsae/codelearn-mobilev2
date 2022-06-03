@@ -9,5 +9,5 @@ class Assets {
 
   static const String trophyIcon = "assets/icons/trophy.png";
 
-  static const String journey = "assets/images/journey.png";
+  static const String journey = "assets/images/journey.jpeg";
 }

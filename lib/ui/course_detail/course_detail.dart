@@ -132,7 +132,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
       if (lesson.isComplete == true) {
         CoolAlert.show(
           context: context,
-          type: CoolAlertType.warning,
+          type: CoolAlertType.info,
           text: "You have already completed this lesson",
         );
       } else {
@@ -187,17 +187,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                             titleText: lesson?.title,
                             subTitleText: lesson?.summary,
                             icon: Icon(Icons.arrow_circle_right),
-                            onTap: () => _handleWebviewResult(lesson!)),
-                        Positioned(
-                          left: 12,
-                          top: 12,
-                          child: Icon(
-                            lesson!.isComplete!
-                                ? Icons.check_box
-                                : Icons.check_box_outline_blank,
-                            color: Colors.green,
-                          ),
-                        )
+                            onTap: () => _handleWebviewResult(lesson!),
+                            avatar: Positioned(
+                              left: 12,
+                              top: 12,
+                              child: GFCheckbox(
+                                size: GFSize.SMALL,
+                                activeBgColor: GFColors.SUCCESS,
+                                value: lesson!.isComplete ?? false,
+                                onChanged: (value) => {},
+                              ),
+                            )),
                       ],
                     ),
                   );

@@ -2,11 +2,30 @@ import 'package:boilerplate/models/course/course.dart';
 import 'package:boilerplate/ui/course_detail/course_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class CourseItem extends StatelessWidget {
+import '../../../data/sharedpref/shared_preference_helper.dart';
+import '../../../di/components/service_locator.dart';
+import '../../../utils/routes/routes.dart';
+
+class CourseItem extends StatefulWidget {
   final Course course;
 
   const CourseItem({Key? key, required this.course}) : super(key: key);
+
+  @override
+  State<CourseItem> createState() => _CourseItemState();
+}
+
+class _CourseItemState extends State<CourseItem> {
+  late SharedPreferenceHelper _sharedPreferenceHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    _sharedPreferenceHelper =
+        SharedPreferenceHelper(getIt<SharedPreferences>());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +59,7 @@ class CourseItem extends StatelessWidget {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
-                    child: Image.network(course.imageUrl.toString(),
+                    child: Image.network(widget.course.imageUrl.toString(),
                         height: 220, width: 220, fit: BoxFit.cover,
                         loadingBuilder: (BuildContext context, Widget child,
                             ImageChunkEvent? loadingProgress) {
@@ -71,7 +90,7 @@ class CourseItem extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Image.network(
-                                course.author!.profilePicture.toString(),
+                                widget.course.author!.profilePicture.toString(),
                                 width: 20,
                                 height: 20,
                               ),
@@ -80,7 +99,7 @@ class CourseItem extends StatelessWidget {
                               width: 10,
                             ),
                             Text(
-                              course.author!.firstName.toString(),
+                              widget.course.author!.firstName.toString(),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -89,7 +108,7 @@ class CourseItem extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          course.title.toString(),
+                          widget.course.title.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 16,
@@ -108,11 +127,14 @@ class CourseItem extends StatelessWidget {
             bottom: 70,
             right: 20,
             child: ElevatedButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CourseDetailScreen(id: course.id!),
-                ),
-              ),
+              onPressed: () async => await _sharedPreferenceHelper.isLoggedIn
+                  ? Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CourseDetailScreen(id: widget.course.id!),
+                      ),
+                    )
+                  : Navigator.of(context).pushNamed(Routes.login),
               child: Text('🚀 Start'),
               style: ElevatedButton.styleFrom(
                 primary: Colors.amber,
@@ -130,7 +152,7 @@ class CourseItem extends StatelessWidget {
               children: [
                 GFRating(
                   size: GFSize.SMALL,
-                  value: course.rateScore?.toDouble() ?? 0,
+                  value: widget.course.rateScore?.toDouble() ?? 0,
                   onChanged: (value) {},
                 )
               ],
