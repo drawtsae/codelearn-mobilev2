@@ -71,6 +71,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
             this.controller = controller;
           },
           onPageStarted: (url) {
+            print("WEB VIEW URL START: $url");
             setState(() {
               _loading = true;
             });

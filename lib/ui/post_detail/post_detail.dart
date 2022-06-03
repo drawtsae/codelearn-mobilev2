@@ -4,6 +4,7 @@ import 'package:boilerplate/constants/assets.dart';
 import 'package:boilerplate/data/comment_repository.dart';
 import 'package:boilerplate/data/network/apis/comment_api.dart';
 import 'package:boilerplate/data/network/apis/post_api.dart';
+import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/data/post_repository.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/common_model/author.dart';
@@ -147,8 +148,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
         lastName: currentUser?.lastName,
         profilePicture: currentUser?.profilePicture,
       ),
-      createdAt:
-          DateTime.utc(now.year, now.month, now.day, now.hour).toString(),
+      createdAt: DateTime.now().toUtc().toString(),
     );
 
     if (_parentReplyComment == null) {
@@ -338,8 +338,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
             child: Icon(FontAwesome5.facebook),
             onTap: () => SocialMedia(
               type: SocialType.facebook,
-              urlShare:
-                  "https://codelearn-trteam.netlify.app/news/${_post?.slug}",
+              urlShare: "${Endpoints.webViewUrl}/news/${_post?.slug}",
               text: _post?.summary ?? "",
             ).share(),
           ),
@@ -347,8 +346,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
             child: Icon(FontAwesome5.twitter),
             onTap: () => SocialMedia(
               type: SocialType.twitter,
-              urlShare:
-                  "https://codelearn-trteam.netlify.app/news/${_post?.slug}",
+              urlShare: "${Endpoints.webViewUrl}/news/${_post?.slug}",
               text: _post?.summary ?? "",
             ).share(),
           ),
@@ -356,8 +354,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
             child: Icon(FontAwesome5.linkedin),
             onTap: () => SocialMedia(
               type: SocialType.linkedin,
-              urlShare:
-                  "https://codelearn-trteam.netlify.app/news/${_post?.slug}",
+              urlShare: "${Endpoints.webViewUrl}/news/${_post?.slug}",
               text: _post?.summary ?? "",
             ).share(),
           )

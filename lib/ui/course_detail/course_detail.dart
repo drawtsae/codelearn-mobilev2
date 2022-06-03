@@ -1,6 +1,7 @@
 import 'package:boilerplate/constants/url.dart';
 import 'package:boilerplate/data/course_repository.dart';
 import 'package:boilerplate/data/network/apis/course_api.dart';
+import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 import 'package:boilerplate/di/components/service_locator.dart';
 import 'package:boilerplate/models/course/course.dart';
@@ -140,8 +141,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             context,
             new MaterialPageRoute(
               builder: (BuildContext context) => new WebviewScreen(
-                url:
-                    "https://codelearn-trteam.netlify.app/lesson/${lesson.id}/mobile",
+                url: "${Endpoints.webViewUrl}/lesson/${lesson.id}/mobile",
               ),
               fullscreenDialog: true,
             ));

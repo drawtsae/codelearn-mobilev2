@@ -26,7 +26,7 @@ class FeaturePost extends StatelessWidget {
             onNavigate: () => pageController.jumpToPage(1),
           ),
           Container(
-            height: 300,
+            height: 550,
             child: FutureBuilder(
                 future: _postRepository.getPosts(
                     '', [], [], 'Sharing', false, false, 1, 5),

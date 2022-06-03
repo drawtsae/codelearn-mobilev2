@@ -1,3 +1,4 @@
+import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -34,7 +35,7 @@ class _TrainingItemState extends State<TrainingItem> {
             new MaterialPageRoute(
               builder: (BuildContext context) => new WebviewScreen(
                 url:
-                    "https://codelearn-trteam.netlify.app/training/${widget.training.slug}/mobile",
+                    "${Endpoints.webViewUrl}/training/${widget.training.slug}/mobile",
               ),
               fullscreenDialog: true,
             ));

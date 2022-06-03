@@ -1,3 +1,4 @@
+import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/ui/webview/webview.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class AboutUs extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                          url: "https://codelearn-trteam.netlify.app/about-us",
+                          url: "${Endpoints.webViewUrl}/about-us",
                         ),
                       ),
                     );
@@ -53,7 +54,7 @@ class AboutUs extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                          url: "https://codelearn-trteam.netlify.app/about-us",
+                          url: "${Endpoints.webViewUrl}/about-us",
                         ),
                       ),
                     );
@@ -68,7 +69,7 @@ class AboutUs extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                          url: "https://codelearn-trteam.netlify.app/terms",
+                          url: "${Endpoints.webViewUrl}/terms",
                         ),
                       ),
                     );
@@ -92,7 +93,7 @@ class AboutUs extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                          url: "https://codelearn-trteam.netlify.app/about-us",
+                          url: "${Endpoints.webViewUrl}/about-us",
                         ),
                       ),
                     );
@@ -107,7 +108,7 @@ class AboutUs extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                          url: "https://codelearn-trteam.netlify.app/about-us",
+                          url: "${Endpoints.webViewUrl}/about-us",
                         ),
                       ),
                     );
@@ -122,7 +123,7 @@ class AboutUs extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                          url: "https://codelearn-trteam.netlify.app/about-us",
+                          url: "${Endpoints.webViewUrl}/about-us",
                         ),
                       ),
                     );

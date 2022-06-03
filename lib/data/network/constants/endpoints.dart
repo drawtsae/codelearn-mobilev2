@@ -2,7 +2,9 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = "https://codelearn-api.duckdns.org";
+  static const String baseUrl = "http://172.20.10.7:5000";
+
+  static const String webViewUrl = "http://172.20.10.7:3000";
 
   // receiveTimeout
   static const int receiveTimeout = 15000;
