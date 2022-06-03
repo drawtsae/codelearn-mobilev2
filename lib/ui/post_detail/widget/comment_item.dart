@@ -37,7 +37,7 @@ class CommentItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(100.0),
               child: GFAvatar(
                 size: GFSize.SMALL,
-                backgroundImage: NetworkImage(comment!.author?.profilePicture ??
+                backgroundImage: NetworkImage(comment.author?.profilePicture ??
                     'https://i.ibb.co/4Vsxhz0/2.png'),
               ),
             ),

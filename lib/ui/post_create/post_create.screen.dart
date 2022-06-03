@@ -1,10 +1,13 @@
 import 'package:boilerplate/models/category/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:html/parser.dart';
 
+import '../../constants/style.dart';
 import '../../data/category_repository.dart';
 import '../../data/network/apis/category_api.dart';
 import '../../data/network/apis/post_api.dart';
@@ -58,7 +61,9 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
       String categoryId = formValues["category"];
       String title = formValues["title"];
       String slug = title;
-      String summary = content!;
+
+      RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+      String summary = content!.replaceAll(exp, '');
 
       try {
         await _postRepository
@@ -90,7 +95,10 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Column(
             children: <Widget>[
-              Text("Create post"),
+              Text(
+                'Create Training',
+                style: TITLE_STYLES,
+              ),
               FormBuilder(
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.disabled,

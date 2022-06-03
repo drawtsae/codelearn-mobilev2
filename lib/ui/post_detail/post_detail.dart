@@ -44,6 +44,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
   String? _hintText;
   var _isKeyboardVisible = false;
   bool _isLogin = false;
+  String _commentContent = "";
 
   late SharedPreferenceHelper _sharedPreferenceHelper;
   late PostRepository _postRepository;
