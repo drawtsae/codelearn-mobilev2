@@ -55,7 +55,7 @@ class GeneralProfileSceenState extends State<GeneralProfileSceen> {
                   SizedBox(height: 80),
                   OverralInfomation(userInfo: _userInfo),
                   CertificatesInfo(
-                    certificates: [],
+                    certificates: _userInfo?.certificates ?? [],
                   ),
                   UserCoursesInfo(
                     listCourse: _userInfo?.userCourses ?? [],

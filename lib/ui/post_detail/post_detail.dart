@@ -104,6 +104,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
       isLoading = false;
       _hintText = "Comment...";
       _isLogin = loginStatus;
+      isUpvote = data?.voteStatus;
     });
   }
 

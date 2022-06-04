@@ -2,9 +2,9 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = "http://172.20.10.7:5000";
+  static const String baseUrl = "https://64d3-113-185-76-45.ap.ngrok.io";
 
-  static const String webViewUrl = "http://172.20.10.7:3000";
+  static const String webViewUrl = "https://codelearn-trteam.netlify.app";
 
   // receiveTimeout
   static const int receiveTimeout = 15000;
