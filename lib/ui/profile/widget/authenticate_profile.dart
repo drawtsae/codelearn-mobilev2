@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
 
+import '../../general_profile/general_profile.dart';
 import '../../profile_update/profile_update.screen.dart';
 
 class AuthenticateProfile extends StatefulWidget {
@@ -28,9 +29,18 @@ class _AuthenticateProfileState extends State<AuthenticateProfile> {
           children: [
             Row(
               children: [
-                GFAvatar(
-                  backgroundImage: NetworkImage(userInfo!.profilePicture ??
-                      'https://i.ibb.co/4Vsxhz0/2.png'),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => GeneralProfileSceen(
+                        userId: userInfo?.id,
+                      ),
+                    ),
+                  ),
+                  child: GFAvatar(
+                    backgroundImage: NetworkImage(userInfo!.profilePicture ??
+                        'https://i.ibb.co/4Vsxhz0/2.png'),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
