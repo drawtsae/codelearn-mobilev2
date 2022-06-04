@@ -165,6 +165,7 @@ class _TrainingViewState extends State<TrainingView> {
                             itemBuilder: (context, index) => TrainingItem(
                                   training: _trainings[index],
                                   isLogin: _isLogin,
+                                  loadTraining: () => handleFirstLoad(),
                                 ),
                             separatorBuilder:
                                 (BuildContext context, int index) =>

@@ -11,7 +11,12 @@ import '../training.constants.dart';
 class TrainingItem extends StatefulWidget {
   final Training training;
   final bool isLogin;
-  const TrainingItem({Key? key, required this.training, required this.isLogin})
+  final VoidCallback loadTraining;
+  const TrainingItem(
+      {Key? key,
+      required this.training,
+      required this.isLogin,
+      required this.loadTraining})
       : super(key: key);
 
   @override
@@ -42,6 +47,7 @@ class _TrainingItemState extends State<TrainingItem> {
 
         print(result);
         if (result == "success") {
+          widget.loadTraining();
           CoolAlert.show(
             context: context,
             type: CoolAlertType.success,
