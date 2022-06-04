@@ -2,6 +2,8 @@ import 'package:boilerplate/constants/assets.dart';
 import 'package:boilerplate/constants/common.dart';
 import 'package:boilerplate/models/user/user_info.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/avatar/gf_avatar.dart';
+import 'package:getwidget/getwidget.dart';
 
 class OverralInfomation extends StatelessWidget {
   final UserInfo? userInfo;
@@ -50,14 +52,10 @@ class OverralInfomation extends StatelessWidget {
                 shape: BoxShape.circle),
             padding: EdgeInsets.all(8),
             margin: EdgeInsets.only(top: 30),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100.0),
-              child: Image.network(
-                userInfo?.profilePicture ?? DEFAULT_AVATAR,
-                width: MediaQuery.of(context).size.width * 0.25,
-                height: MediaQuery.of(context).size.width * 0.25,
-                fit: BoxFit.fill,
-              ),
+            child: GFAvatar(
+              size: GFSize.LARGE,
+              backgroundImage: NetworkImage(
+                  userInfo?.profilePicture ?? 'https://i.ibb.co/4Vsxhz0/2.png'),
             ),
           ),
           Row(
@@ -99,10 +97,11 @@ class OverralInfomation extends StatelessWidget {
                       Center(child: Text(userInfo?.userLevel?.current ?? ""))),
               Expanded(
                 flex: 8,
-                child: LinearProgressIndicator(
-                  minHeight: 10,
-                  value: calPercent(userInfo?.userLevel?.percent),
-                ),
+                child: GFProgressBar(
+                    percentage: (userInfo!.userLevel!.percent ?? 0) / 100,
+                    backgroundColor: Colors.black26,
+                    lineHeight: 20,
+                    progressBarColor: GFColors.WARNING),
               ),
               Expanded(
                   flex: 2,
@@ -137,12 +136,12 @@ class OverralInfomation extends StatelessWidget {
                   title: Text(userInfo?.email ?? ""),
                 ),
                 ListTile(
-                  leading: Icon(Icons.phone_outlined),
-                  title: Text(userInfo?.phoneNumber ?? ""),
+                  leading: Icon(Icons.supervised_user_circle_rounded),
+                  title: Text(userInfo?.gender ?? ""),
                 ),
                 ListTile(
-                  leading: Icon(Icons.bookmark_outline_sharp),
-                  title: Text(userInfo?.bio ?? ""),
+                  leading: Icon(Icons.phone_outlined),
+                  title: Text(userInfo?.phoneNumber ?? ""),
                 ),
               ],
             ),
