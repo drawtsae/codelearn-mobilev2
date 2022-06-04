@@ -70,7 +70,12 @@ class _TrainingItemState extends State<TrainingItem> {
       subTitleText: widget.training.summary,
       description: Text((widget.training.tags!.map((e) => "#$e")).join(" "),
           style: TextStyle(color: LevelColors[widget.training.level])),
-      icon: IconLevels[widget.training.level],
+      icon: GFCheckbox(
+        size: GFSize.SMALL,
+        activeBgColor: GFColors.SUCCESS,
+        value: widget.training.isCompleted!,
+        onChanged: (value) => {},
+      ),
       onTap: () => _handleWebviewResult(widget.training),
     ));
   }
