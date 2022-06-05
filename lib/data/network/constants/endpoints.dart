@@ -2,7 +2,7 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = "https://64d3-113-185-76-45.ap.ngrok.io";
+  static const String baseUrl = "https://codelearn-api.duckdns.org";
 
   static const String webViewUrl = "https://codelearn-trteam.netlify.app";
 
