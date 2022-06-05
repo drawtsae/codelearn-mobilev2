@@ -46,7 +46,7 @@ class IdentityApi {
           "confirmPassword": confirmPassword,
         },
       );
-      return JsonMapper.deserialize<Token>(res['data']);
+      return new Token();
     } catch (e) {
       print(e.toString());
       throw e;
