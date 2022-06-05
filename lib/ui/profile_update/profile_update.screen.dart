@@ -2,7 +2,6 @@ import 'package:boilerplate/ui/profile_update/profile_update.constants.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
