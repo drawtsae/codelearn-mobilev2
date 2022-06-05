@@ -46,6 +46,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
   var _isKeyboardVisible = false;
   bool _isLogin = false;
   String _commentContent = "";
+  var _currentUser = null;
 
   late SharedPreferenceHelper _sharedPreferenceHelper;
   late PostRepository _postRepository;
@@ -98,6 +99,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
   void firstLoad() async {
     var data = await _postRepository.getPostById(widget.postId);
     var loginStatus = await _sharedPreferenceHelper.isLoggedIn;
+    var currentUser = await _userStore.getCurrentUserInfo();
 
     setState(() {
       _post = data;
@@ -105,6 +107,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
       _hintText = "Comment...";
       _isLogin = loginStatus;
       isUpvote = data?.voteStatus;
+      _currentUser = currentUser;
     });
   }
 
@@ -280,7 +283,7 @@ class _PostDetailScreenState extends State<PostDetailScreen>
                               GFAvatar(
                                 size: GFSize.SMALL,
                                 backgroundImage: NetworkImage(
-                                    _post!.author?.profilePicture ??
+                                    _currentUser!.profilePicture ??
                                         'https://i.ibb.co/4Vsxhz0/2.png'),
                               ),
                               Expanded(

@@ -143,11 +143,6 @@ class _AuthenticateProfileState extends State<AuthenticateProfile> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  GFProgressBar(
-                      percentage: 4 / 5,
-                      backgroundColor: Colors.black26,
-                      lineHeight: 10,
-                      progressBarColor: GFColors.WARNING)
                 ],
               ),
               height: 100,
